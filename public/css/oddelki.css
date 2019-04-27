@@ -1,0 +1,110 @@
+/* Dodaj oddelek div */
+.dodajOddelek {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    padding-top: 1px;
+    padding-bottom: 1px;
+
+    font-size: 20px;
+}
+.dodajOddelek table {
+    margin: auto;
+}
+.dodajOddelek td {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.dodajOddelek input, .dodajOddelek select {
+    font-size: 18px;
+}
+input[type="text"] {
+    padding-left: 5px;
+}
+select {
+    text-align: center;
+    text-align-last: center;
+}
+input[type="number"] {
+    width: 50px;
+    text-align: center;
+}
+input[type="number"]:hover::-webkit-inner-spin-button,
+input[type="number"]:hover::-webkit-outer-spin-button {
+    opacity: 1;
+    cursor: pointer;
+}
+input[type="time"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-outer-spin-button {
+    display: none;
+}
+.dodajOddelek button {
+    height: 30px;
+    width: 175px;
+    font-size: 20px;
+}
+.inputError {
+    background-color: rgb(245, 200, 200);
+    color: darkred;
+}
+
+/* seznam oddelkov div */
+.seznamOddelkov .tablesDiv {
+    background-color: rgb(240, 240, 240);
+}
+.seznamOddelkov table {
+    align-content: center;
+    margin: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+.seznamOddelkov table td{
+    border-bottom: 1px solid black;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    font-size: 18px;
+}
+.seznamOddelkov tr:first-child td {
+    border-bottom: 2px solid black;
+    font-weight: bold;
+}
+.seznamOddelkov {
+    margin-bottom: 50px;
+    text-align: center;
+}
+.seznamOddelkov table button {
+    font-size: 18px;
+    margin-left: 5px;
+}
+.btnRemoveOdd {
+    color: darkred;
+}
+
+/* urejanje ustvarjenih oddelkov */
+.seznamOddelkov input {
+    font-size: 14px;
+}
+.editError {
+    font-size: 16px;
+    color: darkred;
+    background-color: rgb(245, 200, 200);
+}
+
+/* fotter */
+footer {
+    clear: both;
+    margin-bottom: 30px;
+}
+
+/* other */
+h2 {
+    text-align: center;
+}
+button {
+    cursor: pointer;
+}

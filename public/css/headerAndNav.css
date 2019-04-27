@@ -1,0 +1,85 @@
+/* Header */
+header {
+    background-color: rgb(214, 34, 34);
+    color: white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 20px;
+}
+/* Body */
+body {
+    min-height: 100%;
+    margin: 5px;
+    padding: 0px;
+}
+/* Article */
+article {
+    margin-top: 5px;
+}
+/* Footer */
+footer {
+    clear: both;
+    font-size: 11px;
+    text-align: center;
+    color: white;
+    background-color: rgb(212, 52, 52);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    /* position: absolute;
+    bottom: 0;
+    width: 99%;
+    margin-bottom: 2px; */
+}
+/* Navigation */
+nav {
+    background-color: rgb(236, 189, 189);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 1px;
+    overflow: auto;
+}
+nav .navList {
+    display: inline;
+    list-style-type: none;
+}
+nav ul li {
+    float: left;
+}
+a, a:link, a:hover, a:visited {
+    color: rgb(126, 8, 28);
+    text-decoration: none;
+}
+a:hover {
+    color: rgb(80, 3, 42);
+    color: white;
+}
+nav li a{
+    padding-left: 20px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+}
+.loginStyle {
+    float: right;
+    margin-right: 10px;
+    display: none;
+}
+.loginStyle li input{
+    margin-left: 5px;
+}
+.loginStyle li button{
+    margin-left: 5px;
+}
+.loginStyle .loginErrorMsg {
+    color: darkred;
+    font-size: 14px;
+    margin-top: 4px;
+}
+.logoutStyle {
+    float: right;
+    margin-right: 10px;
+    display: none;
+}
+.logoutStyle li {
+    margin-right: 10px;
+}

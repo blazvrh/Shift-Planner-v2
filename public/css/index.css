@@ -1,0 +1,9 @@
+/* Logo img */
+.logoImg {
+    width: 175px;
+    height: auto;
+    background-color: white;
+    position: absolute;
+    right: 6px;
+    top: 15px;
+}

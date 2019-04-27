@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css files -->
+    <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
+    <link rel="stylesheet" href="css/register.css" type="text/css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <h1>Registracija novega uporabinka</h1>
+    </header>
+    
+    <!-- navigation -->
+    <nav>
+        <ul class="navList">
+            <li><a href="index.html">Domov</a></li>
+            <li><a href="predogledPlana.html">Preveri plan</a></li>
+            <li><a href="oddelki.html">Urejanje oddelkov</a></li>
+            <li><a href="zaposleni.html">Urejanje zaposlenih</a></li>
+            <li><a href="urediTrenitenPlan.html">Ustvari plan</a></li>
+        </ul>
+    </nav>
+
+    <!-- register div -->
+    <div class="registerDataList">
+        <ul>
+            <form action="/register" method="post" onsubmit="return false" id="registerForm">
+                <h3>Prosim vnesite svoje podatke.</h3>
+                <li><p>
+                    * Uporabniško ime: <br> <input type="text" maxlength="20" id="userNameField" name="username">
+                </p></li>
+                <li><p>
+                    * Geslo: <br> <input type="password" maxlength="20" id="passwordField1" name="password">
+                </p></li>
+                <li><p>
+                    * Ponovno geslo: <br> <input type="password" maxlength="20" id="passwordField2">
+                </p></li>
+                <li><p>
+                    * Poslovalnica: <br> <input type="text" id="poslovalnica" maxlength="30" name="poslovalnica">
+                </p></li>
+                <li><p>
+                    * Geslo za predogled: <br> <input type="password" maxlength="20" id="prewiewPasswordField1" name="previewPassword">
+                </p></li>
+                <li><p>
+                    * Ponovno geslo za predogled: <br> <input type="password" maxlength="20" id="prewiewPasswordField2">
+                </p></li>
+                <li><p>
+                    Email: <br> <input type="email" maxlength="50" id="emailField" name="email">
+                </p></li>
+                
+                <!-- error msg & button -->
+                <li><p>
+                    <div id="errorMsgRegister" style="color: darkred"></div>
+                    <br> <button id="registerBtn" onclick="btn_register()">Registracija!</button>
+                </p></li>
+            </form>
+        </ul>        
+    </div>
+
+    <footer>
+        <!-- js files -->
+        <script src="js/register.js"></script>
+    </footer>
+</body>
+</html>

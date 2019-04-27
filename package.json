@@ -1,0 +1,32 @@
+{
+  "name": "mercator_plan",
+  "version": "1.0.0",
+  "description": "Plan dela",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonoblak/mercator_plan.git"
+  },
+  "keywords": [
+    "plan",
+    "planDela",
+    "plan_dela"
+  ],
+  "author": "KrHo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonoblak/mercator_plan/issues"
+  },
+  "homepage": "https://github.com/simonoblak/mercator_plan#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-form-data": "^2.0.8",
+    "mariadb": "^2.0.3",
+    "validate": "^4.5.1"
+  },
+  "devDependencies": {}
+}

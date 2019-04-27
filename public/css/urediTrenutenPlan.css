@@ -1,0 +1,72 @@
+.mainTable table {
+    width: 100%
+}
+.mainTable {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+.mainTable .headerTd {
+    border-bottom: 6px double black;
+    border-right: 1px solid black;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.mainTable input[type="text"] {
+    width: 110px;
+}
+.mainTable td {
+    vertical-align: middle;
+    text-align: center;
+}
+.mainTable .lastRowOfOddelek {
+    border-bottom: 2px solid black;
+    border-right: 1px dotted grey;
+}
+.mainTable .rowOfOddelek {
+    border-right: 1px dotted grey;
+}
+.mainTable .headerColumn {
+    font-weight: bold;
+    border-right: 2px solid black;
+}
+
+input[type="time"] {
+    margin: 1px;
+}
+
+/* .mainTable .mainTableRow td:first-child {
+    border-right: 2px solid black;
+} */
+
+/* td {
+    border-bottom: 1px solid black;
+    border-right: 1px dotted grey;
+    vertical-align: middle;
+    width: auto;
+} */
+/* th {
+    border-bottom: 4px double black;
+    
+} */
+
+/* td:nth-child(2n + 1), th:nth-child(2n + 1) {
+    border-right: 1px solid gray;
+    
+} */
+
+
+input[type="text"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+input[type="time"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-outer-spin-button,
+input[type="date"]::-webkit-clear-button,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-outer-spin-button {
+    display: none;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css files -->
+    <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
+    <link rel="stylesheet" href="css/oddelki.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <h1>Urejanje oddelkov!</h1>
+    </header>
+    
+    <!-- navigation -->
+    <nav>
+        <ul class="navList">
+            <li><a href="index.html">Domov</a></li>
+            <li><a href="predogledPlana.html">Preveri plan</a></li>
+            <li><a href="oddelki.html">Urejanje oddelkov</a></li>
+            <li><a href="zaposleni.html">Urejanje zaposlenih</a></li>
+            <li><a href="urediTrenitenPlan.html">Ustvari plan</a></li>
+        </ul>
+    </nav>
+
+    <!-- če nismo prijavljeni -->
+    <div id="loginNeeded" style="display: none">
+        <h1>Potrebna Prijava</h1>
+        <p>Pojdite nazaj na domačo stran in se prijavite s svojim emailom in gelsom!</p>
+        <button onclick="window.location.href='index.html'">Domov</button>
+    </div>
+    
+    <!-- če smo prijavljeni; dejansko vsebina strani-->
+    <div id="restOfBody" style="display: none">
+        <!-- input polja za vnos podrobnosti oddelka -->
+        <h2>Dodaj oddelek</h2>
+        <div class="dodajOddelek">
+            <table>
+                <tr>
+                    <td><p>
+                        Ime oddelka: 
+                        <input type="text" id="imeOddelka"> 
+                    </p></td>
+                    <td><p>
+                        Čas izmene: 
+                        <select name="cas" id="smenaOddelka">
+                            <option value=""></option>
+                            <option value="dopoldne">Dopoldne</option>
+                            <option value="popoldne">Popoldne</option>
+                        </select>
+                    </p></td>
+                    <td><p>
+                        Št. vrstic za ta oddelek: 
+                        <input type="number" min="1" id="stVrsticOddelka"> 
+                    </p></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><p>
+                        Običajni čas prihoda za oddelk:
+                        <input type="time" id="prihodNaOddelek"> 
+                    </p></td>
+                    <td><p>
+                        Običajni čas odhoda za oddelek: 
+                        <input type="time" id="odhodIzOddelka"> 
+                    </p></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><p>
+                        <select name="specialOddelek" id="specialOddelek">
+                            <option value="">/</option>
+                            <option value="Komentar">Komentar</option>
+                            <option value="Oddelek brez delovnega časa">
+                                Oddelek brez delovnega časa (dopusti, bolniške ...)</option>
+                        </select>
+                    </p></td>
+                </tr>
+            </table>
+            <p id="oddelekInputError" class="inputError"></p>
+            <!-- gumb ki doda oddelek -->
+            <p><br><button id="btn_dodajOddelek" onclick="btnDodajOddelek()">Dodaj!</button></p>
+        </div>
+
+        <!-- seznam obstoječih oddelkov v obliki tabele; generiran preko oddelki.js -->
+        <div class="seznamOddelkov">
+            <h2>Seznam oddelkov</h2>
+            <div class="tablesDiv">
+                <h3>Dopoldne:</h3>
+                <p id="dopoldneEditError" class="editError"></p>
+                <table  id="dopoldneTabelBody">
+                    <tr>
+                        <td style="border: none">Nalaganje ...</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tablesDiv">
+                <h3>Popoldne:</h3>
+                <p id="popoldneEditError" class="editError"></p>
+                <table  id="popoldneTabelBody">
+                    <tr>
+                        <td style="border: none">Nalaganje ...</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer> 
+        <!-- neded for firebase autentication -->
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+        <script src="js/firebase.js" type="text/javascript"></script>
+        <!-- java scripts -->
+        <script src="js/loginCheck.js" type="text/javascript"></script>
+        <script src="js/oddelki.js" type="text/javascript"></script>
+    </footer>
+</body>
+</html>

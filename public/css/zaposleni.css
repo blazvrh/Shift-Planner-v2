@@ -1,0 +1,8 @@
+.zaposleniTable, .zaposleniTable td, .zaposleniTable tr, .zaposleniTable th {
+    border-collapse: collapse;
+    border: 1px solid black;
+    text-align: center;
+}
+.zaposleniTable td {
+    padding: 3px;
+}

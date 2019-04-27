@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
+    <link rel="stylesheet" href="css/index.css" type="text/css">
+
+    <title>Plan Dela</title>
+</head>
+<body >
+    <!-- Header -->
+    <header>
+        <h1>Dobrodošli!</h1>
+        <!-- <img src="https://www.student.si/wp-content/uploads/2019/02/Mercator.png" alt="" class="logoImg"> -->
+    </header>
+    <!-- navigation menu -->
+    <nav>
+        <ul class="navList">
+            <li><a href="index.html">Domov</a></li>
+            <li><a href="predogledPlana.html">Preveri plan</a></li>
+            <li><a href="oddelki.html">Urejanje oddelkov</a></li>
+            <li><a href="zaposleni.html">Urejanje zaposlenih</a></li>
+            <li><a href="urediTrenitenPlan.html">Ustvari plan</a></li>
+            
+            <!-- sign in / register -->
+            <div class="loginStyle" id="loginBlock">
+                <form action="/login" method="post" onsubmit="return false" id="loginForm">
+                    <li id="loginErrorMsg" class="loginErrorMsg"></li>
+                    <li><input type="text" id="loginUsernameField" name="username" placeholder="Uporabniško ime"
+                        size="12" maxlength="20"></li>
+                    <li><input id="loginPasswordField" type="password" name="password" placeholder="Geslo"
+                        size="10" maxlength="20"></li>
+
+                    <li><button id="loginBtn" onclick="login()">Prijava</button></li>
+                    <li><button onclick="window.location.href='register.html'">Registracija</button></li>
+                </form>
+            </div>
+
+            <div class="logoutStyle" id="logoutBlock">
+                <li id="userDataDisplay">Uporabik ta pa ta</li>
+                <li><button onclick="logout()">Odjava!</button></li>
+            </div>
+        </ul>
+    </nav>
+    
+    <!-- random introduction text 
+        pisal sem kar neki, samo tok da se vidi kako zgleda -->
+    <article>
+        <h2>Predstavitev</h2>
+        <p>To je stran namenjena ustvarjanju in objavi plana dela za potrebe Mercatorja.</p>
+        <p>
+            Stran v času izdelave prosto dostopna. <br>
+            Potrebna je zgolj brezplačna registracija! <br>
+			Po uspešni registraciji je potrebna odobritev računa iz strani administratorja (kontakt preko e-maila: krhodev@gmail.com)
+        </p>
+    </article>
+
+    <article>
+        <h2>Namen spletne strani.</h2>
+        <p>Ta spletna stran je bila ustvarjena predvsem za
+            pomoč poslovodjam in drugim zaposlenim v 
+            Mercatorju pri izdelavi plana dela 
+        </p>
+    </article>
+    
+    <article>
+        <h2>Feedback</h2>
+        <p>
+            Kaj si mislite o moji spleni strani oz. kaj se vam zdi da bi bilo potrebno še 
+            izboljšati mi lahko sporočite na moj e-mail: <b>krhodev@gmail.com</b>.
+        </p>
+    </article>
+    
+    <!-- footer -->
+    <footer>
+        Created by KrHo and Simc <br>
+		krhodev@gmail <br>
+        CopyRight 2019
+        
+        
+        <!-- js files -->
+        <script src="js/login.js" type="text/javascript"></script>
+    </footer>
+</body>
+    </html>
