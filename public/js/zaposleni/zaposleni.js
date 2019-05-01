@@ -1,22 +1,51 @@
 
-var inp_imeZaposlenega = document.getElementById("inp_imeZaposlenega");
-var inp_priimekZaposlenega = document.getElementById("inp_priimekZaposlenega");
-var inp_prikazanoImeZaposlenega = document.getElementById("inp_prikazanoImeZaposlenega");
+// vsi glavni input fieldi
+var documentObjects_zaposleni = get_documentObjects_zaposleni();
 
-var inp_maxUrDan = document.getElementById("inp_maxUrDan");
-var inp_maxUrTeden = document.getElementById("inp_maxUrTeden");
-var inp_maxNedelij = document.getElementById("inp_maxNedelij");
-var inp_maxPraznikov = document.getElementById("inp_maxPraznikov");
+get_neccesseryData();
 
-var chBox_student = document.getElementById("chBox_student");
-var chBox_studentMlajsi = document.getElementById("chBox_studentMlajsi");
+// pridobi potrebne podatke iz databaze
+async function get_neccesseryData () {
+    await submitForm_oddelekGet();
 
-var zaposleniInputError = document.getElementById("zaposleniInputError");
+    documentObjects_zaposleni.loadingData.style.display = "none";
+    documentObjects_zaposleni.mainDiv.style.display = "initial";
+}
 
-var btn_dodajZaposlenega = document.getElementById("btn_dodajZaposlenega");
 
-var zaposleni_keyNameMatch;
+// ipiše error za vnos vrednosti
+function onInputErrorZaposleni (msg, showBtn) {
+    documentObjects_zaposleni.zaposleniInputError.innerText = msg;
+    if (showBtn) {
+        documentObjects_zaposleni.style.display = "initial";
+    }
+}
 
+// poišče vsa glavna input polja
+function get_documentObjects_zaposleni () {
+    let docObj = {};
+
+    docObj.inp_imeZaposlenega = document.getElementById("inp_imeZaposlenega");
+    docObj.inp_priimekZaposlenega = document.getElementById("inp_priimekZaposlenega");
+    docObj.inp_prikazanoImeZaposlenega = document.getElementById("inp_prikazanoImeZaposlenega");
+    
+    docObj.inp_maxUrDan = document.getElementById("inp_maxUrDan");
+    docObj.inp_maxUrTeden = document.getElementById("inp_maxUrTeden");
+    docObj.inp_maxNedelij = document.getElementById("inp_maxNedelij");
+    docObj.inp_maxPraznikov = document.getElementById("inp_maxPraznikov");
+    
+    docObj.chBox_student = document.getElementById("chBox_student");
+    docObj.chBox_studentMlajsi = document.getElementById("chBox_studentMlajsi");
+
+    docObj.zaposleniInputError = document.getElementById("zaposleniInputError");
+
+    docObj.btn_dodajZaposlenega = document.getElementById("btn_dodajZaposlenega");
+
+    docObj.loadingData = document.getElementById("loadingData");
+    docObj.mainDiv = document.getElementById("mainDiv");
+
+    return docObj;
+}
 
 // avtomatsko izpolni prikazano ime ko vnašamo Ime in priimek
 function onChange_autoFillPrikazanoIme () {
@@ -36,19 +65,40 @@ function onChange_autoFillPrikazanoIme () {
     inp_prikazanoImeZaposlenega.value = prikazanoIme;
 }
 
-// ipiše error za vnos vrednosti
-function onInputErrorZaposleni (msg, showBtn) {
-    zaposleniInputError.innerText = msg;
-    if (showBtn) {
-        btn_dodajZaposlenega.style.display = "initial";
-    }
-}
+
+
+
+
 
 // gumb za dodajanje zaposlenega
 function btn_dodajZaposlenoOsebo () {
     btn_dodajZaposlenega.style.display = "none";
     checkInputData();
 }
+
+
+
+
+
+
+
+// var inp_imeZaposlenega = document.getElementById("inp_imeZaposlenega");
+// var inp_priimekZaposlenega = document.getElementById("inp_priimekZaposlenega");
+// var inp_prikazanoImeZaposlenega = document.getElementById("inp_prikazanoImeZaposlenega");
+
+// var inp_maxUrDan = document.getElementById("inp_maxUrDan");
+// var inp_maxUrTeden = document.getElementById("inp_maxUrTeden");
+// var inp_maxNedelij = document.getElementById("inp_maxNedelij");
+// var inp_maxPraznikov = document.getElementById("inp_maxPraznikov");
+
+// var chBox_student = document.getElementById("chBox_student");
+// var chBox_studentMlajsi = document.getElementById("chBox_studentMlajsi");
+
+// var zaposleni_keyNameMatch;
+
+
+
+
 
 // preveri če so input podatki pravilno vneseni
 function checkInputData () {
@@ -176,5 +226,3 @@ function clearInputValuesZaposleni() {
         chBox.checked = false;
     }
 }
-
-

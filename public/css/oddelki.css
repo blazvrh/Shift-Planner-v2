@@ -12,7 +12,7 @@
 .dodajOddelek table {
     margin: auto;
 }
-.dodajOddelek td {
+.dodajOddelek td, th{
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -45,7 +45,7 @@ input[type="time"]::-webkit-outer-spin-button {
     width: 175px;
     font-size: 20px;
 }
-.inputError {
+.Error {
     background-color: rgb(245, 200, 200);
     color: darkred;
 }
@@ -60,7 +60,7 @@ input[type="time"]::-webkit-outer-spin-button {
     border-collapse: collapse;
     border: 1px solid black;
 }
-.seznamOddelkov table td{
+.seznamOddelkov table td, th{
     border-bottom: 1px solid black;
     padding-left: 7px;
     padding-right: 7px;
@@ -69,10 +69,10 @@ input[type="time"]::-webkit-outer-spin-button {
 
     font-size: 18px;
 }
-.seznamOddelkov tr:first-child td {
+/* .seznamOddelkov tr:first-child td {
     border-bottom: 2px solid black;
     font-weight: bold;
-}
+} */
 .seznamOddelkov {
     margin-bottom: 50px;
     text-align: center;

@@ -225,7 +225,7 @@ function getPoslovalnicaFromFirebase (user) {
 }
 
 
-var dataToCheck = 3;
+var dataToCheck = 0;
 
 // pridobi vse potrebne podatke
 function checkForData (user) {
@@ -268,15 +268,15 @@ function showPageContent_zaposleni() {
     mainDiv.style.display = "initial";
 }
 
-// počaka da se firebase vspostavi in nato shrani user id
-var checkForFirebaseConn = setInterval(() => {
+// // počaka da se firebase vspostavi in nato shrani user id
+// var checkForFirebaseConn = setInterval(() => {
 
-    var userInst = firebase.auth().currentUser;
+//     var userInst = firebase.auth().currentUser;
 
-    if(userInst) {
-        userUID = userInst.uid;
-        checkForData(userInst);
+//     if(userInst) {
+//         userUID = userInst.uid;
+//         checkForData(userInst);
 
-        clearInterval(checkForFirebaseConn);
-    }
-}, 300);
+//         clearInterval(checkForFirebaseConn);
+//     }
+// }, 300);

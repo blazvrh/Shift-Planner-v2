@@ -4,12 +4,12 @@ const logoutBlock = document.getElementById("logoutBlock");
 
 // preveri če smo prijavljeni
 if (!userData) {
-    loginBlock.style.display = "block";
+    if (loginBlock) loginBlock.style.display = "block";
     logoutBlock.style.display = "none";
 } else {
     const userDataDisplay = document.getElementById("userDataDisplay");
-    userDataDisplay.innerText = userData.username + ", poslovalnica: " + userData.poslovalnica;
-    loginBlock.style.display = "none";
+    userDataDisplay.innerText = "Poslovalnica: " + userData.poslovalnica + "; Uporabnik: " +userData.username;
+    if (loginBlock) loginBlock.style.display = "none";
     logoutBlock.style.display = "block";
 }
 
@@ -67,7 +67,8 @@ function submitForm_Login() {
         // drugače shrani uporabniške podatke in pojdi na index
         else {
             sessionStorage.setItem("UserData", JSON.stringify(serverRes.userData));
-            window.location.href = "index.html";
+            // window.location.href = "index.html";
+            window.location.reload();
         }
     }; 
 

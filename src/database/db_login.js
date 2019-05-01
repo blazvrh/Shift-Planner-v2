@@ -1,7 +1,7 @@
 const pool = require("./db_init").pool;
 
 
-// preveri za duplikat
+// preveri login
 async function checkForLoginInfo(inputUserData) {
     let conn;
 

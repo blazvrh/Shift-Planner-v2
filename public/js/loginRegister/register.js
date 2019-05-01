@@ -97,7 +97,7 @@ function submitForm_Register() {
         }
         // drugače shrani uporabniške podatke in pojdi na index
         else {
-            sessionStorage.setItem("UserData", JSON.stringify(serverRes.userData));
+            // sessionStorage.setItem("UserData", JSON.stringify(serverRes.userData));
             window.location.href = "index.html";
         }
     }; 

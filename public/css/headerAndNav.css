@@ -25,10 +25,14 @@ footer {
     background-color: rgb(212, 52, 52);
     padding-top: 2px;
     padding-bottom: 2px;
-    /* position: absolute;
-    bottom: 0;
-    width: 99%;
-    margin-bottom: 2px; */
+
+    margin-bottom: 0;
+    /* position: fixed; */
+    /* bottom: 0; */
+    
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 2px;
 }
 /* Navigation */
 nav {
@@ -37,41 +41,44 @@ nav {
     padding-bottom: 10px;
     margin-top: 1px;
     overflow: auto;
+    
 }
-nav .navList {
+.navList {
     display: inline;
     list-style-type: none;
 }
 nav ul li {
     float: left;
 }
-a, a:link, a:hover, a:visited {
+a, 
+a:link, 
+a:hover, 
+a:visited {
     color: rgb(126, 8, 28);
     text-decoration: none;
 }
 a:hover {
-    color: rgb(80, 3, 42);
     color: white;
 }
 nav li a{
-    padding-left: 20px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 3px;
+    padding: 10px 30px 3px 20px;
 }
 .loginStyle {
     float: right;
     margin-right: 10px;
     display: none;
 }
-.loginStyle li input{
+.loginStyle input, 
+.loginStyle button,
+.loginNeeded input,
+.loginNeeded button {
     margin-left: 5px;
 }
-.loginStyle li button{
-    margin-left: 5px;
+.loginNeeded {
+    text-align: center;
 }
-.loginStyle .loginErrorMsg {
-    color: darkred;
+.loginErrorMsg {
+    color: rgb(75, 9, 9);
     font-size: 14px;
     margin-top: 4px;
 }

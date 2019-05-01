@@ -6,3 +6,11 @@
 .zaposleniTable td {
     padding: 3px;
 }
+
+#seznamUsposobljenosti a,
+#seznamUsposobljenosti a:visited {
+    color: blue !important;
+}
+#seznamUsposobljenosti a:hover {
+    color: steelblue !important;
+}

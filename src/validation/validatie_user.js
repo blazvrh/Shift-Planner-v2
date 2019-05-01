@@ -9,8 +9,8 @@ function validate_userOnRegister (userData) {
             length: { min: 4, max: 20 },
             message: {
                 type: "Uporabniško ime mora biti \"string\".",
-                required: "Uporabniško ime ne sme biti prazno",
-                length: "Uporabniško ime mora biti dolgo med 4 in 20 znakov"
+                required: "Uporabniško ime ne sme biti prazno.",
+                length: "Uporabniško ime mora biti dolgo med 4 in 20 znakov."
             }
         },
         password: {
@@ -19,8 +19,8 @@ function validate_userOnRegister (userData) {
             length: { min: 6, max: 20 },
             message: {
                 type: "Geslo mora biti \"string\".",
-                required: "Geslo ne sme biti prazno",
-                length: "Geslo mora biti dolgo med 4 in 20 znakov"
+                required: "Geslo ne sme biti prazno.",
+                length: "Geslo mora biti dolgo med 4 in 20 znakov."
             }
         },
         poslovalnica: {
@@ -29,8 +29,8 @@ function validate_userOnRegister (userData) {
             length: { max: 30 },
             message: {
                 type: "Ime poslovalnice mora biti \"string\".",
-                required: "Ime poslovalnice ne sme biti prazno",
-                length: "Ime poslovalnice mora biti dolgo med 4 in 30 znakov"
+                required: "Ime poslovalnice ne sme biti prazno.",
+                length: "Ime poslovalnice mora biti dolgo med 4 in 30 znakov."
             }
         },
         previewPassword: {
@@ -39,8 +39,8 @@ function validate_userOnRegister (userData) {
             length: { min: 6, max: 30 },
             message: {
                 type: "Geslo za predogled mora biti \"string\".",
-                required: "Geslo za predogled ne sme biti prazno",
-                length: "Geslo za predogled mora biti dolgo med 4 in 20 znakov"
+                required: "Geslo za predogled ne sme biti prazno.",
+                length: "Geslo za predogled mora biti dolgo med 4 in 20 znakov."
             }
         },
         email: {
@@ -62,7 +62,7 @@ function validate_userOnLogin (userData) {
             required: true,
             message: {
                 type: "Uporabniško ime mora biti \"string\".",
-                required: "Uporabniško ime ne sme biti prazno"
+                required: "Uporabniško ime ne sme biti prazno."
             }
         },
         password: {
@@ -70,7 +70,7 @@ function validate_userOnLogin (userData) {
             required: true,
             message: {
                 type: "Geslo mora biti \"string\".",
-                required: "Geslo ne sme biti prazno"
+                required: "Geslo ne sme biti prazno."
             }
         }
     });
