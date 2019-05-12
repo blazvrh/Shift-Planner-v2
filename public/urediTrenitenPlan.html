@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
     <link rel="stylesheet" href="css/urediTrenutenPlan.css" type="text/css">
 
-    <title>Document</title>
+    <title>Plan dela - Nov plan</title>
 </head>
 <body>
     <!-- header -->
@@ -23,16 +23,42 @@
             <li><a href="oddelki.html">Urejanje oddelkov</a></li>
             <li><a href="zaposleni.html">Urejanje zaposlenih</a></li>
             <li><a href="urediTrenitenPlan.html">Ustvari plan</a></li>
+            
+            <div class="logoutStyle" id="logoutBlock">
+                <li id="userDataDisplay">Uporabik ta pa ta</li>
+                <li><button onclick="logout()">Odjava!</button></li>
+            </div>
         </ul>
     </nav>
 
-    
-    <div id="loginNeeded" style="display: none">
-        <h1>Potrebna Prijava</h1>
-        <p>Pojdite nazaj na domačo stran in se prijavite s svojim emailom in gelsom!</p>
-        <button onclick="window.location.href='index.html'">Domov</button>
+    <!-- potrebna prijava ? -->
+    <div id="loginNeeded" class="loginNeeded" style="display: none">
+        <h1>Potrebna Prijava!</h1>
+
+        <div id="loginBlock">
+            <form action="/login" method="post" onsubmit="return false" id="loginForm">
+                <h4>
+                    Za dostop do te strani se prijavite se s svojim uporabniškim imenom ali geslom, <br>
+                    oz. ustvarite nov uporabniški račun, v kolikor tega še nimate.
+                </h4>
+                <p>
+                    Uporabniško ime: <input type="text" id="loginUsernameField" name="username" placeholder="Uporabniško ime"
+                        size="12" maxlength="20">
+                </p>
+                <p>
+                    Geslo: <input id="loginPasswordField" type="password" name="password" placeholder="Geslo"
+                        size="10" maxlength="20">
+                    <button id="loginBtn" onclick="login()">Prijava</button>
+                </p>
+                <p id="loginErrorMsg" class="loginErrorMsg"></p>
+                
+                <p></p><button onclick="window.location.href='register.html'">Registracija</button></p>
+                <p></p><button onclick="window.location.href='index.html'">Domov</button></p>
+            </form>
+        </div>
     </div>
-    
+
+
     <div id="restOfBody" style="display: none">
         <!-- počaka da se iz interneta naložijo potrbni podatki -->
         <div id="loadingData">
@@ -40,7 +66,7 @@
             <p>Prosim počakajte trenuteh ...</p>
         </div>
 
-        <div id="mainDiv" style="display: none">
+        <div id="mainPageContent" style="display: none">
             <div id="izberiTeden">
 
                 <h3>Izberite teden:</h3>
@@ -76,7 +102,7 @@
                 <button onclick="btn_createCurrTable()">Potrdi!</button>
             </div>
 
-            <div id="newCreationDiv" style="display: none">
+            <div id="tableZaPlan" style="display: none">
                 <h3><br>Nov plan:</h3>
                 <datalist id="imenaZaposlenih">
                     <option value="sad"></option>
@@ -89,15 +115,22 @@
         </div>
     </div>
     <footer>
-        <!-- neded for firebase autentication -->
-        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
-        <script src="js/firebase.js" type="text/javascript"></script>
+        Kontakt: krhodev@gmail.com <br>
+        Created by KrHo and Simc; CopyRight 2019
+
+        
         <!-- java scripts -->
         <script src="js/loginCheck.js" type="text/javascript"></script>
-        <script src="js/urediTrenutenPlan_getData.js" type="text/javascript"></script>
-        <script src="js/urediTrenutenPlan_autoFill.js" type="text/javascript"></script>
-        <script src="js/urediTrenutenPlan_createTable.js" type="text/javascript"></script>
-        <script src="js/urediTrenutenPlan.js" type="text/javascript"></script>
+        <script src="js/loginRegister/login.js" type="text/javascript"></script>
+
+        <script src="js/urediPlan/urediPlan_dbComm.js" type="text/javascript"></script>
+
+
+        <script src="js/urediPlan/urediPlan_autoFill.js" type="text/javascript"></script>
+        <script src="js/urediPlan/urediPlan_createTable.js" type="text/javascript"></script>
+        <script src="js/urediPlan/urediPlan.js" type="text/javascript"></script>
+
+
     </footer>
 </body>
 </html>

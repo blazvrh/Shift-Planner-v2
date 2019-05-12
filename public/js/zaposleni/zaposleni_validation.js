@@ -132,9 +132,11 @@ function create_edit_inputFields_object (zapId, tableRowObj) {
     inpObj.student_edit = tableRowObj[7].getElementsByTagName("select")[0];
     inpObj.studentMlajsi_edit = tableRowObj[8].getElementsByTagName("select")[0];
     
-    usposobljenost = { };
-    for (let i = 9; i < tableRowObj.length - 2; i++) {
-        usposobljenost[vsiOddelki_names[i-9].toLowerCase()] = JSON.parse(tableRowObj[i].getElementsByTagName("select")[0].value);
+    let oddelkiZaZaposl = tableRowObj[9].getElementsByTagName("label");
+    let usposobljenost = { };
+
+    for (let i = 0; i < oddelkiZaZaposl.length; i++) {
+        usposobljenost[oddelkiZaZaposl[i].innerText.toLowerCase()] = JSON.parse(oddelkiZaZaposl[i].getAttribute("value"));
     }
     inpObj.usposobljenost = usposobljenost;
 

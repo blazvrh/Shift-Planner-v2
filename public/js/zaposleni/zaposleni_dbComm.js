@@ -65,8 +65,7 @@ function submitForm_zaposleniGet() {
             // če je kak drugačen error
             else {
                 console.log(serverRes.msg);
-                console.log("IZPIŠI ERROR UPORABNIKU");
-                // onTableMsgOddelki(serverRes.msg);
+                onInputErrorZaposleni(serverRes.msg);
             }
             return;
         }

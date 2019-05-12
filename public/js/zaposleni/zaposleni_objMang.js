@@ -76,28 +76,15 @@ function create_TableHead_SeznamZaposlenih () {
     let trEl = document.createElement("tr");
 
     let headerTexts = ["Prik. ime", "Ime", "Priimek", "Ur/dan", "Ur/teden", "Nedelje", "Prazniki", 
-        "Študent", "Študent, mlajši od 16 let"];
+        "Študent", "Mlajši od 16 let", "Usposobljenost"];
 
-    for (let i = 0; i < vsiOddelki_names.length; i++) {
-        headerTexts.push (vsiOddelki_names[i]);
-    }
-    headerTexts.push ("Urejanje:");
-    headerTexts.push ("Brisanje:");
+    headerTexts.push ("Urejanje");
+    headerTexts.push ("Brisanje");
 
     for (let i = 0; i < headerTexts.length; i++) {
         let thEl = document.createElement("th");
         
-        // ustvarimo tooltip
-        if (i > 6 && i < (headerTexts.length - 2) && headerTexts[i].length > 2) {
-            thEl.innerText = headerTexts[i].substring(0, 2) + "..";
-            thEl.setAttribute("class", "tooltip");
-            let span = document.createElement("span");
-            span.setAttribute("class", "tooltiptext");
-            span.innerText = headerTexts[i];
-            thEl.append(span);
-        } else {
-            thEl.innerText = headerTexts[i];
-        }
+        thEl.innerText = headerTexts[i];
 
         trEl.append (thEl);
     }
@@ -134,11 +121,8 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
     tdTexts.push(singleZaposlenData.maxPraznikovZap);
     tdTexts.push(singleZaposlenData.student == 1 ? "Da" : "Ne");
     tdTexts.push(singleZaposlenData.studentMlajsi == 1 ? "Da" : "Ne");
-    tdTexts = tdTexts.concat(convert_ToTextArray_usposobljenostZaposlenega(singleZaposlenData.usposobljenostZap));
-
-    // za styling
-    var tooltipTexts = ["Študent", "Študent, mlajši od 16 let"];
-    tooltipTexts = tooltipTexts.concat(vsiOddelki_names);
+    
+    // tdTexts = tdTexts.concat(convert_ToTextArray_usposobljenostZaposlenega(singleZaposlenData.usposobljenostZap));
 
     var lowValue_stylig =[];
     lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxUrDanZap) < 8 ? "Ne" : "");
@@ -154,25 +138,20 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
         } else {
             tdEl.setAttribute("id", "select");
         }
-        // dodamo tooltip za da/ne elemente
-        if (i > 6) {
-            tdEl.setAttribute("class", "tooltip "+ tdTexts[i]); // dodamo še class "Da"/"Ne" za styling
-            let span = document.createElement("span");
-            span.setAttribute("class", "tooltiptext");
-            span.innerText = tooltipTexts[i-7];
-            tdEl.append(span);
-        }
+
         // dodamo class atribute za styling
         if (i > 2 && i < 7) {
             if (lowValue_stylig[i-3] == "Ne") {
                 tdEl.setAttribute("class", "Ne");
             }
+        } else if (i > 6 && i < 9) {
+            tdEl.setAttribute("class", tdTexts[i]); // dodamo še class "Da"/"Ne" za styling
         }
-
 
         trElement.append (tdEl);
     }
 
+    trElement.append(create_usposobljenost_element_ZaTabelo(singleZaposlenData.usposobljenostZap));
     trElement.append(create_editBtn_tableZaposleni(singleZaposlenData.zapID));
     trElement.append(create_removeBtn_tableZaposleni(singleZaposlenData.zapID));
 
@@ -180,20 +159,28 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
     return trElement;
 }
 
-// ustvari text array z "Da" ali "Ne" za usposobljenost zaposlenega
-function convert_ToTextArray_usposobljenostZaposlenega(usposobljenost) {
-    usposobljenostTxtArr = [];
-    
+// ustvari usposobljenost za tabelo prikaza zaposlenih
+function create_usposobljenost_element_ZaTabelo (usposobljenost) {
+    tdEl = document.createElement("td");
+
     for (let i = 0; i < vsiOddelki_names.length; i++) {
         jeUsposobljen = usposobljenost[vsiOddelki_names[i].toLowerCase()];
+        
+        let oddUspEl = document.createElement("span");
+        oddUspEl.innerText = vsiOddelki_names[i];
 
-        if (!jeUsposobljen) {
-            jeUsposobljen = false;
+        if (jeUsposobljen == true) {
+            oddUspEl.setAttribute("class", "jeUsposobljen");
+        } else {
+            oddUspEl.setAttribute("class", "niUsposobljen");
         }
-        usposobljenostTxtArr.push(jeUsposobljen ? "Da" : "Ne");
+
+        tdEl.setAttribute("id", "span");
+
+        tdEl.append(oddUspEl);
     }
 
-    return usposobljenostTxtArr;
+    return tdEl;
 }
 
 // ustvari edit gumb za tabelo
@@ -261,7 +248,27 @@ function createEditRow_zaposleni (zapId) {
             inputElement.value = selectVal;
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
-        } 
+        }
+        // ustvarimo urejanje za usposobljenost
+        else if (tdID == "span") {
+            let oddelkiUspos = editingTd[i].getElementsByTagName("span");
+            let inputElement = document.createElement("div");
+            
+            for (let j = 0; j < oddelkiUspos.length; j++) {
+                let labelUsp = document.createElement("label");
+                
+                labelUsp.innerText = oddelkiUspos[j].innerText;
+                labelUsp.setAttribute("value", oddelkiUspos[j].classList.contains("jeUsposobljen"));
+                labelUsp.setAttribute("class", oddelkiUspos[j].className);
+                labelUsp.setAttribute("id", oddelkiUspos[j].innerText + "_edit");
+
+                labelUsp.onclick = function() { toggle_usposobljenostZaposlenega_edit(this) };
+
+                inputElement.append(labelUsp);
+            }
+            editingTd[i].innerHTML = "";
+            editingTd[i].append(inputElement);
+        }
         // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
             let inputElement = document.createElement("button");
@@ -304,5 +311,18 @@ function createEditRow_zaposleni (zapId) {
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         }
+    }
+}
+
+// spremni vrednost za usposobljenost za posamezen oddelek pri zaposoenemu 
+function toggle_usposobljenostZaposlenega_edit (el) {
+    let val = el.getAttribute("value");
+
+    if (val == "true") {
+        el.setAttribute("value", false);
+        el.setAttribute("class", "niUsposobljen");
+    } else {
+        el.setAttribute("value", true);
+        el.setAttribute("class", "jeUsposobljen");
     }
 }
