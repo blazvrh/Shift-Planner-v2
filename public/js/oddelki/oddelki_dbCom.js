@@ -3,9 +3,10 @@
 function submitForm_oddelekGet() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/oddelki/get"); 
+    xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -47,9 +48,10 @@ function submitForm_oddelekGet() {
 function submitForm_oddelekAdd() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/oddelki/add"); 
+    xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        let serverRes = event.target.response;
         
         
         // če je prišlo do napake, izpiši napako
@@ -74,9 +76,10 @@ function submitForm_oddelekAdd() {
 function submitForm_oddelekRemove(oddelekId) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/oddelki/remove"); 
+    xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -101,9 +104,10 @@ function submitForm_oddelekRemove(oddelekId) {
 function submitForm_oddelekUpdate(updateData) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/oddelki/update"); 
+    xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        let serverRes = event.target.response;
         
         
         // če je prišlo do napake, izpiši napako

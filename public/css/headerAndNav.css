@@ -90,3 +90,8 @@ nav li a{
 .logoutStyle li {
     margin-right: 10px;
 }
+
+
+.clearFloat {
+    clear: both;
+}

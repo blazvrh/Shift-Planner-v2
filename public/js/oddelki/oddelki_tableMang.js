@@ -135,7 +135,7 @@ function createEditRow_oddelki (oddelekId) {
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 
-        // ustvarimo prekliči gumb
+        // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
@@ -143,7 +143,7 @@ function createEditRow_oddelki (oddelekId) {
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 
-        // ustvarimo potrdi gumb
+        // ustvarimo prekliči gumb
         else if (tdID == "editBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Prekliči!";

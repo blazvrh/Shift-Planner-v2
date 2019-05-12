@@ -97,7 +97,7 @@ async function remove_Oddelek (oddelekData) {
 }
 
 
-// ustvarimo nov oddelek
+// ustvarimo posodobimo oddelek
 async function update_newOddelek (oddelekData) {
     let conn;
     let result = { isError: true, msg: "Neznana napaka"};

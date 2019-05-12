@@ -61,7 +61,7 @@ function mainInputValidation () {
 }
 
 
-edit_inputFields_oddelki = {};
+var edit_inputFields_oddelki = {};
 
 // preverimo če so vnesene vrednosti vredu
 function checkEditValues (oddelekId) {

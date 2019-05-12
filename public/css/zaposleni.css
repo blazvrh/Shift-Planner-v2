@@ -1,12 +1,55 @@
-.zaposleniTable, .zaposleniTable td, .zaposleniTable tr, .zaposleniTable th {
-    border-collapse: collapse;
-    border: 1px solid black;
+
+/* h titles */
+h2 {
     text-align: center;
 }
-.zaposleniTable td {
-    padding: 3px;
-}
 
+/* Dodaj zaposlenega div */
+#dodajZaposlenegaDiv {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    padding-top: 1px;
+    padding-bottom: 1px;
+
+    font-size: 20px;
+}
+#dodajZaposlenegaDiv h4 {
+    background-color: rgb(228, 228, 228);
+}
+#dodajZaposlenegaDiv input {
+    font-size: 18px;
+}
+#dodajZaposlenegaDiv input[type="text"] {
+    padding-left: 5px;
+    width: 200px;
+}
+#dodajZaposlenegaDiv input[type="number"] {
+    text-align: center;
+    width: 50px;
+}
+#dodajZaposlenegaDiv input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 10px;
+    opacity: 0.5;
+}
+#dodajZaposlenegaDiv input[type="checkbox"]:checked {
+    opacity: 1;
+}
+#dodajZaposlenegaDiv p {
+    display: inline-block;
+    margin: 20px;
+}
+#seznamUsposobljenosti span {
+    padding: 20px;
+}
+#dodajZaposlenegaDiv button {
+    height: 30px;
+    width: 175px;
+    font-size: 20px;
+}
+/* link do oddelkov */
 #seznamUsposobljenosti a,
 #seznamUsposobljenosti a:visited {
     color: blue !important;
@@ -14,3 +57,93 @@
 #seznamUsposobljenosti a:hover {
     color: steelblue !important;
 }
+
+/* Seznam Zaposlneih */
+.seznamZaposlenih {
+    display: block;
+    background-color: rgb(240, 240, 240);
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#seznamZaposlenihDiv table {
+    align-content: center;
+    margin: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+#seznamZaposlenihDiv td, #seznamZaposlenihDiv th{
+    border-bottom: 1px solid black;
+    border-left: 1px solid rgb(185, 185, 185);
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+    font-size: 18px;
+}
+#seznamZaposlenihDiv td:first-child, #seznamZaposlenihDiv th:first-child {
+    border-left: 1px solid black;
+}
+#seznamZaposlenihDiv table button {
+    font-size: 18px;
+    margin-left: 5px;
+}
+.btnRemoveOdd {
+    color: darkred;
+}
+/* table hover */
+#seznamZaposlenihDiv tbody tr:hover {
+    background-color: rgb(202, 202, 202);
+}
+tr:hover .Ne {
+    background-color: rgb(233, 190, 190);
+}
+tr:hover .Da {
+    background-color: rgb(195, 235, 190);
+}
+/* tooltip */
+.tooltiptext{
+    display: none;
+    position: absolute; 
+    z-index: 1;
+    border: 1px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 3px;
+    border-color: black;
+    background-color: rgb(250, 250, 210);
+    color: black; 
+    border-radius: 2px;
+    pointer-events: none;
+}
+.tooltip:hover span.tooltiptext{
+    display: block;
+}
+/* edit zaposlenega style */
+#seznamZaposlenihDiv input[type="text"] {
+    width: 80px;
+}
+#seznamZaposlenihDiv input[type="number"] {
+    text-align: center;
+    width: 30px;
+}
+#seznamZaposlenihDiv input, #seznamZaposlenihDiv option, #seznamZaposlenihDiv select {
+    font-size: 14px;
+}
+
+.error {
+    background-color: rgb(245, 200, 200);
+    color: darkred;
+    text-align: center;
+}
+button {
+    cursor: pointer;
+}
+
+
+
+
+
+
+

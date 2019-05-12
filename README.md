@@ -16,5 +16,5 @@ Some basic stuff!
     - express-form-data
     - validate
     - mariadb
-    - nodemon (usefull global tool ...)
+    - -g nodemon (not required but is a usefull global tool ...)
   - RemoteMySQL.com
