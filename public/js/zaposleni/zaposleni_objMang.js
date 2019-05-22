@@ -9,7 +9,7 @@ function create_checkBox_usposobljenost_zaposleni (vsiOddelki) {
     
     if (vsiOddelki == null) {
         seznamUsposobljenosti.innerHTML =  "Ni oddelkov, ki potrebujejo usposobljenost! <br> Pojdite na zavihek \"" +
-        "<a href='oddelki.html'>Urejanje oddelkov</a>\" in ustvarite primerne oddelke.";
+        "<a href='oddelki'>Urejanje oddelkov</a>\" in ustvarite primerne oddelke.";
     } else {
         vsiOddelki_names = get_PrimerneOddelke(vsiOddelki);
         seznamUsposobljenosti.append(create_usposobljenostElement(vsiOddelki_names));
@@ -145,7 +145,7 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
                 tdEl.setAttribute("class", "Ne");
             }
         } else if (i > 6 && i < 9) {
-            tdEl.setAttribute("class", tdTexts[i]); // dodamo še class "Da"/"Ne" za styling
+            tdTexts[i]== "Da" ? tdEl.setAttribute("class", tdTexts[i] = "Da") : false;
         }
 
         trElement.append (tdEl);

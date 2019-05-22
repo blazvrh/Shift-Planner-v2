@@ -5,8 +5,9 @@ var documentObjects_zaposleni = get_documentObjects_zaposleni();
 var prikazanaImenaVsa = [];
 
 window.addEventListener('load', () => {
-    get_neccesseryData();
-
+    if (userData) {
+        get_neccesseryData();
+    }
 });
 
 // pridobi potrebne podatke iz databaze

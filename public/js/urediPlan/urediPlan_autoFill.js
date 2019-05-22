@@ -2,20 +2,18 @@
 
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
 function onChange_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
-    inp_txt_id = inp_txt.id;
-    inp_txt_value = inp_txt.value;
+    let inp_txt_position = inp_txt.getAttribute("position");
+    let smena = inp_txt.getAttribute("smena");
     
-    let splitedId = inp_txt_id.split("_");
-    let smena = splitedId[2];
-    let inp_Index = splitedId[3];
-    
-    let inp_startTime = document.getElementById("start_inp_time_" + smena + "_" + inp_Index);
-    let inp_endTime = document.getElementById("end_inp_time_" + smena + "_" + inp_Index);
-
-    if (inp_txt_value == "" || inp_txt_value.substring(0,2) == "**") {
+    let inp_startTime = document.querySelectorAll("input.startTime[position='" + inp_txt_position + 
+        "'][smena='" + smena + "']")[0];
+    let inp_endTime = document.querySelectorAll("input.endTime[position='" + inp_txt_position + 
+        "'][smena='" + smena + "']")[0];
+        
+    if (inp_txt.value == "" || inp_txt.value.substring(0,1) == "*") {
         inp_startTime.value = ""
         inp_endTime.value = ""
-    } else if (inp_txt_value != ""){
+    } else if (inp_txt.value != ""){
         if (inp_startTime.value == "") {
             inp_startTime.value = startTime;
         }

@@ -39,7 +39,7 @@ function submitForm_oddelekGet() {
 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
     onTableMsgOddelki("Nalaganje ...");
     xhr.send(formData);
 }
@@ -62,13 +62,14 @@ function submitForm_oddelekAdd() {
         // drugače počisti polja in posodobi tabelo
         else {
             clearInputValues();
+            document.getElementById("imeOddelka").focus();
             submitForm_oddelekGet();
         }
     }; 
 
     var formData = new FormData (document.getElementById("addOddelekForm"));
 
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
     xhr.send(formData);
 }
 
@@ -94,8 +95,8 @@ function submitForm_oddelekRemove(oddelekId) {
 
     var formData = new FormData ();
 
-    formData.set("oddelekId", oddelekId);
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("oddelekId", oddelekId);
+    formData.append("poslovalnica", userData.poslovalnica);
     
     xhr.send(formData);
 }
@@ -125,18 +126,13 @@ function submitForm_oddelekUpdate(updateData) {
 
     var formData = new FormData ();
 
-    formData.set("oddID", updateData.oddID);
-    formData.set("poslovalnica", userData.poslovalnica);
-    formData.set("imeOddelka", updateData.imeOddEdit.value);
-    formData.set("stVrsticOddelka", updateData.stVrsticEdit.value);
-    formData.set("prihod", updateData.prihodEdit.value);
-    formData.set("odhod", updateData.odhodEdit.value);
-    formData.set("specialOddelek", updateData.posebnostEdit.value);
+    formData.append("oddID", updateData.oddID);
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("imeOddelka", updateData.imeOddEdit.value);
+    formData.append("stVrsticOddelka", updateData.stVrsticEdit.value);
+    formData.append("prihod", updateData.prihodEdit.value);
+    formData.append("odhod", updateData.odhodEdit.value);
+    formData.append("specialOddelek", updateData.posebnostEdit.value);
 
     xhr.send(formData);
-}
-
-// da takoj izrišemo tabelo ko se stran odpre
-if(userData) {
-    submitForm_oddelekGet();
 }

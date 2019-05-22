@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- css files -->
     <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
-    <title>Plan dela -</title>
+    <title>Plan dela - Predogled trenutnega plana</title>
 </head>
 <body>
     <!-- header -->
@@ -15,26 +16,79 @@
     <!-- navigation -->
     <nav>
         <ul class="navList">
-            <li><a href="index.html">Domov</a></li>
-            <li><a href="predogledPlana.html">Preveri plan</a></li>
-            <li><a href="oddelki.html">Urejanje oddelkov</a></li>
-            <li><a href="zaposleni.html">Urejanje zaposlenih</a></li>
-            <li><a href="urediTrenitenPlan.html">Ustvari plan</a></li>
+            <li><a href="index">Domov</a></li>
+            <li><a href="predogledPlana">Preveri plan</a></li>
+            <li><a href="oddelki">Urejanje oddelkov</a></li>
+            <li><a href="zaposleni">Urejanje zaposlenih</a></li>
+            <li><a href="urediTrenitenPlan">Ustvari plan</a></li>
+            
+            <div class="logoutStyle" id="logoutBlock">
+                <li id="userDataDisplay">Uporabik ta pa ta</li>
+                <li><button onclick="logout()">Odjava!</button></li>
+            </div>
         </ul>
     </nav>
+
     
-    <div id="loginNeeded">
-        <h1>Potrebna Prijava</h1>
-        <p>Pojdite nazaj na domačo stran in se prijavite s svojim emailom in gelsom!</p>
-        <button onclick="window.location.href='index.html'">Domov</button>
+    <div id="loginNeeded" class="loginNeeded">
+        <h1>Potrebna Prijava!</h1>
+
+        <div id="loginBlock">
+            <!-- Prijava gosta -->
+            <form action="/login/guest" method="post" onsubmit="return false" id="loginFormGuest">
+                <h2>
+                    Dostop za goste:
+                </h2>
+                <p>
+                    Ime poslovalnice: <input type="text" id="loginPoslovalnicaField" name="poslovalnica" placeholder="Poslovalnica"
+                        size="12" maxlength="20">
+                </p>
+                <p>
+                    Geslo za predogled: <input id="loginGuestPasswordField" type="password" name="passwordGuest" placeholder="Geslo"
+                        size="10" maxlength="20">
+                    <button id="loginGuestBtn" onclick="loginGuest()">Prijava</button>
+                </p>
+                <p id="loginGuestErrorMsg" class="loginErrorMsg"></p>
+            </form>
+
+            <!-- prijava uporabnika -->
+            <form action="/login" method="post" onsubmit="return false" id="loginForm">
+                <h2>
+                    Dostop za uporabnike:
+                </h2>
+                <p>
+                    Uporabniško ime: <input type="text" id="loginUsernameField" name="username" placeholder="Uporabniško ime"
+                        size="12" maxlength="20">
+                </p>
+                <p>
+                    Geslo: <input id="loginPasswordField" type="password" name="password" placeholder="Geslo"
+                        size="10" maxlength="20">
+                    <button id="loginBtnGuest" onclick="login()">Prijava</button>
+                </p>
+                <p id="loginErrorMsg" class="loginErrorMsg"></p>
+            </form>
+            <div>
+                <p>Bi radi uporabljali spletno stran za ustvarjanje tedenskega plana, a še nimate upurabniškega računa?
+                    <br>Ustvarite si nov uporabniški račun:</p>
+                <p><button onclick="window.location.href='register.html'">Registracija</button></p>
+                <p>Nazaj na domačo stran:</p>
+                <p><button onclick="window.location.href='index.html'">Domov</button></p>
+            </div>
+        </div>
     </div>
+
+
     
     <div id="restOfBody" style="display: none">
         <h1>Predogled plana</h1>
     </div>
     <footer>
+        Kontakt: krhodev@gmail.com <br>
+        Created by KrHo and Simc; CopyRight 2019
+    
         <!-- java scripts -->
-        <script src="js/loginCheck.js" type="text/javascript"></script>
+        <script src="js/loginCheck_predogled.js" type="text/javascript"></script>
+        <script src="js/loginRegister/login.js" type="text/javascript"></script>
     </footer>
 </body>
 </html>

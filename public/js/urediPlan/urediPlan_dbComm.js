@@ -12,38 +12,45 @@ function submitForm_oddelekGet() {
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
             if (serverRes.vsiOddelki == null) {
-                console.log("Ni oddelkov; Pohandlaj!!");
-                
+                // console.log("Ni oddelkov; Pohandlaj!!");
+                error_onTableShow("<strong>Ni vnosa za oddeleke!</strong><br> &emsp;Pojdite na zavihek \"" +
+                    "<a href='oddelki'>Urejanje oddelkov</a>\" in ustvarite primerne oddelke.");
             }
             // če je kak drugačen error
             else {
                 console.log(serverRes.msg);
-                console.log("Pohandlaj error");
-
-                // documentObjects_zaposleni.zaposleniInputError.innerText = serverRes.msg;
+                error_onTableShow(serverRes.msg);
             }
-            return;
+            document.getElementById("btn_showWeek").style.display = "none";
         }
         else {
             // shranimo v storage
             let dopOddleki = [];
-            let popOddleki = []
+            let popOddleki = [];
+            let oddById = { };
+
             serverRes.vsiOddelki.forEach(element => {
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
                 } else if (element.smena == "popoldne") {
                     popOddleki.push(element);
                 }
+                oddById[element.oddID] = element.imeOddelka;
             });
+            // shranimo podatke
             sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
             sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
 
+            data.oddelki_dopoldne = dopOddleki;
+            data.oddelki_popoldne = popOddleki;
+            data.oddById = oddById;
+            document.getElementById("btn_showWeek").style.display = "initital";
         }
         submitForm_zaposleniGet();
     }; 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
     xhr.send(formData);
 }
 
@@ -60,7 +67,71 @@ function submitForm_zaposleniGet() {
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
             if (serverRes.vsiZaposleni == null) {
-                console.log("Ni oddelkov; Pohandlaj!!");
+                let prevMsg = document.getElementById("loadWeekError").innerHTML;
+                prevMsg += prevMsg != "" ? "<br>" : "";
+                
+                error_onTableShow(prevMsg + "<strong>Ni vnosa za zaposlene!</strong><br> &emsp;Pojdite na zavihek \"" +
+                "<a href='zaposleni'>Urejanje zaposlenih</a>\" in ustvarite zaposlene.");
+            }
+            // če je kak drugačen error
+            else {
+                console.log(serverRes.msg);
+                error_onTableShow(serverRes.msg);
+            }
+        }
+        else {
+            // pridobimo vsa prikazana imena
+            let prikazanaImenaLowerCase = {};
+            let prikazanaImena = {};
+            // let prikazanaImena = [];
+            serverRes.vsiZaposleni.forEach(element => {
+                // prikazanaImena.push((element.prikazanoImeZap).toLowerCase());
+                prikazanaImena[(element.prikazanoImeZap)] = element.zapID;
+                prikazanaImenaLowerCase[(element.prikazanoImeZap).toLowerCase()] = element.zapID;
+            });
+            
+            // shranimo v storage
+            sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
+            
+            // tako da je key ime zaposlenega
+            let newZaposleniObj = {};
+            for (let i = 0; i < serverRes.vsiZaposleni.length; i++) {
+                let zaposlen = serverRes.vsiZaposleni[i];
+                newZaposleniObj[(zaposlen.prikazanoImeZap).toLowerCase()] = zaposlen;
+            }
+            
+            data.zaposleni = newZaposleniObj;
+            data.prikazanaImena = prikazanaImenaLowerCase;
+            
+            // nastavimo seznam (opcije) zapolenih
+            set_options_forZaposlene (prikazanaImena);
+        }
+        // prikažemo dejansko stran
+        showMainPageContent();
+    }; 
+
+    var formData = new FormData ();
+
+    formData.append("poslovalnica", userData.poslovalnica);
+    xhrGetZaposlene.send(formData);
+}
+
+
+// pridobimo podatke o trenutnem tednu
+function submitForm_get_trenuenPlan() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/urediTrenutenPlan/get");
+    xhr.responseType = 'json';
+
+    xhr.onload = function(event) {
+        let serverRes = event.target.response;
+        
+        // če je prišlo do napake, izpiši napako
+        if (serverRes.isError) {
+           // če je error zaradi nobenega vnosa
+           if (serverRes.weekData == null) {
+               // ni podatka za ta teden; pošljemo prazen objekt
+               fill_table_withDbData({});
             }
             // če je kak drugačen error
             else {
@@ -70,21 +141,54 @@ function submitForm_zaposleniGet() {
             return;
         }
         else {
-            // pridobimo vsa prikazana imena
-            let prikazanaImena = [];
-            serverRes.vsiZaposleni.forEach(element => {
-                prikazanaImena.push(element.prikazanoImeZap);
-            });
-            
-            // shranimo v storage
-            sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
-
-            showMainPageContent(prikazanaImena);
+            fill_table_withDbData(JSON.parse(serverRes.weekData.weekData));
         }
     }; 
 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
-    xhrGetZaposlene.send(formData);
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("weekNum", currDateData.selectedWeekNumber);
+    formData.append("year", currDateData.selectedMondayDate.getFullYear());
+    
+    
+    xhr.send(formData);
+}
+
+
+// shrani trenutni plan
+function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/urediTrenutenPlan/save"); 
+    xhr.responseType = 'json';
+
+    xhr.onload=function(event){ 
+        let serverRes = event.target.response;
+        
+        // če je prišlo do napake, izpiši napako
+        if (serverRes.isError) {
+            // onInputErrorOddelki(serverRes.msg);
+            console.log(serverRes.msg);
+            
+            return;
+        }
+        // drugače počisti polja in posodobi tabelo
+        else {
+            console.log("Saved!");
+            // clearInputValues();
+            // submitForm_oddelekGet();
+        }
+    }; 
+
+    var formData = new FormData ();
+
+    formData.append("oddelkiDop", JSON.stringify(data.oddelki_dopoldne));
+    formData.append("oddelkiPop", JSON.stringify(data.oddelki_popoldne));
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("weekNum", weekNum);
+    formData.append("year", year);
+    formData.append("mondayDate", mondayDate);
+    formData.append("tableData", JSON.stringify(tableData));
+
+    xhr.send(formData);
 }

@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 /* Header */
 header {
     background-color: rgb(214, 34, 34);
@@ -50,14 +54,13 @@ nav {
 nav ul li {
     float: left;
 }
-a, 
-a:link, 
-a:hover, 
-a:visited {
+.navList a,
+.navList a:link, 
+.navList a:visited {
     color: rgb(126, 8, 28);
     text-decoration: none;
 }
-a:hover {
+.navList a:hover {
     color: white;
 }
 nav li a{
@@ -89,9 +92,4 @@ nav li a{
 }
 .logoutStyle li {
     margin-right: 10px;
-}
-
-
-.clearFloat {
-    clear: both;
 }

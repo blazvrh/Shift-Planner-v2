@@ -6,7 +6,9 @@ const formData = require("express-form-data");
 // vspostavi server
 let app = express();
 // določi pot za public mapo z html, css itd...
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    extensions: ['html']
+  }));
 
 // potrebno za parsanje POST requestov
 const os = require("os");
@@ -28,6 +30,7 @@ app.use(formData.union());
 app.use(require("./routes/route_loginRegister"));
 app.use("/oddelki", require("./routes/route_oddelki"));
 app.use("/zaposleni", require("./routes/route_zaposleni"));
+app.use("/urediTrenutenPlan", require("./routes/route_urediPlan"));
 
 
 // vrne index če je url brez končnice ...

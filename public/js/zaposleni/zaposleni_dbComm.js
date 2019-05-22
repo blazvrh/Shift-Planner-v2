@@ -19,7 +19,6 @@ function submitForm_oddelekGet() {
                 console.log(serverRes.msg);
                 documentObjects_zaposleni.zaposleniInputError.innerText = serverRes.msg;
             }
-            return;
         }
         else {
             // shranimo v storage
@@ -42,7 +41,7 @@ function submitForm_oddelekGet() {
     }; 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
     xhr.send(formData);
 }
 
@@ -73,7 +72,7 @@ function submitForm_zaposleniGet() {
             // pridobimo vsa prikazana imena
             prikazanaImenaVsa = [];
             serverRes.vsiZaposleni.forEach(element => {
-                prikazanaImenaVsa.push(element.prikazanoImeZap);
+                prikazanaImenaVsa.push((element.prikazanoImeZap).toLowerCase());
             });
             
             // shranimo v storage
@@ -86,7 +85,7 @@ function submitForm_zaposleniGet() {
 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
     xhrGetZaposlene.send(formData);
 }
 
@@ -120,9 +119,9 @@ function submitForm_zaposleniAdd() {
         usposobljenost_object[oddelek.value] = oddelek.checked;
     }
     
-    formData.set("usposobljenost", JSON.stringify(usposobljenost_object));
+    formData.append("usposobljenost", JSON.stringify(usposobljenost_object));
     
-    formData.set("poslovalnica", userData.poslovalnica);
+    formData.append("poslovalnica", userData.poslovalnica);
 
     xhr.send(formData);
 }
@@ -152,8 +151,8 @@ function submitForm_zaposleniRemove(zapId) {
 
     var formData = new FormData ();
 
-    formData.set("poslovalnica", userData.poslovalnica);
-    formData.set("zapID", zapId);
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("zapID", zapId);
 
     xhr.send(formData);
 }
@@ -179,19 +178,19 @@ function submitForm_zaposleniUpdate(edit_inputFields_zaposleni) {
 
     var formData = new FormData ();
     
-    formData.set("poslovalnica", userData.poslovalnica);
-    formData.set("zapID", edit_inputFields_zaposleni.zapID);
-    formData.set("prikazanoImeZap", edit_inputFields_zaposleni.prikazanoImeZap_edit.value);
-    formData.set("imeZap", edit_inputFields_zaposleni.imeZap_edit.value);
-    formData.set("priimekZap", edit_inputFields_zaposleni.priimekZap_edit.value);
-    formData.set("maxUrDanZap", edit_inputFields_zaposleni.maxUrDanZap_edit.value);
-    formData.set("maxUrTedenZap", edit_inputFields_zaposleni.maxUrTedenZap_edit.value);
-    formData.set("maxNedelijZap", edit_inputFields_zaposleni.maxNedelijZap_edit.value);
-    formData.set("maxPraznikovZap", edit_inputFields_zaposleni.maxPraznikovZap_edit.value);
-    formData.set("student", edit_inputFields_zaposleni.student_edit.value == "true" ? "on" : "off");
-    formData.set("studentMlajsi", edit_inputFields_zaposleni.studentMlajsi_edit.value == "true" ? "on" : "off");
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("zapID", edit_inputFields_zaposleni.zapID);
+    formData.append("prikazanoImeZap", edit_inputFields_zaposleni.prikazanoImeZap_edit.value);
+    formData.append("imeZap", edit_inputFields_zaposleni.imeZap_edit.value);
+    formData.append("priimekZap", edit_inputFields_zaposleni.priimekZap_edit.value);
+    formData.append("maxUrDanZap", edit_inputFields_zaposleni.maxUrDanZap_edit.value);
+    formData.append("maxUrTedenZap", edit_inputFields_zaposleni.maxUrTedenZap_edit.value);
+    formData.append("maxNedelijZap", edit_inputFields_zaposleni.maxNedelijZap_edit.value);
+    formData.append("maxPraznikovZap", edit_inputFields_zaposleni.maxPraznikovZap_edit.value);
+    formData.append("student", edit_inputFields_zaposleni.student_edit.value == "true" ? "on" : "off");
+    formData.append("studentMlajsi", edit_inputFields_zaposleni.studentMlajsi_edit.value == "true" ? "on" : "off");
     
-    formData.set("usposobljenost", JSON.stringify(edit_inputFields_zaposleni.usposobljenost));
+    formData.append("usposobljenost", JSON.stringify(edit_inputFields_zaposleni.usposobljenost));
     
     xhr.send(formData);
 }

@@ -78,5 +78,30 @@ function validate_userOnLogin (userData) {
     return errors = user.validate(userData);
 }
 
+// prijava gosta
+function validate_userOnLogin_guest (userData) {
+    const user = new Schema({
+        poslovalnica: {
+            type: String,
+            required: true,
+            message: {
+                type: "Ime polovalnice mora biti \"string\".",
+                required: "Ime polovalnice ne sme biti prazno."
+            }
+        },
+        passwordGuest: {
+            type: String,
+            required: true,
+            message: {
+                type: "Geslo mora biti \"string\".",
+                required: "Geslo ne sme biti prazno."
+            }
+        }
+    });
+    
+    return errors = user.validate(userData);
+}
+
 module.exports.validate_userOnLogin = validate_userOnLogin;
+module.exports.validate_userOnLogin_guest = validate_userOnLogin_guest;
 module.exports.validate_userOnRegister = validate_userOnRegister;

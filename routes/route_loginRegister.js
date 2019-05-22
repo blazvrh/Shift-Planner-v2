@@ -74,4 +74,32 @@ router.post('/login', async function (req, res) {
 });
 
 
+// login Guest
+router.post('/login/guest', async function (req, res) { 
+    if (!req.body) return res.sendStatus(400);
+
+    const loginInfo = req.body;
+    
+    // validate data
+    const validateErrors = validatie_user.validate_userOnLogin_guest(loginInfo);
+    if (validateErrors.length > 0) {
+        let errorMsg = "";
+        validateErrors.forEach(element => {
+            errorMsg += element.message + "\n";
+        });
+        let errRes = {
+            isError: true,
+            msg: errorMsg
+        }
+        res.send(errRes);
+        return;
+    }
+
+    // // pogelj če uporabnik v bazi in je vpisano pravilno geslo
+    const dataMatch = await db_login.checkForLoginInfo_guest(loginInfo);
+    
+    res.send(dataMatch);
+});
+
+
 module.exports = router;

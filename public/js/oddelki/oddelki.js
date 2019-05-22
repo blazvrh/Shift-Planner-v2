@@ -3,6 +3,12 @@
 const inputFields_oddelki = getInputFields();
 const btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
 
+window.addEventListener('load', () => {
+    if (userData) {
+        submitForm_oddelekGet();
+    }
+});
+
 // poišče polja za vnos
 function getInputFields () {
     objInpFields = {};

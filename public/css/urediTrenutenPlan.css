@@ -1,42 +1,50 @@
-.mainTable table {
+#mainTable table {
     width: 100%
 }
-.mainTable {
-    border: 1px solid black;
+#mainTable {
+    border: 2px solid black;
     border-collapse: collapse;
     width: 100%;
 }
-.mainTable .headerTd {
-    border-bottom: 6px double black;
+#mainTable thead td {
+    border-bottom: 2px solid black;
     border-right: 1px solid black;
     white-space: nowrap;
     overflow: hidden;
     padding-left: 3px;
     padding-right: 3px;
 }
-.mainTable input[type="text"] {
+#mainTable input[type="text"] {
     width: 110px;
 }
-.mainTable td {
+#mainTable td {
     vertical-align: middle;
     text-align: center;
+    position: relative;
 }
-.mainTable .lastRowOfOddelek {
-    border-bottom: 2px solid black;
+#mainTable .rowOfOddelek {
     border-right: 1px dotted grey;
 }
-.mainTable .rowOfOddelek {
+#mainTable .lastRowOfOddelek {
+    border-bottom: 1px solid rgb(100, 100, 100);
     border-right: 1px dotted grey;
 }
-.mainTable .headerColumn {
-    font-weight: bold;
-    border-right: 2px solid black;
+#mainTable tbody:first-of-type {
+    border-bottom: 4px double black;
 }
 
 input[type="time"] {
     margin: 1px;
 }
-
+#mainTable input {
+    border: 1px solid rgb(190, 190, 190);
+}
+#mainTable td[position]:hover {
+    background-color: rgba(10, 10, 10, 0.1);
+}
+#mainTable tr:hover {
+    background-color: rgb(230, 230, 230);
+}
 /* .mainTable .mainTableRow td:first-child {
     border-right: 2px solid black;
 } */
@@ -70,3 +78,91 @@ input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-outer-spin-button {
     display: none;
 }
+
+.error {
+    background-color: rgb(245, 200, 200);
+    color: darkred;
+    /* text-align: center; */
+}
+.error a,
+.error a:link, 
+.error a:visited {
+    color: blue;
+    text-decoration: none;
+}
+.error a:hover {
+    color: darkblue;
+}
+
+
+/* tooltip */
+.tooltipText{
+    display: none;
+    z-index: 1;
+    border: 1px;
+    border-style: solid;
+    border-width: 1px;
+    padding: 3px;
+    border-color: black;
+    background-color: rgb(250, 250, 210);
+    color: black; 
+    border-radius: 2px;
+    pointer-events: none;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 295%;
+    text-align: justify;
+}
+div[fullPosition] {
+    margin: 0;
+    padding: 0;
+}
+.tooltipTitle {
+    font-size: 115%;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.tooltipPos {
+    position: absolute;
+    /* potreben da lahko tooltip postavimo direktno pod elemet */
+    bottom: 0;
+    width: 100%;
+}
+.toolTipWarning {
+    background-color:rgba(255, 199, 13, 0.25);
+}
+.toolTipError {
+    background-color: rgba(255, 0, 0, 0.25);
+}
+.errorInTooltip {
+    background-color: rgb(255, 218, 218);
+    padding: 5px;
+}
+.warningInTooltip {
+    background-color: rgb(255, 243, 227);
+    padding: 5px;
+}
+.errorInTooltip p, .warningInTooltip p {
+    padding: 5px;
+    margin: 0;
+}
+td:not(:nth-child(2)):not(:last-child) .tooltipPos {
+    transform: translateX(-100%);
+    z-index: 1;
+}
+td:last-child .tooltipPos {
+    transform: translateX(-200%);
+    z-index: 1;
+}
+.tooltip:hover .tooltipText[isEmpty="false"]  {
+    display: block;
+}
+
+
+
+
+button {
+    cursor: pointer;
+}
+

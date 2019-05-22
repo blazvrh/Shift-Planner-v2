@@ -45,4 +45,41 @@ async function checkForLoginInfo(inputUserData) {
     }
 }
 
+// preveri login za gosta
+async function checkForLoginInfo_guest(inputUserData) {
+    let conn;
+
+    let loginErrors = { isError: false, msg: "" };
+
+    try {
+        conn = await pool.getConnection();
+        var db_uData = await conn.query("SELECT poslovalnica, previewPassword FROM users WHERE poslovalnica='" + inputUserData.poslovalnica + "'");
+        
+        // če uporabnik ne obstaja
+        if (db_uData.length < 1) {
+            loginErrors = { isError: true, msg: "Ta poslovalnica ne obstaja!"};
+        }
+        // če je ujemanje gesla in uporabniškega imena
+        else if (db_uData[0].previewPassword == inputUserData.passwordGuest) {
+            loginErrors = { 
+                isError: false,
+                msg: "Success",
+                poslovalnica: {
+                    poslovalnica: db_uData[0].poslovalnica
+                }
+            };
+        // geslo in uporabniško ime se ne ujemata
+        } else {
+            loginErrors = { isError: true, msg: "Nepravilna poslovalnica ali geslo!" };
+        }
+
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) conn.end();
+        return loginErrors;
+    }
+}
+
 module.exports.checkForLoginInfo = checkForLoginInfo;
+module.exports.checkForLoginInfo_guest = checkForLoginInfo_guest;
