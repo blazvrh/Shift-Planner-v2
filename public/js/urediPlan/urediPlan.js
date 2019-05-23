@@ -24,11 +24,17 @@ function showMainPageContent () {
     // ker ni argumenta izbere trenuten teden
     izberiCelotenTeden();
 
+    // lisener za prikaži teden btn
+    document.getElementById("btn_showWeek").onclick = function() { btn_createCurrTable(); }
+    // lisener za spremembo tedna btn (-1)
+    document.getElementById("week_reduce").onclick = function() { btn_changeWeekByOne(-1); }
+    // lisener za spremembo tedna btn (+1)
+    document.getElementById("week_increse").onclick = function() { btn_changeWeekByOne(1); }
     // lisener za save btn
     document.getElementById("saveCurrPlan").onclick = function() { btn_save_currPlan(); }
     // lisener za check btn
     document.getElementById("checkCurrPlan").onclick = function() { btn_check_currPlan(); }
-    
+
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
     document.getElementById("mainPageContent").style.display = "initial";
@@ -72,21 +78,32 @@ function btn_check_currPlan () {
         tooltips[i].innerHTML = "";
     }
     
-    // prebermo podatke iz tabele (true pomeni da ignorira vse desno od zvezdice)
-    let currWeekData = get_currPlan_data_workerOriented(true);
+    // prebermo podatke iz tabele 
+    let rawWeekData = get_currPlan_data_workerOriented()
+    // pretvorimo podatke v primeren format
+    let currWeekData = get_currPlan_Worker_dayOriented(rawWeekData);
+
+    // seštejemo in prikažemo seštevek ur v tednu
+    sumAndShow_sestevekUr(currWeekData);
 
     // warning check
     preveri_zaposlen_obstaja(currWeekData);
     preveri_zaposlen_usposobljenost(currWeekData);
+    preveri_prejsnoNedeljo(data.prevWeekData, currWeekData);
+    preveri_prostDan_poDelovniNedelji(data.prevWeekData, currWeekData);
 
-
+    
     // error check
     preveri_cas_prekrivanje(currWeekData);
-    preveri_cas_tedenskiMax(currWeekData);
-    preveri_cas_dnevniMax(currWeekData);
+    preveri_maxCase(currWeekData);
+    preveri_dnevniPocitek(data.prevWeekData, currWeekData);
+
     
     // prikažemo vse napake
     displayErrors(tooltips);
+
+    console.log("Preverjeno!");
+    
 }
 
 

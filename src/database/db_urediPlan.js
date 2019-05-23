@@ -64,8 +64,9 @@ async function save_weeklyPlan (weekInfo, planData, oddelkiDop, oddelkiPop) {
         // če je to prvi vnos
         else {
             let inserted = await conn.query("INSERT INTO tedenskiPlan (poslovalnica, weekNumer, year, " +
-                "mondayDate, weekData, oddelkiDop, oddelkiPop) VALUES (?, ?, ?, ?, ?)",
-                [weekInfo.poslovalnica, weekInfo.weekNum, weekInfo.year, weekInfo.mondayDate, planData, oddelkiDop, oddelkiPop]);
+                "mondayDate, weekData, oddelkiDop, oddelkiPop) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [weekInfo.poslovalnica, weekInfo.weekNum, weekInfo.year, weekInfo.mondayDate, planData, oddelkiDop, 
+                    oddelkiPop]);
             
             if (inserted) {
                 result = { isError: false, msg: "Success" };

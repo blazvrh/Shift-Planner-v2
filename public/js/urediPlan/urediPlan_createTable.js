@@ -23,8 +23,8 @@ function btn_createCurrTable () {
 
     allDataCellElements = document.querySelectorAll("#mainTable td[position]");
     
-
     submitForm_get_trenuenPlan();
+    submitForm_get_lastWeekPlan();
 
     tableZaPlan.style.display = "initial";
 }
@@ -114,10 +114,10 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("list", "imenaZaposlenih");
                     inputElem_name.setAttribute ("class", "imeZap");
 
-                    // če je normalen oddelek dodamo lisener onchange
+                    // če je normalen oddelek dodamo lisener onblur
                     if (smenaData[oddNum].specialOddelek == "") {
                         inputElem_name.onblur = function() {
-                            onChange_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
+                            onBlur_name_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
                                 smenaData[oddNum].odhod)
                         }
                     }
@@ -126,7 +126,6 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("position", xPos + "," + yPos);
                     inputElem_name.setAttribute ("smena", smena);
                     // inputElem_name.setAttribute ("oddelekId", smenaData[oddNum].oddID);
-                    
                     
                     // dodamo v celico za ime in v pod-tabelo
                     var tdNameInp = document.createElement("td");
@@ -147,6 +146,12 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
                             if (i == 0) { element.setAttribute ("class", "startTime"); }
                             else { element.setAttribute ("class", "endTime"); }
+
+                            // auto fill on blur za time
+                            element.onblur = function() {
+                                onBlur_time_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
+                                    smenaData[oddNum].odhod)
+                            }
                             // element.setAttribute ("oddelekId", smenaData[oddNum].oddID);
 
                             tdHourInp.append(element);

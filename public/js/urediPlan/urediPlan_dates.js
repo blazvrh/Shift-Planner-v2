@@ -152,7 +152,6 @@ function check_is_time2inNextDay (time1, time2) {
 
 // izračunamo razliko dveh časov v minutah
 function get_timeDifference_inMinutes_betweenTwoTimes (timeStart, timeEnd) {
-
     let time1_splited = timeStart.split(":");
     let time2_splited = timeEnd.split(":");
 

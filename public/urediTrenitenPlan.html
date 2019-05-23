@@ -81,8 +81,8 @@
                         <th>
                             <table>
                                 <tr>
-                                    <td><button onclick="btn_changeWeekByOne(-1)">&lt;--</button></td>
-                                    <td><button onclick="btn_changeWeekByOne(1)">--&gt;</button></td>
+                                    <td><button id="week_reduce">&lt;--</button></td>
+                                    <td><button id="week_increse">--&gt;</button></td>
                                 </tr>
                             </table>
                         </th>
@@ -102,19 +102,48 @@
                 </table>
                 <br>
                 <p id="loadWeekError" class="error"></p>
-                <button id="btn_showWeek" onclick="btn_createCurrTable()">Prikaži teden!</button>
+                <button id="btn_showWeek">Prikaži teden!</button>
             </div>
 
             <div id="tableZaPlan" style="display: none">
                 <h3><br>Nov plan:</h3>
                 <datalist id="imenaZaposlenih"></datalist>
+                
+                <!-- Glanva tabela -->
+                <div id="creationTable"></div>
+
+                <!-- gumbi -->
                 <p>
                     <button id="checkCurrPlan">Preveri!</button>
                     <button id="saveCurrPlan">Shrani!</button>
                 </p>
-                <!-- Glanva tabela -->
-                <div id="creationTable"></div>
 
+                <!-- Tabela z seštevkom ur -->
+                <div id="hoursTotalDiv">
+                    <h3>Seštevek ur</h3>
+                    <table>
+                        <head>
+                            <th>Ponedeljek</th>
+                            <th>Torek</th>
+                            <th>Sreda</th>
+                            <th>Četrtek</th>
+                            <th>Petek</th>
+                            <th>Sobota</th>
+                            <th>Nedelja</th>
+                            <th>Skupaj</th>
+                        </head>
+                        <tbody>
+                            <td id="hours1">0</td>
+                            <td id="hours2">0</td>
+                            <td id="hours3">0</td>
+                            <td id="hours4">0</td>
+                            <td id="hours5">0</td>
+                            <td id="hours6">0</td>
+                            <td id="hours7">0</td>
+                            <td id="hoursTotal">0</td>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -134,6 +163,7 @@
         <script src="js/urediPlan/urediPlan_objMang.js" type="text/javascript"></script>
         <script src="js/urediPlan/urediPlan_dbComm.js" type="text/javascript"></script>
         
+        <script src="js/urediPlan/urediPlan_hoursSum.js" type="text/javascript"></script>
         <script src="js/urediPlan/urediPlan_checkWarnings.js" type="text/javascript"></script>
         <script src="js/urediPlan/urediPlan_checkErrors.js" type="text/javascript"></script>
 

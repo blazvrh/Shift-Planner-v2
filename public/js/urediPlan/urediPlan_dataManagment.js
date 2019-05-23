@@ -40,24 +40,12 @@ function get_currPlan_data_dayOriented (workerOrientedData) {
 }
 
 // worker oriented data of the week
-function get_currPlan_data_workerOriented (stripNameBool) {
-    if (stripNameBool == null) stripNameBool = false;
+function get_currPlan_data_workerOriented () {
     let weekData = { };
 
     for (let i = 0; i < allDataCellElements.length; i++) {
         let inputs = allDataCellElements[i].querySelectorAll("input");
         let valName = inputs[0].value;
-
-        // odstrani presledke na začetku in na koncu ter pobriše vse kar je desno od "*" zvezdice
-        // samo če je stripNameBool = true -> pri preverjanju pravil
-        if (stripNameBool) {
-            let zvezdicaPos = valName.indexOf("*");
-
-            if (zvezdicaPos >= 0) {
-                valName = valName.substring(0,zvezdicaPos);
-            }
-            valName = valName.trim();                
-        }
 
         // če ni imena, skoči na naslednjega
         if (valName == "") continue;
@@ -99,21 +87,35 @@ function get_currPlan_data_workerOriented (stripNameBool) {
 }
 
 // pretvori celoten zapis zaposlenega v dnevni zapis
-function get_currPlan_worker_dayOriented (workerData) {
-    let dayOrientedWorkerData = {};
+function get_currPlan_Worker_dayOriented (weekData) {
+    let workerOrientedWeekData = { };
+    let workerNames = Object.keys(weekData);
 
-    allKeys = Object.keys(workerData);
+    workerNames.forEach(name => {
+        // ustvarimo originalno ime, brez presledkov in odstranimo vse desno od zvezdice
+        let originalName = name;
+        let zvezdicaPos = originalName.indexOf("*");
 
-    allKeys.forEach(key => {
-        let cellData = workerData[key];
-        let dayIndex = cellData.dayIndex;
-
-        if(!(dayIndex in dayOrientedWorkerData)) {
-            dayOrientedWorkerData[dayIndex] = [];
+        if (zvezdicaPos >= 0) {
+            originalName = originalName.substring(0,zvezdicaPos);
         }
-
-        dayOrientedWorkerData[dayIndex].push(cellData);
+        originalName = originalName.trim();
+        if (originalName == "") return;
+        let nameLowerCase = originalName.toLowerCase();
+        
+        if (!workerOrientedWeekData[nameLowerCase]) {
+            workerOrientedWeekData[nameLowerCase] = { 
+                1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []
+            }
+        }
+        
+        for (let i = 0; i < weekData[name].length; i++) {
+            let cellData = weekData[name][i];
+            cellData.originalName = originalName;
+            let dayIndex = cellData.dayIndex;
+            workerOrientedWeekData[nameLowerCase][dayIndex].push(cellData);
+        }
     });
 
-    return dayOrientedWorkerData;
+    return workerOrientedWeekData;
 }

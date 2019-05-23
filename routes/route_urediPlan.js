@@ -20,15 +20,6 @@ router.post('/get', async function (req, res) {
 });
 
 
-// router.post('/remove', async function (req, res) { 
-//     if (!req.body) return res.sendStatus(400);
-
-//     const zapInfo = await db_zaposleni.remove_Zaposlenega(req.body);
-
-    // res.send(zapInfo);
-// });
-
-
 // shrani tedenski plan
 router.post('/save', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
@@ -40,6 +31,8 @@ router.post('/save', async function (req, res) {
     var palnData = weekInfo.tableData;
     var oddelkiDop = weekInfo.oddelkiDop;
     var oddelkiPop = weekInfo.oddelkiPop;
+    // var oddelkiDop = JSON.parse(weekInfo.oddelkiDop);
+    // var oddelkiPop = JSON.parse(weekInfo.oddelkiPop);
 
     // validate data
     const validateErrors = validate_weekData.validate_weekData(weekInfo);

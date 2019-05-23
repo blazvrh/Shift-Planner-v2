@@ -151,10 +151,51 @@ function submitForm_get_trenuenPlan() {
     formData.append("weekNum", currDateData.selectedWeekNumber);
     formData.append("year", currDateData.selectedMondayDate.getFullYear());
     
-    
     xhr.send(formData);
 }
 
+
+// pridobimo podatke o prejšnem tednu
+function submitForm_get_lastWeekPlan() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/urediTrenutenPlan/get");
+    xhr.responseType = 'json';
+
+    xhr.onload = function(event) {
+        let serverRes = event.target.response;
+        
+        // če je prišlo do napake, izpiši napako
+        if (serverRes.isError) {
+           // če je error zaradi nobenega vnosa
+           if (serverRes.weekData == null) {
+               // ni podatka za ta teden; pošljemo prazen objekt
+               data.prevWeekData = null;
+            }
+            // če je kak drugačen error
+            else {
+                console.log(serverRes.msg);
+                console.log("IZPIŠI ERROR UPORABNIKU");
+            }
+            return;
+        }
+        else {
+            let prevWeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.weekData.weekData));
+
+            data.prevWeekData = prevWeekData;
+        }
+    }; 
+
+    var formData = new FormData ();
+
+    let lastMondayDate = new Date(currDateData.selectedMondayDate);
+    lastMondayDate.setDate(lastMondayDate.getDate() - 7);
+
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("weekNum", get_weekNumber_fromDate(lastMondayDate));
+    formData.append("year", lastMondayDate.getFullYear());
+    
+    xhr.send(formData);
+}
 
 // shrani trenutni plan
 function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData) {

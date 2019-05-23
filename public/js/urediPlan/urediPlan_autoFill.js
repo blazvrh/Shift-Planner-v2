@@ -1,7 +1,7 @@
 
-
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
-function onChange_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
+// on name input blur
+function onBlur_name_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
     let inp_txt_position = inp_txt.getAttribute("position");
     let smena = inp_txt.getAttribute("smena");
     
@@ -21,4 +21,34 @@ function onChange_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
             inp_endTime.value = endTime;
         }
     }
+    
+    // seštejemo in prikažemo seštevek ur v tednu
+    let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
+    sumAndShow_sestevekUr(currWeekData);
+}
+
+// nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
+// on time input blur
+function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
+    let position = inp_timeEl.getAttribute("position");
+    let smena = inp_timeEl.getAttribute("smena");
+    
+    let txt_input = document.querySelector("input[type='text'][position='" + position + 
+        "'][smena='" + smena + "']");
+
+    if (txt_input.value != "" && txt_input.value.substring(0,1) != "*" && inp_timeEl.value === "") {
+        let timeType = inp_timeEl.className;
+
+        if(timeType === "startTime") {
+            inp_timeEl.value = startTime;
+        } else if (timeType === "endTime") {
+            inp_timeEl.value = endTime;
+        }
+    } else if (txt_input.value === "" || txt_input.value.substring(0,1) === "*") {
+        inp_timeEl.value = "";
+    }
+
+    // seštejemo in prikažemo seštevek ur v tednu
+    let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
+    sumAndShow_sestevekUr(currWeekData);
 }
