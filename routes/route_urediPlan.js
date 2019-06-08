@@ -14,7 +14,19 @@ const validate_weekData = require("../src/validation/validate_urediPlan");
 router.post('/get', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
     
-    const weekData = await db_weekData.get_weeklyPlan(req.body.poslovalnica, req.body.weekNum, req.body.year);
+    let weekData = await db_weekData.get_weeklyPlan(req.body.poslovalnica, req.body.weekNum, req.body.year);
+    
+    // pridobimo še nedeljo iz prejšnjega tedna
+    if (req.body.getPrevSunday != null && weekData.weekData != null) {
+        // zmanjšamo weekNum za 1
+        let prevWeekNum = (Number.parseInt(req.body.weekNum) - 1).toString();
+        
+        // pridobimo iz data baze
+        const prevWeekData = await db_weekData.get_weeklyPlan(req.body.poslovalnica, prevWeekNum, req.body.year);
+
+        // pripnemo podatke prejšnjega tedna - nedeljo izluščimo na frontEndu
+        weekData.prevWeekData = prevWeekData.weekData;
+    }
 
     res.send(weekData);
 });

@@ -3,6 +3,8 @@ var data = { };
 var allErrors = { warnings:[], errors:[] }
 var allDataCellElements;
 
+var dnevniPocitek = 11; // potreben minimalni dnevni počitek v urah
+
 // pridobimo podatke ko se stran laoži
 window.addEventListener('load', () => {
     if (userData) { 
@@ -15,7 +17,6 @@ function error_onTableShow (msg) {
 
     if (msg != "") {
         window.location.href ="#loadWeekError";
-        
     }
 }
 
@@ -34,6 +35,8 @@ function showMainPageContent () {
     document.getElementById("saveCurrPlan").onclick = function() { btn_save_currPlan(); }
     // lisener za check btn
     document.getElementById("checkCurrPlan").onclick = function() { btn_check_currPlan(); }
+    // lisener za clear all inputs
+    document.getElementById("clearAllInputs").onclick = function() { btn_clear_WeekInputs(); }
 
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
@@ -67,6 +70,17 @@ function btn_save_currPlan () {
     submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData);
 }
 
+// počisti vse inpute v tem tednu
+function btn_clear_WeekInputs () {
+    for (let i = 0; i < allDataCellElements.length; i++) {
+        let inputs = allDataCellElements[i].querySelectorAll("input");
+        
+        for (let j = 0; j < inputs.length; j++) {
+            inputs[j].value = "";
+        }
+    }
+}
+
 // preveri trenuten plan ....
 function btn_check_currPlan () {
     allErrors = { warnings:[], errors:[] }
@@ -90,14 +104,16 @@ function btn_check_currPlan () {
     preveri_zaposlen_obstaja(currWeekData);
     preveri_zaposlen_usposobljenost(currWeekData);
     preveri_prejsnoNedeljo(data.prevWeekData, currWeekData);
-    preveri_prostDan_poDelovniNedelji(data.prevWeekData, currWeekData);
-
+    preveri_tedenskiPocitek_zaPrejsnjoNedeljo(data.prevWeekData, currWeekData);
+    
     
     // error check
     preveri_cas_prekrivanje(currWeekData);
     preveri_maxCase(currWeekData);
+    preveri_prostDan_poDelovniNedelji(data.prevWeekData, currWeekData);
     preveri_dnevniPocitek(data.prevWeekData, currWeekData);
-
+    preveri_dvoTedenskiPocitek(data.prevWeekData, currWeekData);
+    preveri_prepovedDeljenegaDela(currWeekData);
     
     // prikažemo vse napake
     displayErrors(tooltips);
@@ -108,8 +124,8 @@ function btn_check_currPlan () {
 
 
 function displayErrors (tooltips) {
-    // pobrišemo bg color
-    clear_backgroundColor();
+    // pobriše indexe errorjev in warningov
+    clearWarnErrorIndexes();
 
     // gremo čez vse tooltipe
     for (let i = 0; i < tooltips.length; i++) {
@@ -127,22 +143,20 @@ function displayErrors (tooltips) {
             }
             errorMsgHtml += "</div>"
             tooltips[i].innerHTML = errorMsgHtml;
-            let tdNode = tooltips[i].parentNode.parentNode;
-            tdNode.classList.add("toolTipError");
+            
+            // prikaže index za error
+            let errIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='error']")[0];
+            errIndex.innerHTML = "<p>" + posErrors.length.toString() + "</p>";
+            errIndex.className = "show";
         }
 
         // preverimo če je warning za ta tooltip
         if (fullPos in allErrors.warnings) {
-            // if (tooltips[i].innerHTML != "") {
-            //     tooltips[i].innerHTML += "<br><br>"
-            // }
-            // tooltips[i].innerHTML += "<span class='tooltipTitle'>Opozorila:</span>"
-            
             let warningMsgHtml = "<div class = warningInTooltip><span class='tooltipTitle'>Opozorila:</span>"
             let posWarnings = allErrors.warnings[fullPos];
+
             // izpišemo vse warninge za to pozicijo
             for (let keyIndex = 0; keyIndex < posWarnings.length; keyIndex++) {
-                
                 // tooltips[i].innerHTML += posWarnings[keyIndex];
                 warningMsgHtml += "<p>" + posWarnings[keyIndex] + "</p>";
                 tooltips[i].setAttribute("isEmpty", "false");   
@@ -150,17 +164,19 @@ function displayErrors (tooltips) {
             warningMsgHtml += "</div>"
             tooltips[i].innerHTML += warningMsgHtml;
 
-            let tdNode = tooltips[i].parentNode.parentNode;
-            tdNode.classList.add("toolTipWarning");
+            // prikaže index za error
+            let warnIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='warning']")[0];
+            warnIndex.innerHTML = "<p>" + posWarnings.length.toString() + "</p>";
+            warnIndex.className = "show";
         }
     }
 }
 
-// izbriše class ki da bg color
-function clear_backgroundColor () {
-    for (let i = 0; i < allDataCellElements.length; i++) {
-        allDataCellElements[i].classList.remove("toolTipError");
-        allDataCellElements[i].classList.remove("toolTipWarning");
+// pobriše indexe errorjev in warningov
+function clearWarnErrorIndexes () {
+    allIndexes = document.querySelectorAll("div[indextype]");
+    for (let i = 0; i < allIndexes.length; i++) {
+        allIndexes[i].className = "hide";
     }
 }
 

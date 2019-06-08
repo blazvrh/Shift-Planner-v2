@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- css files -->
     <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
+    <link rel="stylesheet" href="css/predogledPlana.css" type="text/css">
     <title>Plan dela - Predogled trenutnega plana</title>
 </head>
 <body>
@@ -77,11 +78,49 @@
         </div>
     </div>
 
-
     
     <div id="restOfBody" style="display: none">
-        <h1>Predogled plana</h1>
+        <h2>Predogled shranjenega plana</h2>
+
+        <div>
+            <div id="izberiTeden">
+                <!-- <h3>Izberite teden:</h3> -->
+                <table>
+                    <tr>
+                        <th>Izbran teden: </th>
+                        <th><input type="date" id="inp_izberiDatum" max="9999-12-31"></th>
+                        <th>
+                            <table>
+                                <tr>
+                                    <td><button id="week_reduce">&lt;--</button></td>
+                                    <td><button id="week_increse">--&gt;</button></td>
+                                </tr>
+                            </table>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>Od:</td>
+                        <td>Do:</td>
+                        <td>Št. tedna</td>
+                    </tr>
+                    <tr>
+                        <td id="datum_zacetek"></td>
+                        <td id="datum_konec"></td>
+                        <td id="txt_stTedna"></td>
+                    </tr>
+                </table>
+                <br>
+                <!-- <p id="loadWeekError" class="error"></p> -->
+                <button id="btn_showWeek">Prikaži teden!</button>
+            </div>
+
+            <hr>
+
+            <div id="planDelaIzbranTedenDiv"></div>
+        </div>
     </div>
+
+
     <footer>
         Kontakt: krhodev@gmail.com <br>
         Created by KrHo and Simc; CopyRight 2019
@@ -89,6 +128,13 @@
         <!-- java scripts -->
         <script src="js/loginCheck_predogled.js" type="text/javascript"></script>
         <script src="js/loginRegister/login.js" type="text/javascript"></script>
+
+        <script src="js/dates.js" type="text/javascript"></script>
+
+        <script src="js/predogledPlana/predogledPlana_tableCreation.js" type="text/javascript"></script>
+        <script src="js/predogledPlana/predogledPlana_dbComm.js" type="text/javascript"></script>
+        <script src="js/predogledPlana/predogledPlana.js" type="text/javascript"></script>
+        
     </footer>
 </body>
 </html>

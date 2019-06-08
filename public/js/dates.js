@@ -14,7 +14,6 @@ function btn_changeWeekByOne (mulitplier) {
     izberiCelotenTeden(datum);
 }
 
-
 // iz podanega datuma poišče ponedljek in nedeljo ter št. tedna
 function izberiCelotenTeden (date) {
 
@@ -30,7 +29,7 @@ function izberiCelotenTeden (date) {
     }
     
     let dayOfWeek = currDate.getDay();
-    if (dayOfWeek == 0) dayOfWeek = 6;
+    if (dayOfWeek == 0) dayOfWeek = 7;
     
     let weekNumber = get_weekNumber_fromDate(currDate);
     
@@ -103,13 +102,13 @@ function get_dayOfWeek_fromDate (date) {
     return dayOfWeek;
 }
 
-// pridobimo datum dneva v tednu s katerim delamo na planu
-function get_DateOfweekDay (dayNum) {
-    let newDate = new Date(currDateData.workingMondayDate);
-    newDate.setDate(newDate.getDate() + dayNum);
+// // pridobimo datum dneva v tednu s katerim delamo na planu
+// function get_DateOfweekDay (dayNum) {
+//     let newDate = new Date(currDateData.workingMondayDate);
+//     newDate.setDate(newDate.getDate() + dayNum);
 
-    return convertDateToString(newDate);
-}
+//     return convertDateToString(newDate);
+// }
 
 // primerja 2 časa; če je čas 1 večji od časa 2 vrne true
 function compare_times_is_time1_greaterThan_time2 (time1, time2, time1InNextDay) {

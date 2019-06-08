@@ -180,7 +180,24 @@ function submitForm_get_lastWeekPlan() {
         }
         else {
             let prevWeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.weekData.weekData));
+            // pridobimo še nedeljo pred tem
+            if (serverRes.prevWeekData != null) {
+                let prev2WeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.prevWeekData.weekData));
+                
+                let prev2Names = Object.keys(prev2WeekData);
+                prev2Names.forEach(name => {
+                    if (prev2WeekData[name][7].length > 0 && prevWeekData[name] != null) {
+                        prevWeekData[name][0] = prev2WeekData[name][7];
 
+                        // popravimo day index na 0
+                        const keys = Object.keys(prevWeekData[name][0]);
+                        keys.forEach(key => {
+                            prevWeekData[name][0][key].dayIndex = "0"; 
+                        });
+                    }
+                });
+            }
+                
             data.prevWeekData = prevWeekData;
         }
     }; 
@@ -193,6 +210,7 @@ function submitForm_get_lastWeekPlan() {
     formData.append("poslovalnica", userData.poslovalnica);
     formData.append("weekNum", get_weekNumber_fromDate(lastMondayDate));
     formData.append("year", lastMondayDate.getFullYear());
+    formData.append("getPrevSunday", "true");
     
     xhr.send(formData);
 }

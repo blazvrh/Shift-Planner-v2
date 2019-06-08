@@ -63,8 +63,6 @@ function ustvariHeader () {
             subTable.append(thDataDate);
         }
         let tdHead = document.createElement("td");
-        // tdHead.setAttribute("id", "headTd" + i);
-        // tdHead.setAttribute("class", "headerTd");
         tdHead.append(subTable);
         rowHeader.append(tdHead);
     }
@@ -127,8 +125,28 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("smena", smena);
                     // inputElem_name.setAttribute ("oddelekId", smenaData[oddNum].oddID);
                     
+                    // ustvarimo error in warning index
+                    let warnIndex = document.createElement("div");
+                    warnIndex.setAttribute("fullPosition", xPos + "," + yPos + "," + smena);
+                    warnIndex.setAttribute("indexType", "warning");
+                    warnIndex.classList.add("hide");
+                    // warnIndex.innerHTML = "<p>12</p>"
+                    
+                    let errIndex = document.createElement("div");
+                    errIndex.setAttribute("fullPosition", xPos + "," + yPos + "," + smena);
+                    errIndex.setAttribute("indexType", "error");
+                    errIndex.classList.add("hide");
+                    // errIndex.innerHTML = "<p>3</p>"
+
+                    let indexContenier = document.createElement("div");
+                    indexContenier.className = "errWarnIndexConteiner";
+                    indexContenier.append(warnIndex);
+                    indexContenier.append(errIndex);
                     // dodamo v celico za ime in v pod-tabelo
                     var tdNameInp = document.createElement("td");
+                    // tdNameInp.append(warnIndex);
+                    // tdNameInp.append(errIndex);
+                    tdNameInp.append(indexContenier);
                     tdNameInp.append(inputElem_name);
                     subTable.append(tdNameInp);
 
