@@ -1,9 +1,29 @@
 /* Logo img */
-.logoImg {
+/* .logoImg {
     width: 175px;
     height: auto;
     background-color: white;
     position: absolute;
     right: 6px;
     top: 15px;
+} */
+
+article {
+    background-color: rgb(240, 240, 240);
+    padding-bottom: 3px;
+}
+article h2 {
+    background-color: rgb(220, 220, 240);
+    padding: 5px 20px;
+}
+article h3 {
+    background-color: rgb(230, 230, 240);
+    padding: 5px 20px;
+}
+article p {
+    font-size: 18px;
+    padding: 0 15px;
+}
+article ul li {
+    padding: 5px;
 }
