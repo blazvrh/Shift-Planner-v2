@@ -158,6 +158,7 @@ function preveri_maxCase (weekData) {
 // preverimo dnevni počitek
 ///
 function preveri_dnevniPocitek (prevWeekData, currWeekData) {
+    
     let nameKeys = Object.keys(currWeekData);
     nameKeys.forEach(name => {
         // najprej preverimo ponedeljek, ker je poseben ... potrebuje podatke iz prejšnjega tedna
@@ -166,7 +167,7 @@ function preveri_dnevniPocitek (prevWeekData, currWeekData) {
         let maxEndTime = "";
 
         // poiščemo minimalni začetni čas za osebo v ponedeljku; samo če dela tudi prejšnjo nedeljo
-        if (prevWeekData[name] != null) {
+        if (prevWeekData !== null && prevWeekData[name] != null) {
             for (let i = 0; i < currWeekData[name][1].length; i++) {
                 let cell = currWeekData[name][1][i];
                 if (isSpecialOddelek(cell)) continue;
@@ -449,6 +450,8 @@ function preveri_prostDan_poDelovniNedelji (prevWeekData, currWeekData) {
 // če v prejšnjem tednu ni bil zagotovljen tedenski počitek, potrebuje v tem tednu 2 dni.
 ///
 function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
+    // če ni podatka za prejšnji teden končaj
+    if (prevWeekData === null || Object.keys(prevWeekData).length < 1) return;
 
     // imena v obeh tednih
     const prevWeekNames = Object.keys(prevWeekData);
@@ -629,10 +632,6 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         return freeDaysNum_currWeek;
     }
 
-
-
-
-    
     currWeekNames.forEach(name => {
         const prevWeekFreeDays = get_steviloProstihDni_PrejsniTeden(name) + get_LastSundayFreeDay(name);
         const currWeekFreeDays = get_steviloProstihDni_trenutenTeden(name);
@@ -669,7 +668,6 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
 // preveri prepoved deljenega dela za osebe z 4h/dan ali manj
 ///
 function preveri_prepovedDeljenegaDela (weekData) {
-
     const names = Object.keys(weekData);
     let errorCells = [];
     

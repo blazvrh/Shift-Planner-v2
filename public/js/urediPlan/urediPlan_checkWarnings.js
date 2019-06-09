@@ -141,6 +141,8 @@ function preveri_prejsnoNedeljo (prevWeekData, currWeekData) {
 // če je bil prejšnjo nedeljo prost, preveri če je tedenski počitek prisoten (35 prostih ur od sobote do ponedeljka)
 ///
 function preveri_tedenskiPocitek_zaPrejsnjoNedeljo (prevWeekData, currWeekData) {
+    // če ni podatka za prejšnji teden končaj
+    if (prevWeekData === null || Object.keys(prevWeekData).length < 1) return;
 
     const currWeekNames = Object.keys(currWeekData);
     const prevWeekNames = Object.keys(prevWeekData);

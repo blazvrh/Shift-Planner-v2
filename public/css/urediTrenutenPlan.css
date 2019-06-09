@@ -1,3 +1,44 @@
+
+h2 {
+    text-align: center;
+    padding-top: 17px;
+}
+
+/* izberi teden tabelca */
+#izberiTeden {
+    text-align: center;
+    margin: auto;
+    
+    background-color: rgb(240, 240, 240);
+    padding: 10px 0;
+    margin: 3px;
+}
+#izberiTeden table {
+    text-align:center;
+    margin: auto;
+    font-size: 18px;
+}
+#izberiTeden input {
+    height: 20px;
+    font-size: 18px;
+}
+#week_increse,
+#week_reduce {
+    height: auto;
+    font-size: 18px;
+    cursor: pointer;
+}
+#btn_showWeek {
+    font-size: 20px;
+    height: 30px;
+    width: 175px;
+}
+#izberiTeden {
+    padding-bottom: 25px;
+}
+
+
+
 #mainTable table {
     width: 100%
 }
@@ -15,12 +56,22 @@
     padding-right: 3px;
 }
 #mainTable input[type="text"] {
-    width: 110px;
+    overflow: hidden;
+    width: 97%;
+    max-width: 140px;
+    padding: 1%;
+}
+#mainTable input[type="text"].specialOddelek {
+    position: relative;
+    overflow: hidden;
+    max-width: 300px;
 }
 #mainTable td {
     vertical-align: middle;
     text-align: center;
     position: relative;
+    padding: 2px;
+    margin: 0;
 }
 #mainTable .rowOfOddelek {
     border-right: 1px dotted grey;
@@ -45,26 +96,6 @@ input[type="time"] {
 #mainTable tr:hover {
     background-color: rgb(230, 230, 230);
 }
-/* .mainTable .mainTableRow td:first-child {
-    border-right: 2px solid black;
-} */
-
-/* td {
-    border-bottom: 1px solid black;
-    border-right: 1px dotted grey;
-    vertical-align: middle;
-    width: auto;
-} */
-/* th {
-    border-bottom: 4px double black;
-    
-} */
-
-/* td:nth-child(2n + 1), th:nth-child(2n + 1) {
-    border-right: 1px solid gray;
-    
-} */
-
 
 input[type="text"]::-webkit-calendar-picker-indicator {
     display: none;
@@ -193,4 +224,18 @@ div[indexType] p {
 
 button {
     cursor: pointer;
+}
+
+#tableZaPlan p {
+    text-align: center;
+}
+#tableZaPlan button {
+    font-size: 20px;
+    height: 30px;
+    width: 150px;
+    margin: 15px 30px;
+}
+
+#clearAllInputs {
+    width: 250px !important;
 }

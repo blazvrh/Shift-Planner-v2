@@ -12,6 +12,14 @@ function validate_oddelekAdd (oddData) {
                 required: "Poslovalnica mora biti prisotna! Potrebna prijava?"
             }
         },
+        positionForUser: {
+            type: Number,
+            required: true,
+            message: {
+                type: "Polozaj mora biti \"number\".",
+                required: "Polozaj mora biti prisoten!"
+            }
+        },
         imeOddelka: {
             type: String,
             required: true,
@@ -74,6 +82,14 @@ function validate_oddelekUpdate (oddData) {
                 required: "ID mora biti prisoten!"
             }
         },
+        positionForUser: {
+            type: Number,
+            required: true,
+            message: {
+                type: "Polozaj mora biti \"number\".",
+                required: "Polozaj mora biti prisoten!"
+            }
+        },
         poslovalnica: {
             type: String,
             required: true,
@@ -124,11 +140,6 @@ function validate_oddelekUpdate (oddData) {
     
     return errors = oddelek1.validate(oddData);
 }
-
-
-
-
-
 
 
 module.exports.validate_oddelekAdd = validate_oddelekAdd;

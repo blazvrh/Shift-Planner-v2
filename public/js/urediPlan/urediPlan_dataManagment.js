@@ -119,3 +119,32 @@ function get_currPlan_Worker_dayOriented (weekData) {
 
     return workerOrientedWeekData;
 }
+
+// ustvarimo objekt z podatki o nedelji (mesec, teden, delavci)
+function get_sundayData(tableData) {
+    
+
+    let sundayDate = new Date(currDateData.workingMondayDate);
+    sundayDate.setDate(sundayDate.getDate() + 6);
+
+    let sundayData = {
+        month: sundayDate.getMonth(),
+        weekNumber: currDateData.workingWeekNumber,
+        workers: []
+    };
+
+    const names = Object.keys(tableData);
+    names.forEach(name => {
+        for(let i = 0; i < tableData[name].length; i++) {
+            if (tableData[name][i].dayIndex !== "7" || isSpecialOddelek(tableData[name][i])) {
+                continue;
+            }
+
+            try {
+                sundayData.workers.push(data.zaposleni[name.toLowerCase()].prikazanoImeZap);
+            } catch (e) { return; }
+        }
+    });
+
+    return sundayData;
+}

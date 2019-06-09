@@ -68,13 +68,23 @@ function checkEditValues (oddelekId) {
     let tableRow = document.getElementById(oddelekId);
     
     edit_inputFields_oddelki.oddID = oddelekId;
-    edit_inputFields_oddelki.imeOddEdit = tableRow.getElementsByTagName("td")[0].getElementsByTagName("input")[0];
-    edit_inputFields_oddelki.stVrsticEdit = tableRow.getElementsByTagName("td")[3].getElementsByTagName("input")[0];
-    edit_inputFields_oddelki.prihodEdit = tableRow.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
-    edit_inputFields_oddelki.odhodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
-    edit_inputFields_oddelki.posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
+    edit_inputFields_oddelki.positionForUser = tableRow.getElementsByTagName("td")[0].getElementsByTagName("input")[0];
+    edit_inputFields_oddelki.imeOddEdit = tableRow.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
+    edit_inputFields_oddelki.stVrsticEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("input")[0];
+    edit_inputFields_oddelki.prihodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
+    edit_inputFields_oddelki.odhodEdit = tableRow.getElementsByTagName("td")[3].getElementsByTagName("input")[0];
+    edit_inputFields_oddelki.posebnostEdit = tableRow.getElementsByTagName("td")[5].getElementsByTagName("select")[0];
     
-    if (edit_inputFields_oddelki.imeOddEdit.value == ""){
+    if (edit_inputFields_oddelki.positionForUser.value === "") {
+        onTableErrorOddelki("Prosim vnesite položaj oddelka!");
+        edit_inputFields_oddelki.positionForUser.focus();
+        return false;
+    } else if (parseInt(edit_inputFields_oddelki.positionForUser.value) < 1) {
+        onTableErrorOddelki("Položaj za oddelek mora biti pozitivna vrednost!");
+        edit_inputFields_oddelki.positionForUser.focus();
+        return false;
+    }
+    else if (edit_inputFields_oddelki.imeOddEdit.value == ""){
         onTableErrorOddelki("Prosim vnesite ime oddelka!");
         edit_inputFields_oddelki.imeOddEdit.focus();
         return false;
@@ -82,8 +92,7 @@ function checkEditValues (oddelekId) {
         onTableErrorOddelki("Prosim vnesite št. vrstic za ta oddelek!");
         edit_inputFields_oddelki.stVrsticEdit.focus();
         return false;
-    } else if (parseInt(edit_inputFields_oddelki.stVrsticEdit.value) < 1)
-    {
+    } else if (parseInt(edit_inputFields_oddelki.stVrsticEdit.value) < 1) {
         onTableErrorOddelki("Št. vrstic za oddelek mora biti pozitivna vrednost!");
         edit_inputFields_oddelki.stVrsticEdit.focus();
         return false;
@@ -112,6 +121,6 @@ function checkEditValues (oddelekId) {
         edit_inputFields_oddelki.prihodEdit.value = "";
         edit_inputFields_oddelki.odhodEdit.value = "";
     }
-    
+
     return true;
 }

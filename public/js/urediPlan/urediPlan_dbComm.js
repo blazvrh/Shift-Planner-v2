@@ -41,8 +41,8 @@ function submitForm_oddelekGet() {
             sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
             sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
 
-            data.oddelki_dopoldne = dopOddleki;
-            data.oddelki_popoldne = popOddleki;
+            data.oddelki_dopoldne = dopOddleki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1);
+            data.oddelki_popoldne = popOddleki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1);
             data.oddById = oddById;
             document.getElementById("btn_showWeek").style.display = "initital";
         }
@@ -216,7 +216,7 @@ function submitForm_get_lastWeekPlan() {
 }
 
 // shrani trenutni plan
-function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData) {
+function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/urediTrenutenPlan/save"); 
     xhr.responseType = 'json';
@@ -248,6 +248,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData) {
     formData.append("year", year);
     formData.append("mondayDate", mondayDate);
     formData.append("tableData", JSON.stringify(tableData));
+    formData.append("sundayData", sundayData);
 
     xhr.send(formData);
 }

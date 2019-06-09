@@ -18,8 +18,7 @@ function updateTableOddelki (vsiOddelki) {
 
     TableDop.appendChild(createHeaderRow());
     TablePop.appendChild(createHeaderRow());
-
-
+    
     vsiOddelki.forEach(element => {
         newRow = createTableRow(element);
         if (element.smena == "dopoldne") {
@@ -43,7 +42,7 @@ function updateTableOddelki (vsiOddelki) {
 // ustvari header za tabelo
 function createHeaderRow () {
     trEl = document.createElement("tr");
-    textElements = ["Oddelek:", "Čas prihoda:", "Čas odhoda:", "Št. vrstic", "Posebnost:", "Urejanje:", "Brisanje"]
+    textElements = ["Položaj:", "Oddelek:", "Čas prihoda:", "Čas odhoda:", "Št. vrstic", "Posebnost:", "Urejanje:", "Brisanje!"]
 
     for (let i = 0; i < textElements.length; i++) {
         let thEl = document.createElement("th");
@@ -55,9 +54,9 @@ function createHeaderRow () {
 
 // ustvari posamezno vrstico za tabelo
 function createTableRow (rowData) {
-    const tableDataTxts = [rowData.imeOddelka, rowData.prihod, rowData.odhod, rowData.stVrsticOddelka, 
+    const tableDataTxts = [rowData.positionForUser, rowData.imeOddelka, rowData.prihod, rowData.odhod, rowData.stVrsticOddelka, 
         rowData.specialOddelek];
-    const tableDataId = ["text", "time", "time", "number", "select"]
+    const tableDataId = ["index", "text", "time", "time", "number", "select"]
 
     trEl = document.createElement("tr");
     trEl.setAttribute("id", String(rowData.oddID));
@@ -151,6 +150,14 @@ function createEditRow_oddelki (oddelekId) {
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 
+        else if (tdID === "index") {
+            let inputElement = document.createElement("input");
+            inputElement.setAttribute("type", "number");
+            inputElement.value = editingTd[i].innerText;
+            inputElement.setAttribute("min", "0");
+            editingTd[i].innerHTML = "";
+            editingTd[i].append(inputElement);
+        }
         // ustvarimo preostale input elemente
         else if (tdID != "") {
             let inputElement = document.createElement("input");
@@ -168,4 +175,5 @@ function createEditRow_oddelki (oddelekId) {
             editingTd[i].append(inputElement);
         }
     }
+    
 }

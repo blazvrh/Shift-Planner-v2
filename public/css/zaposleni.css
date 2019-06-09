@@ -125,6 +125,17 @@ tr:hover .Da {
     font-size: 14px;
 }
 
+#seznamZaposlenihDiv label.niUsposobljen:hover {
+    color:red;
+    background-color: rgb(170, 170, 170);
+}
+#seznamZaposlenihDiv label.jeUsposobljen:hover {
+    color:green;
+    background-color: rgb(190, 190, 190);
+}
+#seznamZaposlenihDiv label:hover {
+}
+
 .error {
     background-color: rgb(245, 200, 200);
     color: darkred;

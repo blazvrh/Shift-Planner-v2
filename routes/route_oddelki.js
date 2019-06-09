@@ -13,8 +13,9 @@ const validate_oddelek = require("../src/validation/validate_oddelek");
 router.post('/add', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
 
-    const oddelekInfo = req.body;
+    var oddelekInfo = req.body;
     oddelekInfo.stVrsticOddelka = Number.parseInt(oddelekInfo.stVrsticOddelka);
+    oddelekInfo.positionForUser = Number.parseInt(oddelekInfo.positionForUser);
     
     // validate data
     const validateErrors = validate_oddelek.validate_oddelekAdd(oddelekInfo);
@@ -56,13 +57,17 @@ router.post('/remove', async function (req, res) {
 router.post('/update', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
 
-    const oddelekInfo = req.body;
+    var oddelekInfo = req.body;
     
     oddelekInfo.stVrsticOddelka = Number.parseInt(oddelekInfo.stVrsticOddelka);
     oddelekInfo.oddID = Number.parseInt(oddelekInfo.oddID);
+    oddelekInfo.positionForUser = Number.parseInt(oddelekInfo.positionForUser);
+    
+    const maxIndexes = JSON.parse(oddelekInfo.maxIndexes);
     
     // validate data
     const validateErrors = validate_oddelek.validate_oddelekUpdate(oddelekInfo);
+    
     if (validateErrors.length > 0) {
         let errorMsg = "";
         validateErrors.forEach(element => {
@@ -77,7 +82,7 @@ router.post('/update', async function (req, res) {
     }
     
     // save to database 
-    let insertError = await db_oddelki.update_newOddelek(oddelekInfo);
+    let insertError = await db_oddelki.update_newOddelek(oddelekInfo, maxIndexes);
 
     res.send(insertError);
 });

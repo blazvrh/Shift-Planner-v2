@@ -111,13 +111,18 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("type", "text");
                     inputElem_name.setAttribute ("list", "imenaZaposlenih");
                     inputElem_name.setAttribute ("class", "imeZap");
-
+                    
                     // če je normalen oddelek dodamo lisener onblur
                     if (smenaData[oddNum].specialOddelek == "") {
+                        // max dolžina inputa za ime
+                        inputElem_name.setAttribute ("maxlength", "20");
                         inputElem_name.onblur = function() {
-                            onBlur_name_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
-                                smenaData[oddNum].odhod)
+                        onBlur_name_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
+                            smenaData[oddNum].odhod)
                         }
+                    } else {
+                        // max dolžina inputa za poseben oddelek
+                        inputElem_name.setAttribute ("maxlength", "30");
                     }
                     
                     // dodamo position attribute

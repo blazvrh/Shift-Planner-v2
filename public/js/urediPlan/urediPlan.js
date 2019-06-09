@@ -66,8 +66,13 @@ function btn_save_currPlan () {
     let mondayDate = convertDateToString(currDateData.workingMondayDate);
 
     let tableData = get_currPlan_data_workerOriented();
+
+    let sundayData = get_sundayData(tableData);
+
+    console.log(sundayData);
     
-    submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData);
+    
+    submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData);
 }
 
 // počisti vse inpute v tem tednu
@@ -79,6 +84,7 @@ function btn_clear_WeekInputs () {
             inputs[j].value = "";
         }
     }
+    clearWarnErrorIndexes();
 }
 
 // preveri trenuten plan ....
@@ -119,7 +125,6 @@ function btn_check_currPlan () {
     displayErrors(tooltips);
 
     console.log("Preverjeno!");
-    
 }
 
 

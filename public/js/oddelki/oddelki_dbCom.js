@@ -22,18 +22,25 @@ function submitForm_oddelekGet() {
         else {
             // shranimo v storage
             let dopOddleki = [];
-            let popOddleki = []
+            let popOddleki = [];
+            let maxDopIndex = 0;
+            let maxPopIndex = 0;
             serverRes.vsiOddelki.forEach(element => {
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
+                    if(element.positionForUser > maxDopIndex) maxDopIndex = element.positionForUser;
                 } else if (element.smena == "popoldne") {
                     popOddleki.push(element);
+                    if(element.positionForUser > maxPopIndex) maxPopIndex = element.positionForUser;
                 }
             });
             sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
             sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
-
-            updateTableOddelki(serverRes.vsiOddelki);
+            
+            maxIndexes.maxIndex_dopoldne = maxDopIndex;
+            maxIndexes.maxIndex_popoldne = maxPopIndex;
+            
+            updateTableOddelki(serverRes.vsiOddelki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1));
         }
     }; 
 
@@ -70,6 +77,9 @@ function submitForm_oddelekAdd() {
     var formData = new FormData (document.getElementById("addOddelekForm"));
 
     formData.append("poslovalnica", userData.poslovalnica);
+    let smena = document.getElementById("smenaOddelka").value;
+    formData.append("positionForUser", maxIndexes["maxIndex_" + smena] + 1);
+    
     xhr.send(formData);
 }
 
@@ -133,6 +143,9 @@ function submitForm_oddelekUpdate(updateData) {
     formData.append("prihod", updateData.prihodEdit.value);
     formData.append("odhod", updateData.odhodEdit.value);
     formData.append("specialOddelek", updateData.posebnostEdit.value);
+    formData.append("positionForUser", updateData.positionForUser.value);
+    
+    formData.append("maxIndexes", JSON.stringify(maxIndexes));
 
     xhr.send(formData);
 }

@@ -2,6 +2,7 @@
 // some varibles
 const inputFields_oddelki = getInputFields();
 const btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
+var maxIndexes = {};
 
 window.addEventListener('load', () => {
     if (userData) {
@@ -80,7 +81,7 @@ function clearInputValues() {
 
 // pojavno okno pred izbrisom
 function removeOddelekFromDb (itemKey) {
-    let oddName = document.getElementById(itemKey).getElementsByTagName("td")[0].innerText;
+    let oddName = document.getElementById(itemKey).getElementsByTagName("td")[1].innerText;
 
     if (window.confirm ("Ali ste prepričani da želite odstraniti oddelek \"" + oddName + "\"")) {
         submitForm_oddelekRemove(itemKey)
