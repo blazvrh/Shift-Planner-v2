@@ -143,7 +143,8 @@ input[type="date"]::-webkit-outer-spin-button {
     top: 3px;
     left: 0;
     width: 295%;
-    text-align: justify;
+    /* text-align: left; */
+    text-align: justify !important;
 }
 div[fullPosition] {
     margin: 0;
@@ -226,7 +227,7 @@ button {
     cursor: pointer;
 }
 
-#tableZaPlan p {
+#tableButtons {
     text-align: center;
 }
 #tableZaPlan button {
