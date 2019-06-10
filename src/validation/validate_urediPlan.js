@@ -41,6 +41,9 @@ function validate_weekData (weekData) {
                 required: "Datum ne sme biti prazen.",
                 length: "Zapis datuma ne sme biti daljši od 10 znakov."
             }
+        },
+        sundayData: {
+            required: true
         }
     });
     

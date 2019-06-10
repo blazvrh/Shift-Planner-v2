@@ -345,105 +345,6 @@ function preveri_dnevniPocitek (prevWeekData, currWeekData) {
     });
 }
 
-///
-// preveri če ima oseba dodaten prost dan po delovni nedelji (če trenutna nedelja prosta preskočimo)
-///
-function preveri_prostDan_poDelovniNedelji (prevWeekData, currWeekData) {
-    // če ni podatka za prejšnji teden končaj
-    if (prevWeekData === null || Object.keys(prevWeekData).length < 1) return;
-
-    // ustvarimo array vseh delavcev ki so delali prejšnjo nedeljo
-    let prevSundayWorkers = [];
-    let prevWeekNames = Object.keys(prevWeekData);
-    prevWeekNames.forEach(name => {
-        for (let i = 0; i < prevWeekData[name][7].length; i++) {
-            let cell = prevWeekData[name][7][i];
-            if (isSpecialOddelek(cell)) {
-                continue;
-            } else {
-                prevSundayWorkers.push(name);
-            }
-        }
-    });
-    // ustvarimo array vseh delavcev ki delajo to nedeljo
-    let currSundayWorkers = [];
-    let currWeekNames = Object.keys(currWeekData);
-    currWeekNames.forEach(name => {
-        for (let i = 0; i < currWeekData[name][7].length; i++) {
-            let cell = currWeekData[name][7][i];
-            if (isSpecialOddelek(cell)) {
-                continue;
-            } else {
-                currSundayWorkers.push(name);
-            }
-        }
-    });
-
-    // za vsako osebo v tem tednu
-    let nameKeys = Object.keys(currWeekData);
-    nameKeys.forEach(name => {
-        // če oseba ni delala prejšnjo ali to nedeljo jo preskoči
-        if (!(prevSundayWorkers.includes(name)) || !(currSundayWorkers.includes(name))) return;
-        
-        let maxRestTime = 0;
-        let cellWithMaxRest = null;
-
-        let lastEndTimeCell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
-        let endTimeInNextDay = check_is_time2inNextDay(lastEndTimeCell.startTime, lastEndTimeCell.endTime);
-        let lastEndTimeDayIndex = 0;
-        
-        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
-            let currDayData = currWeekData[name][dayIndex];
-            let startTimeCell = get_cell_minStartTime_forWorker_inDay(currDayData);
-            
-            if (startTimeCell != null) {
-                // preračunamo razliko v času
-                let restTime = get_timeDifference_inMinutes_betweenTwoTimes(lastEndTimeCell.endTime, startTimeCell.startTime);
-                // prištejemo manjkajoče dneve
-                let dayDiff = Number.parseInt(startTimeCell.dayIndex) - Number.parseInt(lastEndTimeDayIndex) - 1;
-                restTime += dayDiff *24 *60;
-
-                // če je končni čas kasneje kot začetni čas in je končni čas v naslednjem dnevu, odštej en dan
-                if (endTimeInNextDay && compare_times_is_time1_greaterThan_time2(lastEndTimeCell.endTime, startTimeCell.startTime)) {
-                    restTime -= 24 * 60;
-                }
-                // če pa je končni čas pred začetnim in končni čas po polnoči prištej dan
-                else if (!endTimeInNextDay && compare_times_is_time1_greaterThan_time2(startTimeCell.startTime, lastEndTimeCell.endTime)) {
-                    restTime += 24 * 60;
-                }
-                
-                if (restTime > maxRestTime) {
-                    maxRestTime = restTime;
-                    cellWithMaxRest = startTimeCell;
-                }
-                
-                lastEndTimeCell = get_cell_maxEndTime_forWorker_inDay(currDayData);
-                endTimeInNextDay = check_is_time2inNextDay(lastEndTimeCell.startTime, lastEndTimeCell.endTime);
-                lastEndTimeDayIndex = dayIndex;
-            }
-        }
-
-        // izpišemo error če je potrebno
-        if (maxRestTime < ((dnevniPocitek * 60) + (24 * 60))) {
-            let fullPosition = get_fullPosition(cellWithMaxRest);
-            let originalName = get_originalName(name, cellWithMaxRest);
-            let restTimeString = maxRestTime < 0 ? "- " : "";
-
-            let maxRestHous = Math.abs(Number.parseInt(maxRestTime / 60));
-            let maxRestMinutes = Math.abs(maxRestTime % 60);
-            restTimeString += maxRestHous.toString() + " ur " + maxRestMinutes.toString() + " min";
-            restTimeString += maxRestTime < 0 ? " (prekrivanje delovnega časa)" : "";
-
-            let warnMsg = " - Potreben <strong>prost dan</strong> po delovni nedelji za osebo <strong><em>" 
-                + originalName + "</em></strong>!<br>" + 
-                "&emsp;Maksimalni zagotovljeni počitek po oddelani nedelji: <strong>" + restTimeString + "</strong>"+
-                "<br>&emsp;Poreben počitek po oddelani nedelji: <strong>" + (24 + dnevniPocitek).toString() + 
-                " ur</strong>";
-
-            insert_errorWarrning_tooltipMessage(warnMsg, fullPosition, "errors");
-        }
-    });
-}
 
 ///
 // preverimo povprečen 14 dnevni počitek
@@ -724,5 +625,46 @@ function preveri_prepovedDeljenegaDela (weekData) {
         " ima dovoljeni dnevni čas krajši od 4 ure in <strong>ne sme delati deljeno</strong>!";
 
         insert_errorWarrning_tooltipMessage(errMsg, get_fullPosition(cell), "errors");
+    });
+}
+
+
+///
+// preveri št. oddelanih nedelij v letu
+///
+function preveri_stNedelijLetno (weekData) {
+    // pogledamo za vsakega delavca ki dela v nedeljo
+    const names = Object.keys(weekData);
+    names.forEach(name => {
+        if (!data.zaposleni[name.toLowerCase()] || !data.sundayData[name]) return;
+
+        for (let i = 0; i < weekData[name][7].length; i++) {   
+            const cell = weekData[name][7][i];
+            // če je poseben oddelek nas ne zanima - ni delal
+            if (isSpecialOddelek(cell)) continue;
+
+            const oddelaneNedelje = data.sundayData[name].yearSundays;
+            const dovoljeneNedelje = data.zaposleni[name].maxNedelijZap;
+
+            if (oddelaneNedelje > dovoljeneNedelje) {
+                let originalName = get_originalName(cell.currName, cell);
+                let errMsg = " - Oseba <strong><em>" + originalName + "</em></strong>" +
+                    " je prekoračila letni limit oddelanih nedelij.<br>" + 
+                    "&emsp;Št. oddelanih nedelij v letu (vključno s trenutno): <strong>" + oddelaneNedelje + "</strong><br>" +
+                    "&emsp;Št. dovoljenih nedelij v letu: <strong>" + dovoljeneNedelje + "</strong>";
+                    
+                insert_errorWarrning_tooltipMessage(errMsg, get_fullPosition(cell), "errors");
+            }
+            else if (oddelaneNedelje === dovoljeneNedelje) {
+                let originalName = get_originalName(cell.currName, cell);
+                let warnMsg = " - Oseba <strong><em>" + originalName + "</em></strong>" +
+                    " je dosegla letni limit oddelanih nedelij (vključno s trenutno)" +
+                    " - <strong>" + oddelaneNedelje + " nedelij</strong>. To je zadnja dovoljena nedelja v tem letu!";
+                    
+                    
+                insert_errorWarrning_tooltipMessage(warnMsg, get_fullPosition(cell), "warnings");
+                
+            }
+        }
     });
 }

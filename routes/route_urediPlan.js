@@ -32,6 +32,16 @@ router.post('/get', async function (req, res) {
 });
 
 
+// pridobimo nedelje v letu
+router.post('/sundaysYear', async function (req, res) { 
+    if (!req.body) return res.sendStatus(400);
+    
+    let sundayData = await db_weekData.get_sundaysInYear(req.body);
+
+    res.send(sundayData);
+});
+
+
 // shrani tedenski plan
 router.post('/save', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
@@ -43,8 +53,6 @@ router.post('/save', async function (req, res) {
     var palnData = weekInfo.tableData;
     var oddelkiDop = weekInfo.oddelkiDop;
     var oddelkiPop = weekInfo.oddelkiPop;
-    // var oddelkiDop = JSON.parse(weekInfo.oddelkiDop);
-    // var oddelkiPop = JSON.parse(weekInfo.oddelkiPop);
 
     // validate data
     const validateErrors = validate_weekData.validate_weekData(weekInfo);

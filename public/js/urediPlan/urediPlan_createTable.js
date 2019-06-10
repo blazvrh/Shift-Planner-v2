@@ -1,9 +1,11 @@
 
 // ustvari novo tableo s podanim datumom
 function btn_createCurrTable () {
+    buttonElements.btn_showWeek.disabled = true;
+
     var tableZaPlan = document.getElementById("tableZaPlan");
-    error_onTableShow("");
     tableZaPlan.style.display = "none";
+    error_onTableShow("");
 
     currDateData.workingWeekNumber = currDateData.selectedWeekNumber;
     currDateData.workingMondayDate = currDateData.selectedMondayDate;
@@ -24,9 +26,6 @@ function btn_createCurrTable () {
     allDataCellElements = document.querySelectorAll("#mainTable td[position]");
     
     submitForm_get_trenuenPlan();
-    submitForm_get_lastWeekPlan();
-
-    tableZaPlan.style.display = "initial";
 }
 
 // Ustvari header tabele za ustvarjanje plana

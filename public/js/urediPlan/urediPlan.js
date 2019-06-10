@@ -2,6 +2,7 @@
 var data = { };
 var allErrors = { warnings:[], errors:[] }
 var allDataCellElements;
+var buttonElements = { };
 
 var dnevniPocitek = 11; // potreben minimalni dnevni počitek v urah
 
@@ -25,18 +26,25 @@ function showMainPageContent () {
     // ker ni argumenta izbere trenuten teden
     izberiCelotenTeden();
 
+    buttonElements = {
+        btn_showWeek: document.getElementById("btn_showWeek"),
+        saveCurrPlan: document.getElementById("saveCurrPlan"),
+        checkCurrPlan: document.getElementById("checkCurrPlan"),
+        clearAllInputs: document.getElementById("clearAllInputs")
+    };
+
     // lisener za prikaži teden btn
-    document.getElementById("btn_showWeek").onclick = function() { btn_createCurrTable(); }
+    buttonElements.btn_showWeek.onclick = function() { btn_createCurrTable(); }
     // lisener za spremembo tedna btn (-1)
     document.getElementById("week_reduce").onclick = function() { btn_changeWeekByOne(-1); }
     // lisener za spremembo tedna btn (+1)
     document.getElementById("week_increse").onclick = function() { btn_changeWeekByOne(1); }
     // lisener za save btn
-    document.getElementById("saveCurrPlan").onclick = function() { btn_save_currPlan(); }
+    buttonElements.saveCurrPlan.onclick = function() { btn_save_currPlan(); }
     // lisener za check btn
-    document.getElementById("checkCurrPlan").onclick = function() { btn_check_currPlan(); }
+    buttonElements.checkCurrPlan.onclick = function() { btn_check_currPlan(); }
     // lisener za clear all inputs
-    document.getElementById("clearAllInputs").onclick = function() { btn_clear_WeekInputs(); }
+    buttonElements.clearAllInputs.onclick = function() { btn_clear_WeekInputs(); }
 
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
@@ -60,6 +68,7 @@ function set_options_forZaposlene (zaposleni) {
 
 // shrani trenuten plan ....
 function btn_save_currPlan () {
+    buttonElements.saveCurrPlan.disabled = true;
     
     let weekNum = currDateData.workingWeekNumber;
     let year = currDateData.workingMondayDate.getFullYear();
@@ -69,14 +78,18 @@ function btn_save_currPlan () {
 
     let sundayData = get_sundayData(tableData);
 
-    console.log(sundayData);
-    
-    
     submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData);
 }
 
 // počisti vse inpute v tem tednu
 function btn_clear_WeekInputs () {
+    buttonElements.clearAllInputs.disabled = true;
+    
+    if (!confirm("Ali ste prepričan da želite počisiti celoten tedenski plan?")) {
+        buttonElements.clearAllInputs.disabled = false;
+        return;
+    }
+
     for (let i = 0; i < allDataCellElements.length; i++) {
         let inputs = allDataCellElements[i].querySelectorAll("input");
         
@@ -85,10 +98,14 @@ function btn_clear_WeekInputs () {
         }
     }
     clearWarnErrorIndexes();
+    
+    buttonElements.clearAllInputs.disabled = false;
 }
 
 // preveri trenuten plan ....
 function btn_check_currPlan () {
+    buttonElements.checkCurrPlan.disabled = true;
+
     allErrors = { warnings:[], errors:[] }
     let tooltips = document.getElementsByClassName("tooltipText");
     
@@ -110,21 +127,23 @@ function btn_check_currPlan () {
     preveri_zaposlen_obstaja(currWeekData);
     preveri_zaposlen_usposobljenost(currWeekData);
     preveri_prejsnoNedeljo(data.prevWeekData, currWeekData);
-    preveri_tedenskiPocitek_zaPrejsnjoNedeljo(data.prevWeekData, currWeekData);
-    
-    
+    preveri_tedenskiPocitek(currWeekData, data.prevWeekData);
+    preveri_tedenskiPocitek_SobotaPonedeljek(data.prevWeekData, currWeekData);
+    // tole pravilo mislim da je brez smisla
+    //preveri_prostDan_poDelovniNedelji(data.prevWeekData, currWeekData);
+
     // error check
     preveri_cas_prekrivanje(currWeekData);
     preveri_maxCase(currWeekData);
-    preveri_prostDan_poDelovniNedelji(data.prevWeekData, currWeekData);
     preveri_dnevniPocitek(data.prevWeekData, currWeekData);
     preveri_dvoTedenskiPocitek(data.prevWeekData, currWeekData);
     preveri_prepovedDeljenegaDela(currWeekData);
+    preveri_stNedelijLetno(currWeekData);
     
     // prikažemo vse napake
     displayErrors(tooltips);
-
-    console.log("Preverjeno!");
+    
+    buttonElements.checkCurrPlan.disabled = false;
 }
 
 

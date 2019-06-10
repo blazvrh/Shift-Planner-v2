@@ -125,24 +125,25 @@ function submitForm_get_trenuenPlan() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
-        
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
            // če je error zaradi nobenega vnosa
            if (serverRes.weekData == null) {
                // ni podatka za ta teden; pošljemo prazen objekt
                fill_table_withDbData({});
+               
+                // submitForm_get_lastWeekPlan();
             }
             // če je kak drugačen error
             else {
                 console.log(serverRes.msg);
                 console.log("IZPIŠI ERROR UPORABNIKU");
             }
-            return;
         }
         else {
             fill_table_withDbData(JSON.parse(serverRes.weekData.weekData));
         }
+        submitForm_get_sundaysInThisYear();
     }; 
 
     var formData = new FormData ();
@@ -150,6 +151,37 @@ function submitForm_get_trenuenPlan() {
     formData.append("poslovalnica", userData.poslovalnica);
     formData.append("weekNum", currDateData.selectedWeekNumber);
     formData.append("year", currDateData.selectedMondayDate.getFullYear());
+    
+    xhr.send(formData);
+}
+
+// pridobimo podatke o prejšnem tednu
+function submitForm_get_sundaysInThisYear() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/urediTrenutenPlan/sundaysYear");
+    xhr.responseType = 'json';
+
+    xhr.onload = function(event) {
+        let serverRes = event.target.response;
+        // če je prišlo do napake, izpiši napako
+        if (serverRes.isError) {
+            // izpiši error
+            console.log(serverRes.msg);
+            console.log("IZPIŠI ERROR UPORABNIKU");
+        }
+        else {
+            create_sundayData_byWorker(serverRes.allSundays);
+        }
+        submitForm_get_lastWeekPlan();
+    }
+
+    var formData = new FormData ();
+
+    let sundayDate = new Date(currDateData.selectedMondayDate);
+    sundayDate.setDate(sundayDate.getDate() + 6);
+
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("sundayYear", sundayDate.getFullYear());
     
     xhr.send(formData);
 }
@@ -170,13 +202,15 @@ function submitForm_get_lastWeekPlan() {
            if (serverRes.weekData == null) {
                // ni podatka za ta teden; pošljemo prazen objekt
                data.prevWeekData = null;
+
+               btn_check_currPlan();
+               document.getElementById("tableZaPlan").style.display = "initial";
             }
             // če je kak drugačen error
             else {
                 console.log(serverRes.msg);
                 console.log("IZPIŠI ERROR UPORABNIKU");
             }
-            return;
         }
         else {
             let prevWeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.weekData.weekData));
@@ -199,8 +233,15 @@ function submitForm_get_lastWeekPlan() {
             }
                 
             data.prevWeekData = prevWeekData;
+
+            btn_check_currPlan();
+
+            document.getElementById("tableZaPlan").style.display = "initial";
         }
-    }; 
+        window.location.href ="#creationTable";
+        
+        buttonElements.btn_showWeek.disabled = false;
+    }
 
     var formData = new FormData ();
 
@@ -233,9 +274,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
         }
         // drugače počisti polja in posodobi tabelo
         else {
-            console.log("Saved!");
-            // clearInputValues();
-            // submitForm_oddelekGet();
+            buttonElements.saveCurrPlan.disabled = false;
         }
     }; 
 
@@ -248,7 +287,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
     formData.append("year", year);
     formData.append("mondayDate", mondayDate);
     formData.append("tableData", JSON.stringify(tableData));
-    formData.append("sundayData", sundayData);
+    formData.append("sundayData", JSON.stringify(sundayData));
 
     xhr.send(formData);
 }

@@ -69,7 +69,5 @@ function fill_table_withDbData(weekData) {
         error_onTableShow (errorMsg);
     } else {
         error_onTableShow("");
-        
-        window.location.href ="#creationTable";
     }
 }

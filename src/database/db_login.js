@@ -9,14 +9,14 @@ async function checkForLoginInfo(inputUserData) {
 
     try {
         conn = await pool.getConnection();
-        var db_uData = await conn.query("SELECT username, password, verified, poslovalnica FROM users WHERE username='" + inputUserData.username + "'");
+        var db_uData = await conn.query("SELECT username, password, verified, poslovalnica FROM users WHERE BINARY username='" + inputUserData.username + "'");
         
         // če uporabnik ne obstaja
         if (db_uData.length < 1) {
             loginErrors = { isError: true, msg: "Ta uporabnik ne obstaja!"};
         }
         // če je ujemanje gesla in uporabniškega imena
-        else if (db_uData[0].password == inputUserData.password) {
+        else if (db_uData[0].password === inputUserData.password) {
             // je verificiran
             if (db_uData[0].verified > 0) {
                 loginErrors = { 
@@ -53,14 +53,14 @@ async function checkForLoginInfo_guest(inputUserData) {
 
     try {
         conn = await pool.getConnection();
-        var db_uData = await conn.query("SELECT poslovalnica, previewPassword FROM users WHERE poslovalnica='" + inputUserData.poslovalnica + "'");
+        var db_uData = await conn.query("SELECT poslovalnica, previewPassword FROM users WHERE BINARY poslovalnica='" + inputUserData.poslovalnica + "'");
         
         // če uporabnik ne obstaja
         if (db_uData.length < 1) {
             loginErrors = { isError: true, msg: "Ta poslovalnica ne obstaja!"};
         }
         // če je ujemanje gesla in uporabniškega imena
-        else if (db_uData[0].previewPassword == inputUserData.passwordGuest) {
+        else if (db_uData[0].previewPassword === inputUserData.passwordGuest) {
             loginErrors = { 
                 isError: false,
                 msg: "Success",

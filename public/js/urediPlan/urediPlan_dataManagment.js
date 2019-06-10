@@ -141,10 +141,47 @@ function get_sundayData(tableData) {
             }
 
             try {
-                sundayData.workers.push(data.zaposleni[name.toLowerCase()].prikazanoImeZap);
+                const prikazanoIme = data.zaposleni[name.toLowerCase()].prikazanoImeZap;
+                if (!sundayData.workers.includes(prikazanoIme)) {
+                    sundayData.workers.push(prikazanoIme);
+                }
             } catch (e) { return; }
         }
     });
-
+    
     return sundayData;
+}
+
+// ustvari objekt; key: ime zaposlenega, value: št nedelij v letu, št. nedelij v mesecu
+function create_sundayData_byWorker (allSundayData) {
+    // če ni vnosa končaj
+    if (allSundayData.length < 1) return;
+
+    let workersSundayData = { };
+
+    let sundayDate = new Date(currDateData.selectedMondayDate);
+    sundayDate.setDate(sundayDate.getDate() + 6);
+    const currMonth = sundayDate.getMonth();
+
+    allSundayData.forEach(sundayElement => {
+        sundayDataJson = JSON.parse(sundayElement);
+        
+        // če je to teden s katerim delamo bomo preskočili
+        if (sundayDataJson.weekNumber === currDateData.selectedWeekNumber) return;
+
+        sundayDataJson.workers.forEach(name => {
+            const nameLowerCase = name.toLowerCase();
+            // če tega delavca še ni v objektu ga dodaj
+            if (!workersSundayData[nameLowerCase]) {
+                workersSundayData[nameLowerCase] = { yearSundays: 0, monthSundays: 0 }
+            }
+
+            workersSundayData[nameLowerCase].yearSundays++;
+            if (currMonth === sundayDataJson.month) {
+                workersSundayData[nameLowerCase].monthSundays++;
+            }
+        });
+    });
+    
+    data.sundayData = workersSundayData;
 }

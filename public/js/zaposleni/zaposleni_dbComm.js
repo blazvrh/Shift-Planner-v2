@@ -84,8 +84,10 @@ function submitForm_zaposleniGet() {
     }; 
 
     var formData = new FormData ();
-
+    
     formData.append("poslovalnica", userData.poslovalnica);
+    let seznamZaposlenihDiv = document.getElementById("seznamZaposlenihDiv").innerHTML = "Nalaganje ...";
+
     xhrGetZaposlene.send(formData);
 }
 
