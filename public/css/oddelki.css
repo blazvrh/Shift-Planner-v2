@@ -69,10 +69,6 @@ input[type="time"]::-webkit-outer-spin-button {
 
     font-size: 18px;
 }
-/* .seznamOddelkov tr:first-child td {
-    border-bottom: 2px solid black;
-    font-weight: bold;
-} */
 .seznamOddelkov {
     margin-bottom: 50px;
     text-align: center;
@@ -83,6 +79,9 @@ input[type="time"]::-webkit-outer-spin-button {
 }
 .btnRemoveOdd {
     color: darkred;
+}
+.tablesDiv tr:hover {
+    background-color: rgb(211, 211, 211);
 }
 
 /* urejanje ustvarjenih oddelkov */

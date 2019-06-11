@@ -185,3 +185,35 @@ function create_sundayData_byWorker (allSundayData) {
     
     data.sundayData = workersSundayData;
 }
+
+// vrne osebe ki niso vpisane v plan dela
+function get_missingPresonData (weekData) {
+    const requiredNames = Object.keys(data.zaposleni);
+
+    let missingPersons = { 
+        workers: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+        students: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] }
+    }
+
+    requiredNames.forEach(name => {
+        const subObjectName = data.zaposleni[name].student > 0 ? "students" : "workers";
+        const originalName = data.zaposleni[name].prikazanoImeZap;
+
+        // če ga sploh ni v celem tednu dodaj v vse celice
+        if (!weekData[name]) {
+            for (let i = 1; i < 8; i++) {
+                missingPersons[subObjectName][i].push(originalName);
+            }
+        }
+        // drugače zaroteraj po dnevih in dodaj če ga ni
+        else {
+            for (let i = 1; i < 8; i++) {
+                if (weekData[name][i].length < 1) {
+                    missingPersons[subObjectName][i].push(originalName);
+                }
+            }
+        }
+    });
+
+    return missingPersons;
+}

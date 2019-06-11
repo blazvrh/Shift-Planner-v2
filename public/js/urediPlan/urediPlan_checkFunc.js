@@ -26,11 +26,54 @@ function insert_errorWarrning_tooltipMessage (msg, fullPosition, msgType) {
 
 // preveri če je celica na posebnem oddelku (komentar, dopusti)
 function isSpecialOddelek (cellData) {
-    if (cellData.oddelekName === "Komentarji" || cellData.oddelekName === "ld.nn, boln.") {
-        return true;
-    } else {
-        return false;
-    }
+    const oddelekId = Number.parseInt(cellData.oddelekId);
+
+    let result;
+    // pogledamo za dopoldne
+    data.oddelki_dopoldne.forEach(element => {
+        if (element.oddID === oddelekId) {
+            if (element.specialOddelek === "") {
+                result = false;
+            }
+            else {
+                result = true;
+            }
+        }
+    });
+    // pogledamo za popoldne
+    data.oddelki_popoldne.forEach(element => {
+        if (element.oddID === oddelekId) {
+            if (element.specialOddelek === "") {
+                result = false;
+            }
+            else {
+                result = true;
+            }
+        }
+    });
+
+    return result;
+}
+
+// pridobi oddelek type; komentar, "", ld,nn,boln;
+function get_OddelekType (cellData) {
+    const oddelekId = Number.parseInt(cellData.oddelekId);
+
+    let result = "";
+    // pogledamo za dopoldne
+    data.oddelki_dopoldne.forEach(element => {
+        if (element.oddID === oddelekId) {
+            result = element.specialOddelek;
+        }
+    });
+    // pogledamo za popoldne
+    data.oddelki_popoldne.forEach(element => {
+        if (element.oddID === oddelekId) {
+            result = element.specialOddelek;
+        }
+    });
+
+    return result;
 }
 
 // pridobi najmanjši/najzgodnejši čas pričetka osebe v dnevu in vrne celico s tem časom

@@ -81,6 +81,9 @@ function submitForm_zaposleniGet() {
             // ustvarimo tabelo zaposlenih
             create_table_osebe_zaposleni(serverRes.vsiZaposleni);
         }
+        
+        clearInputValuesZaposleni();
+        onInputErrorZaposleni("");
     }; 
 
     var formData = new FormData ();
@@ -174,6 +177,10 @@ function submitForm_zaposleniUpdate(edit_inputFields_zaposleni) {
             return;
         }
         else {
+            onError_seznamZaposlenih("");
+            openRowId = "";
+            originalTableRow = "";
+            currentPrikazanoIme = "";
             submitForm_zaposleniGet();
         }
     }; 

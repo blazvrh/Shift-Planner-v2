@@ -28,9 +28,11 @@ async function get_neccesseryData () {
 // ipiše error za vnos vrednosti
 function onInputErrorZaposleni (msg, showBtn) {
     documentObjects_zaposleni.zaposleniInputError.innerText = msg;
+
+    // prikažemo dodaj gumb
     if (showBtn == null) showBtn = true;
     if (showBtn) {
-        documentObjects_zaposleni.btn_dodajZaposlenega.style.display = "initial";
+        documentObjects_zaposleni.btn_dodajZaposlenega.disabled = false;
     }
 }
 
@@ -110,7 +112,7 @@ function clearInputValuesZaposleni() {
 // gumb za dodajanje zaposlenega
 var check_zaposleniDataLoaded = 0;   // da omejimo št. send requestov ki čakajo na ENEGA!
 function btn_dodajZaposlenoOsebo () {
-    documentObjects_zaposleni.btn_dodajZaposlenega.style.display = "none";
+    documentObjects_zaposleni.btn_dodajZaposlenega.disabled = true;
     
     // interval ki počaka da so podatki o obstoječih zaposlenih pridobljeni iz databaze
     // če je check_zaposleniDataLoded = 0, potem interval ne teče - drugače interval teče in nočemo še enega
@@ -120,8 +122,6 @@ function btn_dodajZaposlenoOsebo () {
             if (xhrGetZaposlene.readyState == 4) {
                 // oddalj formo, počisti vrednosti, prikaži gumb in ustavi interval
                 submitForm_zaposleniAdd();
-                clearInputValuesZaposleni();
-                onInputErrorZaposleni("");
                 clearInterval(check_zaposleniDataLoaded);
                 check_zaposleniDataLoaded = 0;
             }
@@ -171,7 +171,9 @@ function btn_cancelEdit_zaposleni (zapId) {
 }
 
 // potrdi spremembo zaposlenega
-function btn_confirmEdit_zaposleni(zapId) {
+function btn_confirmEdit_zaposleni(zapId, btnElement) {
+    btnElement.disabled = true;
+    
     // interval ki počaka da so podatki o obstoječih zaposlenih pridobljeni iz databaze
     // če je check_zaposleniDataLoded = 0, potem interval ne teče - drugače interval teče in nočemo še enega
     if (check_EditValues_zaposleni(zapId) && check_zaposleniDataLoaded == 0) {
@@ -179,14 +181,12 @@ function btn_confirmEdit_zaposleni(zapId) {
             // če so podatki pridobljeni (ready state = 4) nadaljuj
             if (xhrGetZaposlene.readyState == 4) {
                 // zbrišemo error, oddamo formo
-                onError_seznamZaposlenih("");
                 submitForm_zaposleniUpdate(edit_inputFields_zaposleni);
-                openRowId = "";
-                originalTableRow = "";
-                currentPrikazanoIme = "";
                 clearInterval(check_zaposleniDataLoaded);
                 check_zaposleniDataLoaded = 0;
             }
         }, 300);
+    } else {
+        btnElement.disabled = false;
     }
 }

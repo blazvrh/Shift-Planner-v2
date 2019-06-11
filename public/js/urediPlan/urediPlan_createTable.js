@@ -225,3 +225,54 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
     }
     mainTable.append(tBody);
 }
+
+
+function create_missingPersonsTable (missingPersonData) {
+    let tableBodyElemet = document.getElementById("missingPersons").getElementsByTagName("tbody")[0];
+    tableBodyElemet.innerHTML = "Posodablanje tabele ...";
+
+    let newTbody = document.createElement("tbody");
+
+    let maxWorkerCount = 0;
+    let maxStudentCount = 0;
+
+    for (let index = 1; index < 8; index++) { 
+        if (missingPersonData.workers[index].length > maxWorkerCount) {
+            maxWorkerCount = missingPersonData.workers[index].length;
+        }
+        if (missingPersonData.students[index].length > maxStudentCount) {
+            maxStudentCount = missingPersonData.students[index].length;
+        }
+    }
+
+    // izpišemo redno zaposlene
+    for (let rowIndex = 0; rowIndex < maxWorkerCount; rowIndex++) {
+        let rowEl = document.createElement("tr");
+
+        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
+            let tdEl = document.createElement("td");
+            if (missingPersonData.workers[dayIndex][rowIndex]) {
+                tdEl.innerHTML = missingPersonData.workers[dayIndex][rowIndex];
+            }
+            rowEl.append(tdEl);
+        }
+        newTbody.append(rowEl);
+    }
+
+    newTbody.innerHTML += "<tr><th>Študentje:</th></tr>";
+    // izpišemo študente
+    for (let rowIndex = 0; rowIndex < maxStudentCount; rowIndex++) {
+        let rowEl = document.createElement("tr");
+
+        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
+            let tdEl = document.createElement("td");
+            if (missingPersonData.students[dayIndex][rowIndex]) {
+                tdEl.innerHTML = missingPersonData.students[dayIndex][rowIndex];
+            }
+            rowEl.append(tdEl);
+        }
+        newTbody.append(rowEl);
+    }
+
+    tableBodyElemet.innerHTML = newTbody.innerHTML;
+}

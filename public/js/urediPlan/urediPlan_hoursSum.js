@@ -12,9 +12,9 @@ function sumAndShow_sestevekUr (weekData) {
             let dayData = weekData[name][dayIndex];
             // za vsako celico v tem dnevu s tem imenom
             for (let cellIndex = 0; cellIndex < dayData.length; cellIndex++) {
-                let oddelekName = dayData[cellIndex].oddelekName;
                 // če je posebni oddelek preskoči - ni časov
-                if (oddelekName === "Komentarji" || oddelekName === "ld.nn, boln.") continue;
+                
+                if (isSpecialOddelek(dayData[cellIndex]) == true) continue;
 
                 let startTime = dayData[cellIndex].startTime;
                 let endTime = dayData[cellIndex].endTime;

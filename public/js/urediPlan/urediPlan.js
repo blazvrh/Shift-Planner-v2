@@ -122,6 +122,8 @@ function btn_check_currPlan () {
 
     // seštejemo in prikažemo seštevek ur v tednu
     sumAndShow_sestevekUr(currWeekData);
+    // prikažemo vse manjkajoče osebe v planu
+    create_missingPersonsTable(get_missingPresonData(currWeekData));
 
     // warning check
     preveri_zaposlen_obstaja(currWeekData);

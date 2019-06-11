@@ -76,7 +76,7 @@ function create_TableHead_SeznamZaposlenih () {
     let trEl = document.createElement("tr");
 
     let headerTexts = ["Prik. ime", "Ime", "Priimek", "Ur/dan", "Ur/teden", "Nedelje", "Prazniki", 
-        "Študent", "Mlajši od 16 let", "Usposobljenost"];
+        "Študent", "Mlajši od 18 let", "Usposobljenost"];
 
     headerTexts.push ("Urejanje");
     headerTexts.push ("Brisanje");
@@ -273,7 +273,7 @@ function createEditRow_zaposleni (zapId) {
         else if (tdID == "removeBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
-            inputElement.onclick = () => {btn_confirmEdit_zaposleni(zapId)};
+            inputElement.onclick = () => {btn_confirmEdit_zaposleni(zapId, inputElement)};
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 

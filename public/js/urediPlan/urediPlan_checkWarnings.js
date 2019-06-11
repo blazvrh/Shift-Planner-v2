@@ -10,8 +10,8 @@ function preveri_zaposlen_obstaja (weekData) {
             // da vpišemo vsa mesta kjer je ta oseba
             for (let i = 1; i < 8; i++) {
                 weekData[name][i].forEach(cell => {
-                    // če smo na komentarju -> preskoči
-                    if (cell.oddelekName == "Komentarji") return;
+                    //če smo na komentarju -> preskoči
+                    if (get_OddelekType(cell) === "Komentar") return;
 
                     let smena = cell.smena;
                     let pos = cell.position;
@@ -45,7 +45,7 @@ function preveri_zaposlen_usposobljenost(weekData) {
             for (let i = 1; i < 8; i++) {
                 weekData[name][i].forEach(cell => {
                     // če smo na posebnem oddelku (komentar, dopusti ...) preskoči
-                    if (cell.oddelekName == "Komentarji" || cell.oddelekName == "ld.nn, boln.") return;
+                    if (isSpecialOddelek(cell)) return;
 
                     let oddelekName = cell.oddelekName;
                     let oddelekNameLowerCase = oddelekName.toLowerCase();
@@ -89,14 +89,14 @@ function preveri_prejsnoNedeljo (prevWeekData, currWeekData) {
         let dayData = currWeekData[name][7];
         
         for (let i = 0; i < dayData.length; i++) {
-            if (dayData[i].oddelekName === "Komentarji" || dayData[i].oddelekName === "ld.nn, boln.") {
+            if (isSpecialOddelek(dayData[i])) {
                 continue;
             }
 
             try {
                 let prevWeekDayData = prevWeekData[name][7];
                 for (let j = 0; j < prevWeekDayData.length; j++) {
-                    if (prevWeekDayData[i].oddelekName === "Komentarji" || prevWeekDayData[i].oddelekName === "ld.nn, boln.") {
+                    if (isSpecialOddelek(prevWeekDayData[i])) {
                         continue;
                     }
                     warnNames.push(name);
@@ -112,7 +112,7 @@ function preveri_prejsnoNedeljo (prevWeekData, currWeekData) {
     warnNames.forEach(name => {
         let dayData = currWeekData[name][7];
         for (let i = 0; i < dayData.length; i++) {
-            if (dayData[i].oddelekName === "Komentarji" || dayData[i].oddelekName === "ld.nn, boln.") {
+            if (isSpecialOddelek(dayData[i])) {
                 continue;
             }
 
