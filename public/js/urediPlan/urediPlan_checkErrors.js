@@ -576,7 +576,7 @@ function preveri_prepovedDeljenegaDela (weekData) {
         let maxDnevniCas = null;
         try {
             maxDnevniCas = data.zaposleni[name].maxUrDanZap;
-        } catch {
+        } catch (e) {
             maxDnevniCas = null;
             return;
         }
