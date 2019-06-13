@@ -140,7 +140,7 @@ function btn_check_currPlan () {
     preveri_dnevniPocitek(data.prevWeekData, currWeekData);
     preveri_dvoTedenskiPocitek(data.prevWeekData, currWeekData);
     preveri_prepovedDeljenegaDela(currWeekData);
-    preveri_stNedelijLetno(currWeekData);
+    // preveri_stNedelijLetno(currWeekData);
     
     // prikažemo vse napake
     displayErrors(tooltips);
