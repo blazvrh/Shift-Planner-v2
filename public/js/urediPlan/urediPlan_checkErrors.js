@@ -633,10 +633,11 @@ function preveri_prepovedDeljenegaDela (weekData) {
 // preveri št. oddelanih nedelij v letu
 ///
 function preveri_stNedelijLetno (weekData) {
+    if (!data.sundayData) return;
     // pogledamo za vsakega delavca ki dela v nedeljo
     const names = Object.keys(weekData);
     names.forEach(name => {
-        if (!data.zaposleni[name.toLowerCase()] || !data.sundayData[name]) return;
+        if (!data.zaposleni[name] || !data.sundayData[name]) return;
 
         for (let i = 0; i < weekData[name][7].length; i++) {   
             const cell = weekData[name][7][i];

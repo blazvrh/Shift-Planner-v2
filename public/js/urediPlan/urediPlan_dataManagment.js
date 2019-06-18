@@ -155,7 +155,10 @@ function get_sundayData(tableData) {
 // ustvari objekt; key: ime zaposlenega, value: št nedelij v letu, št. nedelij v mesecu
 function create_sundayData_byWorker (allSundayData) {
     // če ni vnosa končaj
-    if (allSundayData.length < 1) return;
+    if (allSundayData.length < 1) {
+        data.sundayData = null;
+        return;
+    } 
 
     let workersSundayData = { };
 

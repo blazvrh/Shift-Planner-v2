@@ -55,26 +55,26 @@ h2 {
     width: auto;
     margin: auto;
 }
-#mainTable_selectedWeek {
+.mainTable_selectedWeek {
     border: 2px solid black;
     border-collapse: collapse;
     width: 100%;
 }
-#mainTable_selectedWeek thead {
+.mainTable_selectedWeek thead {
     border-bottom: 2px solid black;
     white-space: nowrap;
     overflow: hidden;
     padding-left: 3px;
     padding-right: 3px;
 }
-#mainTable_selectedWeek th {
+.mainTable_selectedWeek th {
     border: 1px dotted rgba(128, 128, 128, 0.6);
     border-right: 2px solid black;
     
     padding-left: 3px;
     padding-right: 3px;
 }
-#mainTable_selectedWeek td {
+.mainTable_selectedWeek td {
     vertical-align: bottom;
     text-align: center;
     border: 1px dotted rgba(128, 128, 128, 0.6);
@@ -84,25 +84,25 @@ h2 {
     padding-right: 3px;
     vertical-align: middle;
 }
-#mainTable_selectedWeek .firstRow {
+.mainTable_selectedWeek .firstRow {
     border-top: 1px solid black;
 }
-#mainTable_selectedWeek tbody:nth-child(3) {
+.mainTable_selectedWeek tbody:nth-child(3) {
     border-top: 4px double rgb(0, 0, 0);
 }
-#mainTable_selectedWeek tr:hover {
+.mainTable_selectedWeek tr:hover {
     background-color: rgb(214, 214, 214);
 }
-#mainTable_selectedWeek span {
+.mainTable_selectedWeek span {
     display: inline-block;
     padding: 2px;
 }
-#mainTable_selectedWeek .nameValue {
+.mainTable_selectedWeek .nameValue {
     float: left;
     padding-right: 5px;
     max-width: 100%;
 }
-#mainTable_selectedWeek .timeValue {
+.mainTable_selectedWeek .timeValue {
     font-style: italic;
     float: right;
 }
@@ -136,4 +136,8 @@ h2 {
     margin: 30px;
 }
 
-
+.btnImg {
+    width: 20px;
+    position: relative;
+    top: 2px;
+}

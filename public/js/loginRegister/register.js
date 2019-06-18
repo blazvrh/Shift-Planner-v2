@@ -8,7 +8,9 @@ function onRegisterError(msg, showBtn) {
     
     if (showBtn) {
         var registerBtn = document.getElementById("registerBtn");
-        registerBtn.style.display = "initial";
+        
+        registerBtn.disabled = false;
+        // registerBtn.style.display = "initial";
     }
 }
 
@@ -21,7 +23,8 @@ function validateEmail(email) {
 // funkcija za registracijo novega uporabnika - ime funkcije vse pove 
 function btn_register () {
     var registerBtn = document.getElementById("registerBtn");
-    registerBtn.style.display = "none";
+    registerBtn.disabled = true;
+    // registerBtn.style.display = "none";
 
     var newUserName = document.getElementById("userNameField");
     var newPassword1 = document.getElementById("passwordField1");

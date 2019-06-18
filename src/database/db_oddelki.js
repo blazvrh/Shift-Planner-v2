@@ -79,8 +79,6 @@ async function remove_Oddelek (oddelekData) {
     try {
         conn = await pool.getConnection();
 
-        console.log(oddelekData);
-        
         // porpavimo idexe da ni luknje
         const smenaQuery = await conn.query("SELECT smena FROM oddelki WHERE oddID='" + oddelekData.oddelekId + "'");
         const prevPositionQurey = await conn.query("SELECT positionForUser FROM oddelki WHERE oddID='" + oddelekData.oddelekId + "'");
@@ -114,6 +112,8 @@ async function remove_Oddelek (oddelekData) {
 async function update_newOddelek (oddelekData, maxIndexes) {
     let conn;
     let result = { isError: true, msg: "Neznana napaka"};
+    console.log(maxIndexes);
+    
     try {
         conn = await pool.getConnection();
         

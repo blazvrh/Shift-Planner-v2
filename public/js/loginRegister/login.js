@@ -1,13 +1,21 @@
 var userData = JSON.parse(sessionStorage.getItem("UserData"));
-var imePoslovalnice = JSON.parse(sessionStorage.getItem("poslovalnica"));
+var imePoslovalnice = "";
+
 const loginBlock = document.getElementById("loginBlock");
 const logoutBlock = document.getElementById("logoutBlock");
 
+
 // preveri če smo prijavljeni
 if (!userData) {
+    if (sessionStorage.getItem("poslovalnica") !== null) {
+        imePoslovalnice = JSON.parse(sessionStorage.getItem("poslovalnica")).poslovalnica;
+    }
+    
     if (loginBlock) loginBlock.style.display = "block";
     logoutBlock.style.display = "none";
 } else if (userData != null) {
+    imePoslovalnice = userData.poslovalnica;
+    
     const userDataDisplay = document.getElementById("userDataDisplay");
     userDataDisplay.innerText = "Poslovalnica: " + userData.poslovalnica + "; Uporabnik: " +userData.username;
     if (loginBlock) loginBlock.style.display = "none";
@@ -15,9 +23,9 @@ if (!userData) {
 } 
 
 // za primer da smo se prijavili z računom za goste
-if (window.location.pathname === "/predogledPlana" && imePoslovalnice != null && !userData) {
+if (window.location.pathname === "/predogledGosti" && imePoslovalnice !== "" && !userData) {
     const userDataDisplay = document.getElementById("userDataDisplay");
-    userDataDisplay.innerText = "Poslovalnica: " + imePoslovalnice.poslovalnica;
+    userDataDisplay.innerText = "Poslovalnica: " + imePoslovalnice;
     if (loginBlock) loginBlock.style.display = "none";
     logoutBlock.style.display = "block";
     
@@ -28,9 +36,9 @@ function onLoginError(errorMsg, showBtn) {
     if (showBtn == null) showBtn = true;
     var loginErrorMsg = document.getElementById("loginErrorMsg");
     loginErrorMsg.innerHTML = errorMsg;
-
+    
     if (showBtn) {
-        loginBlock.style.display = "initial";
+        document.getElementById("loginBtn").disabled = false;
     }
 }
 
@@ -41,7 +49,9 @@ function onGuestLoginError(errorMsg, showBtn) {
     loginGuestErrorMsg.innerHTML = errorMsg;
 
     if (showBtn) {
-        loginBlock.style.display = "initial";
+        document.getElementById("loginGuestBtn").disabled = false;
+        
+        // loginBlock.style.display = "initial";
     }
 }
 
@@ -49,11 +59,13 @@ function onGuestLoginError(errorMsg, showBtn) {
 function logout() {
     sessionStorage.clear();
     window.location.href = "index.html";
+    document.getElementById("logoutBlock").getElementsByTagName("button")[0].disabled = true;
 }
 
 // prijavi uporabnika
 function login () {
-    loginBlock.style.display = "none";
+    // loginBlock.style.display = "none";
+    document.getElementById("loginBtn").disabled = true;
 
     const loginUsernameField = document.getElementById("loginUsernameField");
     const loginPasswordField = document.getElementById("loginPasswordField");
@@ -75,7 +87,8 @@ function login () {
 
 // prijavi uporabnika
 function loginGuest () {
-    loginBlock.style.display = "none";
+    // loginBlock.style.display = "none";
+    document.getElementById("loginGuestBtn").disabled = true;
 
     const loginPoslovalnicaField = document.getElementById("loginPoslovalnicaField");
     const loginGuestPasswordField = document.getElementById("loginGuestPasswordField");
@@ -111,6 +124,7 @@ function submitForm_Login() {
         // drugače shrani uporabniške podatke in pojdi na index
         else {
             sessionStorage.setItem("UserData", JSON.stringify(serverRes.userData));
+            
             // window.location.href = "index.html";
             window.location.reload();
         }

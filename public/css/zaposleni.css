@@ -132,23 +132,25 @@ tr:hover .Da {
 }
 #seznamZaposlenihDiv input[type="number"] {
     text-align: center;
-    width: 30px;
+    width: 35px;
 }
 #seznamZaposlenihDiv input, #seznamZaposlenihDiv option, #seznamZaposlenihDiv select {
     font-size: 14px;
 }
 
-#seznamZaposlenihDiv label.niUsposobljen:hover {
+#seznamZaposlenihDiv label.niUsposobljen:hover,
+#seznamZaposlenihDiv span.niUsposobljen:hover {
     color:red;
     background-color: rgb(170, 170, 170);
 }
-#seznamZaposlenihDiv label.jeUsposobljen:hover {
+#seznamZaposlenihDiv label.jeUsposobljen:hover,
+#seznamZaposlenihDiv span.jeUsposobljen:hover {
     color:green;
     background-color: rgb(190, 190, 190);
 }
-#seznamZaposlenihDiv label:hover {
+#seznamZaposlenihDiv label {
+    cursor: pointer;
 }
-
 .error {
     background-color: rgb(245, 200, 200);
     color: darkred;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/index.css" type="text/css">
 
     <title>Plan dela</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/icon.ico" />
 </head>
 <body >
     <!-- Header -->
@@ -20,8 +21,9 @@
     <!-- navigation menu -->
     <nav>
         <ul class="navList">
-            <li><a href="index">Domov</a></li>
-            <li><a href="predogledPlana">Preveri plan</a></li>
+            <li><a class="currentLink" href="index">Domov</a></li>
+            <li><a href="predogledGosti">Ogled plana</a></li>
+            <li><a href="predogledPlana">Tiskanje</a></li>
             <li><a href="oddelki">Urejanje oddelkov</a></li>
             <li><a href="zaposleni">Urejanje zaposlenih</a></li>
             <li><a href="urediTrenitenPlan">Ustvari plan</a></li>
@@ -50,6 +52,8 @@
     <!-- random introduction text 
         pisal sem kar neki, samo tok da se vidi kako zgleda -->
     <article>
+        <a href="predogledGosti">Gosti</a>
+        
         <h2>Predstavitev</h2>
         <p>
             <strong>Stran je v izdelavi</strong> in je v času izdelave prosto dostopna. 
@@ -98,7 +102,6 @@
         <h2>Katera pravila se preverjajo?</h2>
         <p>
             <h3>Spletna stran preverja naslednja pravila:</h3>
-
             <ul>
                 <li>
                     <h4>Obvezen dnevni počitek:</h4>
@@ -136,18 +139,22 @@
                     Program opozori, če zazna, da je oseba ob določeni uri v istem dnevu vnešena na večih mestih
                     <em>(npr. Kovač Miha ob 07:00-<u>14:00</u> in ob <u>12:00</u>-18:00 v ponedeljku)</em>. 
                 </li>
+                <li>
+                    <h4>Dovoljene nedelje na leto:</h4>
+                    Preverjanje ali je oseba opravila več nedelij v letu, kot dovoljeno.
+                </li>
+                <li>
+                    <h4>Dovoljenene nedelje na mesec:</h4>
+                    Oseba lahko v mesecu dela maksimalno 2 nedelji.
+                </li>
             </ul>
         </p>
         <p>
             <h3>Pravila, ki še niso implementirana:</h3>
             <ul>
                 <li>
-                    <h4>Dovoljene nedelje in prazniki na leto:</h4>
-                    Preverjanje ali je oseba opravila več nedelij ali praznikov v letu, kot dovoljeno.
-                </li>
-                <li>
-                    <h4>Dovoljenene nedelje na mesec:</h4>
-                    Oseba lahko v mesecu dela maksimalno 2 nedelji.
+                    <h4>Dovoljeni prazniki na leto:</h4>
+                    Preverjanje ali je oseba opravila več praznikov v letu, kot dovoljeno.
                 </li>
                 <li>
                     <h4>Posebna pravila za dijake pod 18. letom starosti:</h4>

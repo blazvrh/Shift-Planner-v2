@@ -7,6 +7,9 @@ var maxIndexes = {};
 window.addEventListener('load', () => {
     if (userData) {
         submitForm_oddelekGet();
+
+        add_liseners_toTextInputWithTime(document.getElementById("prihodNaOddelek"))
+        add_liseners_toTextInputWithTime(document.getElementById("odhodIzOddelka"))
     }
 });
 
@@ -142,10 +145,15 @@ function onTimeEnterEdit (oddelekId, val) {
 
 
 // gumb za potrditev spremenb
-function btn_confirmEdit (oddelekId) {
+function btn_confirmEdit (btnEl, oddelekId) {
+    btnEl.disabled = true;
+    
     if (checkEditValues(oddelekId)) {
         onTableErrorOddelki("");
 
         submitForm_oddelekUpdate(edit_inputFields_oddelki);
+    }
+    else {
+        btnEl.disabled = false;
     }
 }

@@ -25,9 +25,9 @@ function btn_ShowSelectedWeek() {
     submitForm_get_trenuenPlan();    
 }
 
-function create_preview_SelectedWeek(weekData, oddDop, oddPop) {
-    create_table_selectedWeek (weekData, oddDop, oddPop);    
-}
+// function create_preview_SelectedWeek(weekData, oddDop, oddPop) {
+//     create_table_selectedWeek (weekData, oddDop, oddPop);    
+// }
 
 
 function printPlan() {

@@ -1,4 +1,6 @@
 
+var timeValOnFocus = "";
+
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
 // on name input blur
 function onBlur_name_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
@@ -48,7 +50,19 @@ function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
         inp_timeEl.value = "";
     }
 
+    if (inp_timeEl.value !== timeValOnFocus) {
+        onDataChange();
+    }
     // seštejemo in prikažemo seštevek ur v tednu
     // let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
     // sumAndShow_sestevekUr(currWeekData);
+}
+
+function onDataChange () {
+    let imageElements = document.getElementsByClassName("doneIndicator");
+
+    for (let i = 0; i < imageElements.length; i++) {
+        img = imageElements[i];
+        img.src = "images/krizec.png";
+    }
 }

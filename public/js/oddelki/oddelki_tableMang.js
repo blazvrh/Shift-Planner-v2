@@ -138,7 +138,7 @@ function createEditRow_oddelki (oddelekId) {
         else if (tdID == "removeBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
-            inputElement.onclick = () => {btn_confirmEdit(oddelekId)};
+            inputElement.onclick = function() {btn_confirmEdit(this, oddelekId)};
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 
@@ -161,15 +161,19 @@ function createEditRow_oddelki (oddelekId) {
         // ustvarimo preostale input elemente
         else if (tdID != "") {
             let inputElement = document.createElement("input");
-            inputElement.setAttribute("type", tdID);
             inputElement.value = editingTd[i].innerText;
+            inputElement.setAttribute("type", tdID);
             if (tdID == "number") {
                 inputElement.setAttribute("min", "1");
                 inputElement.setAttribute("max", "20");
             } else if (tdID == "text") {
+                inputElement.setAttribute("type", tdID);
                 inputElement.setAttribute("maxlength", "20");
             } else if(tdID == "time") {
-                inputElement.setAttribute("onchange", "onTimeEnterEdit("+oddelekId+", this.value)");
+                inputElement.setAttribute("type", "text");
+                add_liseners_toTextInputWithTime(inputElement);
+                inputElement.classList.add("textTime");
+                inputElement.setAttribute("onchange", "onTimeEnterEdit(" + oddelekId + ", this.value)");
             }
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);

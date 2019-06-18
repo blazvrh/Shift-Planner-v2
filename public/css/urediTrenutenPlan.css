@@ -72,6 +72,7 @@ h2 {
     position: relative;
     padding: 2px;
     margin: 0;
+    /* white-space:nowrap; */
 }
 #mainTable .rowOfOddelek {
     border-right: 1px dotted grey;
@@ -108,6 +109,12 @@ input[type="date"]::-webkit-clear-button,
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-outer-spin-button {
     display: none;
+}
+input[inputType="txtTime"] {
+    width: 36px !important;
+    /* font-size: 14px; */
+    text-align: center;
+    margin: 1px;
 }
 
 .error {
@@ -239,4 +246,64 @@ button {
 
 #clearAllInputs {
     width: 250px !important;
+}
+
+.doneIndicator {
+    float: right;
+}
+.btnImg {
+    width: 20px;
+    position: relative;
+    top: 1px;
+}
+
+/* additional data */
+
+#additionalInfo {
+    
+}
+#additionalInfo table {
+    margin: auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+#additionalInfo td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 3px;
+}
+#additionalInfo th {
+    padding: 5px;
+}
+#additionalInfo thead th {
+    border: 2px solid black;
+}
+#additionalInfo #hoursByWorker tbody th {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+#additionalInfo #hoursByWorker td:nth-last-child(3) {
+    font-weight: bold;
+}
+#additionalInfo tr:hover {
+    background-color: rgb(210, 210, 210);
+}
+#additionalInfo #hoursByWorker tbody tr:last-child th,
+#additionalInfo tr:last-child td {
+
+    border-bottom: 1px solid black !important;
+}
+#additionalInfo div {
+    background-color: rgb(240, 240, 240);
+    padding: 10px;
+    margin: 25px 0;
+}
+#additionalInfo div h3 {
+    text-align: center;
+    padding-top: 0;
+    margin-top: 0;
 }

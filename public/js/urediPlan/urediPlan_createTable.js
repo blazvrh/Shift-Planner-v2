@@ -111,6 +111,8 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("list", "imenaZaposlenih");
                     inputElem_name.setAttribute ("class", "imeZap");
                     
+                    inputElem_name.onchange = function() { onDataChange() };
+                    
                     // če je normalen oddelek dodamo lisener onblur
                     if (smenaData[oddNum].specialOddelek == "") {
                         // max dolžina inputa za ime
@@ -142,15 +144,21 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     errIndex.classList.add("hide");
                     // errIndex.innerHTML = "<p>3</p>"
 
-                    let indexContenier = document.createElement("div");
-                    indexContenier.className = "errWarnIndexConteiner";
-                    indexContenier.append(warnIndex);
-                    indexContenier.append(errIndex);
+                    let errorIndexContenier = document.createElement("div");
+                    errorIndexContenier.className = "errWarnIndexConteiner";
+                    errorIndexContenier.append(warnIndex);
+                    errorIndexContenier.append(errIndex);
                     // dodamo v celico za ime in v pod-tabelo
                     var tdNameInp = document.createElement("td");
                     // tdNameInp.append(warnIndex);
                     // tdNameInp.append(errIndex);
-                    tdNameInp.append(indexContenier);
+
+                    
+                    let rowError = document.createElement("tr");
+                    let rowData = document.createElement("tr");
+
+
+                    tdNameInp.append(errorIndexContenier);
                     tdNameInp.append(inputElem_name);
                     subTable.append(tdNameInp);
 
@@ -161,7 +169,13 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                         
                         for (let i = 0; i < inputElemTime.length; i++) {
                             let element = inputElemTime[i];
-                            element.setAttribute ("type", "time");
+                            // element.setAttribute ("type", "time");
+                            element.setAttribute ("type", "text");
+                            
+                            add_liseners_toTextInputWithTime(element);
+                            element.setAttribute ("inputType", "txtTime");
+                            // element.classList.add("textTime");
+                            
                             // dodamo position in class (start/end) attribute
                             element.setAttribute ("position", xPos + "," + yPos);
                             element.setAttribute ("smena", smena);
@@ -173,7 +187,9 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                             element.onblur = function() {
                                 onBlur_time_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
                                     smenaData[oddNum].odhod)
-                            }
+                            };
+
+                            element.onfocus = function() { timeValOnFocus = this.value };
                             // element.setAttribute ("oddelekId", smenaData[oddNum].oddID);
 
                             tdHourInp.append(element);
@@ -246,6 +262,7 @@ function create_missingPersonsTable (missingPersonData) {
     }
 
     // izpišemo redno zaposlene
+    // newTbody.innerHTML += "<tr><th>Redno zaposleni:</th></tr>";
     for (let rowIndex = 0; rowIndex < maxWorkerCount; rowIndex++) {
         let rowEl = document.createElement("tr");
 
@@ -275,4 +292,79 @@ function create_missingPersonsTable (missingPersonData) {
     }
 
     tableBodyElemet.innerHTML = newTbody.innerHTML;
+}
+
+
+function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniData) {
+    let tableBody = document.getElementById("hoursByWorker").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = "";
+    
+    const names = Object.keys(zaposleniData);
+
+    names.forEach(name => {
+        let tableRowData = [];
+        // tableRowData.push(zaposleniData[name].prikazanoImeZap);
+        let weekMinutes = 0;
+        let workingThisSunday = false;
+
+        // pridobimo ure v tednu
+        if (typeof(weekData[name]) !== "undefined") {
+            for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
+                let dayMinutes = 0;
+                
+                for (let i = 0; i < weekData[name][dayIndex].length; i++) {
+                    const cell = weekData[name][dayIndex][i];
+                    if (isSpecialOddelek(cell)) continue;
+
+                    if (dayIndex === 7) {
+                        workingThisSunday = true;
+                    }
+                    dayMinutes += get_timeDifference_inMinutes_betweenTwoTimes(cell.startTime, cell.endTime);
+                }
+                tableRowData.push(Number.parseInt(dayMinutes/60).toString());
+                weekMinutes += dayMinutes;
+            }
+        }
+        else {
+            for (let i = 0; i < 7; i++) {
+                tableRowData.push("0");
+            }
+        }
+        tableRowData.push(Number.parseInt(weekMinutes/60).toString());
+
+        let workerSundayDataExists = false;
+        if (sundayData !== null) {
+            if(typeof(sundayData[name]) !== "undefined") {
+                workerSundayDataExists = true;
+
+                let monthSundays = sundayData[name].monthSundays;
+                let yearSundays = sundayData[name].monthSundays;
+
+                monthSundays = workingThisSunday ? monthSundays + 1 : monthSundays;
+                yearSundays = workingThisSunday ? yearSundays + 1 : yearSundays;
+
+                tableRowData.push(monthSundays.toString());
+                tableRowData.push(yearSundays.toString());
+            }
+        }
+
+        if (!workerSundayDataExists) {
+            if (workingThisSunday) {
+                tableRowData.push("1");
+                tableRowData.push("1");
+            }
+            else {
+                tableRowData.push("0");
+                tableRowData.push("0");
+            }
+        }
+
+        // vpišemo v tabelo
+        let htmlText = "<tr><th>" + zaposleniData[name].prikazanoImeZap + "</th>";
+        for (let i = 0; i < tableRowData.length; i++) {
+            htmlText += "<td>" + tableRowData[i] + "</td>";
+        }
+        htmlText += "</tr>";
+        tableBody.innerHTML += htmlText;
+    });
 }

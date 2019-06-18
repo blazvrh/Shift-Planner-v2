@@ -35,6 +35,9 @@ input[type="number"]:hover::-webkit-outer-spin-button {
     opacity: 1;
     cursor: pointer;
 }
+.dodajOddelek .textTime {
+    width: 50px;
+}
 input[type="time"]::-webkit-clear-button,
 input[type="time"]::-webkit-inner-spin-button,
 input[type="time"]::-webkit-outer-spin-button {
@@ -85,8 +88,13 @@ input[type="time"]::-webkit-outer-spin-button {
 }
 
 /* urejanje ustvarjenih oddelkov */
-.seznamOddelkov input {
+.seznamOddelkov input,
+.seznamOddelkov select,
+.seznamOddelkov option {
     font-size: 14px;
+}
+.tablesDiv .textTime {
+    width: 40px;
 }
 .editError {
     font-size: 16px;

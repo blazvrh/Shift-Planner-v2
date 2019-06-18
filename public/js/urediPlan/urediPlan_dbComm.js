@@ -241,6 +241,8 @@ function submitForm_get_lastWeekPlan() {
         window.location.href ="#creationTable";
         
         buttonElements.btn_showWeek.disabled = false;
+        
+        document.getElementById("saveDoneIndicator").src = "images/kljukica.png";
     }
 
     var formData = new FormData ();
@@ -272,9 +274,9 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
             
             return;
         }
-        // drugače počisti polja in posodobi tabelo
         else {
             buttonElements.saveCurrPlan.disabled = false;
+            document.getElementById("saveDoneIndicator").src = "images/kljukica.png";
         }
     }; 
 

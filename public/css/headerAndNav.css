@@ -31,9 +31,6 @@ footer {
     padding-bottom: 2px;
 
     margin-bottom: 0;
-    /* position: fixed; */
-    /* bottom: 0; */
-    
     width: 100%;
     margin-top: 100px;
     margin-bottom: 2px;
@@ -53,6 +50,8 @@ nav {
 }
 nav ul li {
     float: left;
+    margin: 0;
+    padding: 0;
 }
 .navList a,
 .navList a:link, 
@@ -63,8 +62,9 @@ nav ul li {
 .navList a:hover {
     color: white;
 }
-nav li a{
-    padding: 10px 30px 3px 20px;
+nav li a {
+    margin: 7px 10px 0 5px;
+    padding: 3px 15px 5px 15px;
 }
 .loginStyle {
     float: right;
@@ -84,6 +84,7 @@ nav li a{
     color: rgb(75, 9, 9);
     font-size: 14px;
     margin-top: 4px;
+    background-color: rgb(245, 200, 200);
 }
 .logoutStyle {
     float: right;
@@ -92,4 +93,17 @@ nav li a{
 }
 .logoutStyle li {
     margin-right: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.currentLink {
+    background-color: rgb(219, 159, 159);
+    border-radius: 30px;
+    color: rgb(100, 13, 28) !important;
+}
+.currentLink:hover {
+    color:white !important;
 }

@@ -124,6 +124,8 @@ function btn_check_currPlan () {
     sumAndShow_sestevekUr(currWeekData);
     // prikažemo vse manjkajoče osebe v planu
     create_missingPersonsTable(get_missingPresonData(currWeekData));
+    // prikažemo podatke po osebah
+    create_table_hoursAndSundayByWorker (currWeekData, data.sundayData, data.zaposleni)
 
     // warning check
     preveri_zaposlen_obstaja(currWeekData);
@@ -140,12 +142,14 @@ function btn_check_currPlan () {
     preveri_dnevniPocitek(data.prevWeekData, currWeekData);
     preveri_dvoTedenskiPocitek(data.prevWeekData, currWeekData);
     preveri_prepovedDeljenegaDela(currWeekData);
-    // preveri_stNedelijLetno(currWeekData);
+    preveri_stNedelijLetno(currWeekData);
     
     // prikažemo vse napake
     displayErrors(tooltips);
     
     buttonElements.checkCurrPlan.disabled = false;
+    
+    document.getElementById("checkDoneIndicator").src = "images/kljukica.png";
 }
 
 

@@ -1,20 +1,38 @@
 
 // ustvari predogled plana za izbran teden
-function create_table_selectedWeek(weekData, oddDop, oddPop) {
-    let planDelaIzbranTedenDiv = document.getElementById("planDelaIzbranTedenDiv");
+function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additionalDataObject) {
+    let workingWeekNumber;
+    let workingMondayDate;
+    let poslovalnica = "";
+    let noEntryText = "";
+    
+    if (typeof(additionalDataObject) === "undefined") {
+        workingWeekNumber = currDateData.selectedWeekNumber;
+        workingMondayDate = currDateData.selectedMondayDate;
+        poslovalnica = userData.poslovalnica;
+        noEntryText = "Za ta teden ni shranjenega vnosa!";
+    }
+    else {
+        workingWeekNumber = additionalDataObject.weekNum;
+        workingMondayDate = additionalDataObject.mondayDate;
+        poslovalnica = imePoslovalnice;
+        noEntryText = "Za ta teden ni objavljenega vnosa!";
+    }
+    
+    let planDelaIzbranTedenDiv = divElement;
     
     // če je prazen objekt potem izpiši "NI VNOSA"
     if (Object.keys(weekData).length < 1) {
-        planDelaIzbranTedenDiv.innerHTML = "<h3>Za ta teden ni shranjenega vnosa!</h3>"
+        planDelaIzbranTedenDiv.innerHTML = "<h3>" + noEntryText + "</h3>"
         return;
     }
 
-    let workingWeekNumber = currDateData.selectedWeekNumber;
-    let workingMondayDate = currDateData.selectedMondayDate;
+    
     
     
     let tableElement = document.createElement("table");
     tableElement.setAttribute("id", "mainTable_selectedWeek");
+    tableElement.setAttribute("class", "mainTable_selectedWeek");
     
     tableElement.append(ustvariHeader(workingMondayDate, workingWeekNumber));
     
@@ -25,15 +43,17 @@ function create_table_selectedWeek(weekData, oddDop, oddPop) {
     delete_emptyRows(tableElement);
 
     planDelaIzbranTedenDiv.innerHTML = "<h3>" + workingWeekNumber + " teden " + workingMondayDate.getFullYear() + 
-        " - Poslovalnica: " + userData.poslovalnica + "</h3>";
+        " - Poslovalnica: " + poslovalnica + "</h3>";
 
     planDelaIzbranTedenDiv.append(tableElement);
     
-    let printBtn = document.createElement("button");
-    printBtn.classList.add("hideOnPrint");
-    printBtn.innerHTML = "Tiskaj!";
-    printBtn.onclick = function() { printPlan(); }
-    planDelaIzbranTedenDiv.append(printBtn);
+    if (typeof(additionalDataObject) === "undefined") {
+        let printBtn = document.createElement("button");
+        printBtn.classList.add("hideOnPrint");
+        printBtn.innerHTML = "Tiskaj!";
+        printBtn.onclick = function() { printPlan(); }
+        planDelaIzbranTedenDiv.append(printBtn);
+    }
     
     window.location.href ="#planDelaIzbranTedenDiv";
 }
@@ -108,13 +128,6 @@ function create_Smeno (smena, mainTable, smenaData) {
                 else if (dayNum > 0) {
                     cell = document.createElement("td");
                 }
-
-                // // če je zadnja vrstica potem dodamo class - za style
-                // if (rowNum == smenaData[oddNum].stVrsticOddelka - 1) {
-                //     cell.classList.add("lastRowOfOddelek");
-                // } else {
-                //     cell.classList.add("rowOfOddelek");
-                // }
 
                 // dodamo position atribute še celici
                 cell.setAttribute ("position", xPos + "," + yPos);

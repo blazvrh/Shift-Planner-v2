@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,9 @@
     <!-- css files -->
     <link rel="stylesheet" href="css/headerAndNav.css" type="text/css">
     <link rel="stylesheet" href="css/oddelki.css" type="text/css">
+    
     <title>Plan dela - Oddelki</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/icon.ico" />
 </head>
 <body>
     <!-- header -->
@@ -19,8 +21,9 @@
     <nav>
         <ul class="navList">
             <li><a href="index">Domov</a></li>
-            <li><a href="predogledPlana">Preveri plan</a></li>
-            <li><a href="oddelki">Urejanje oddelkov</a></li>
+            <li><a href="predogledGosti">Ogled plana</a></li>
+            <li><a href="predogledPlana">Tiskanje</a></li>
+            <li><a class="currentLink" href="oddelki">Urejanje oddelkov</a></li>
             <li><a href="zaposleni">Urejanje zaposlenih</a></li>
             <li><a href="urediTrenitenPlan">Ustvari plan</a></li>
             
@@ -88,11 +91,11 @@
                     <tr>
                         <td><p>
                             Običajni čas prihoda za oddelk:
-                            <input type="time" id="prihodNaOddelek" name="prihod"> 
+                            <input type="text" id="prihodNaOddelek" name="prihod" class="textTime"> 
                         </p></td>
                         <td><p>
                             Običajni čas odhoda za oddelek: 
-                            <input type="time" id="odhodIzOddelka" name="odhod"> 
+                            <input type="text" id="odhodIzOddelka" name="odhod" class="textTime"> 
                         </p></td>
                     </tr>
                 </table>
@@ -133,6 +136,7 @@
         <script src="js/loginCheck.js" type="text/javascript"></script>
         <script src="js/loginRegister/login.js" type="text/javascript"></script>
         
+        <script src="js/timeInputAvtocorrect.js" type="text/javascript"></script>
         <script src="js/oddelki/oddelki_validation.js" type="text/javascript"></script>
         <script src="js/oddelki/oddelki_tableMang.js" type="text/javascript"></script>
         <script src="js/oddelki/oddelki.js" type="text/javascript"></script>
