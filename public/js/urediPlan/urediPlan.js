@@ -4,6 +4,12 @@ var allErrors = { warnings:[], errors:[] }
 var allDataCellElements;
 var buttonElements = { };
 
+var simpleClickData = {
+    selectedName: "",
+    numberOfUses: 0,
+    allNameElements: []
+};
+
 var dnevniPocitek = 11; // potreben minimalni dnevni počitek v urah
 
 // pridobimo podatke ko se stran laoži
@@ -45,6 +51,23 @@ function showMainPageContent () {
     buttonElements.checkCurrPlan.onclick = function() { btn_check_currPlan(); }
     // lisener za clear all inputs
     buttonElements.clearAllInputs.onclick = function() { btn_clear_WeekInputs(); }
+
+    const simpleButtonNumberRadios = document.querySelectorAll("input[name='numOfUses']");
+    for (let i = 0; i < simpleButtonNumberRadios.length; i++) {
+        simpleButtonNumberRadios[i].onclick = function () { 
+            if (this.value === "one") {
+                simpleClickData.numberOfUses = 1;
+            }
+            else {
+                simpleClickData.numberOfUses = 99;
+            }
+        }
+    }
+    // lisener za spremembo tedna btn (+1)
+    document.getElementById("showSimpleClick").onclick = function() { btn_showSimpleClick(); }
+    // lisener za spremembo tedna btn (+1)
+    document.getElementById("hideSimpleClick").onclick = function() { btn_hideSimpleClick(); }
+
 
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
@@ -211,9 +234,72 @@ function clearWarnErrorIndexes () {
 }
 
 
+function simpleClick_setValue (nameElement) {
+    
+    const selectedNameStr = nameElement.getAttribute("val");
+    
+    if(selectedNameStr === simpleClickData.selectedName) {
+        unselectSimpleClick(true);
+        return;
+    }
 
-// // get key of object by known value
-// function getKeyByValue(object, value) {
-//     return Object.keys(object).find(key => object[key] === value);
-// }
+    unselectSimpleClick(false);
 
+    simpleClickData.selectedName = selectedNameStr;
+    nameElement.className = "selectedName";
+    
+    // const numOfUsesElement = document.getElementById("numberOfUses");
+    const numOfUsesElement = document.querySelector("input[name='numOfUses']:checked");
+
+    if (numOfUsesElement.value === "one") {
+        simpleClickData.numberOfUses = 1;
+    }
+    else {
+        simpleClickData.numberOfUses = 99;
+    }
+}
+
+function simpleClick_input (inputElement) {
+    if (simpleClickData.selectedName !== "" && simpleClickData.numberOfUses > 0) {
+        inputElement.setAttribute('list','');
+        inputElement.value = simpleClickData.selectedName;
+
+        inputElement.onmouseup = function(e) { 
+            inputElement.blur();
+            this.onmouseup = function(e) { };
+        };
+    }
+    
+    inputElement.setAttribute('list','imenaZaposlenih');
+    onDataChange();
+    if (simpleClickData.numberOfUses === 1) {
+        unselectSimpleClick(true);
+    }
+}
+
+function unselectSimpleClick(clearDataBool) {
+    if (simpleClickData.allNameElements.length < 1) {
+        simpleClickData.allNameElements = document.getElementById("simpleClickNames").getElementsByTagName("div");
+    }
+    for (let i = 0; i < simpleClickData.allNameElements.length; i++) {
+        simpleClickData.allNameElements[i].className = "unselectedName";
+    }
+
+    if (clearDataBool) {
+        simpleClickData.selectedName = "";
+        simpleClickData.numberOfUses = 0;
+    }
+}
+
+function btn_showSimpleClick() {
+    document.getElementById("simpleClick").style.display = "flex";
+    document.getElementById("showSimpleClick").style.display = "none";
+    document.getElementById("creationTable").style.width = "85%";
+}
+
+
+function btn_hideSimpleClick() {
+    document.getElementById("simpleClick").style.display = "none";
+    document.getElementById("showSimpleClick").style.display = "initial";
+    document.getElementById("creationTable").style.width = "100%";
+}

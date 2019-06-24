@@ -307,3 +307,98 @@ button {
     padding-top: 0;
     margin-top: 0;
 }
+
+#creationTable {
+    width: 85%;
+    overflow: auto;
+}
+#simpleClick {
+    display: flex;
+    flex-flow: column;
+    float: right;
+    width: 14%;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    right: 0;
+    max-height: 100vh;
+    border: 1px solid black;
+    box-shadow: 2px 2px gray;
+}
+#simpleClickNames {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 0;
+}
+#headerConteinerSimpleClick {
+    display: grid;
+}
+#simpleClickHeader {
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    flex-grow: 2;
+}
+#simpleClickHeader hr {
+    padding: 0;
+    margin: 0;
+}
+#simpleClickHeader h3 {
+    padding: 5px;
+    margin: 0;
+}
+#simpleClickHeader h4 {
+    padding: 5px;
+    margin: 0;
+}
+#simpleClickNames div {
+    padding: 2px 0;
+    margin: 3px 5px;
+    font-size: 18px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+#simpleClickNames p {
+    padding: 10px 5px 5px 5px;
+    margin: 0;
+    text-align: left;
+}
+.unselectedName {
+    background-color: rgb(245, 245, 245);
+}
+.selectedName {
+    background-color: rgb(190, 190, 190);
+}
+#simpleClick label {
+    cursor: pointer;
+}
+
+.showHideSimpleClickBtn {
+    position: relative;
+    width: 30px !important;
+    height: 30x !important;
+    float: right;
+}
+#showSimpleClick {
+    margin: 5px 0 !important;
+    padding: 0 !important;
+    display: none;
+}
+#hideSimpleClick {
+    padding: 0 !important;
+    margin: 0 !important;
+    top: -3px;
+    right: -3px;
+}
+.mainTableTitle {
+    float: left;
+    padding: 10px;
+    margin: 0;
+}
+
+.clearFloat {
+    clear: both;
+}

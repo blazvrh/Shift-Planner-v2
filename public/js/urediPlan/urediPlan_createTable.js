@@ -25,6 +25,8 @@ function btn_createCurrTable () {
 
     allDataCellElements = document.querySelectorAll("#mainTable td[position]");
     
+    create_simpleClickWorkers(data.zaposleni);
+
     submitForm_get_trenuenPlan();
 }
 
@@ -67,6 +69,19 @@ function ustvariHeader () {
     }
 
     tHeader.append(rowHeader);
+
+    let praznikiRow = document.createElement("tr");
+
+    for (let i = 0; i < 8; i++) {
+        let cell = document.createElement("td");
+        if (i > 0) {
+            cell.innerHTML = "Praznik?";
+        }
+        praznikiRow.append(cell);
+    }
+
+    tHeader.append(praznikiRow);
+
     return tHeader;
 }
 
@@ -110,6 +125,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("type", "text");
                     inputElem_name.setAttribute ("list", "imenaZaposlenih");
                     inputElem_name.setAttribute ("class", "imeZap");
+                    inputElem_name.onmousedown = function() { simpleClick_input(this) };
                     
                     inputElem_name.onchange = function() { onDataChange() };
                     
@@ -240,6 +256,46 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
         }
     }
     mainTable.append(tBody);
+}
+
+
+function create_simpleClickWorkers(zaposleniData) {
+    let conteinerDiv = document.getElementById("simpleClickNames");
+    conteinerDiv.innerHTML = "";
+    
+    const allNames = Object.keys(zaposleniData);
+
+    let studentNames = [];
+
+    allNames.forEach(name => {
+        const originalName = zaposleniData[name].prikazanoImeZap;
+        if (zaposleniData[name].student !== 0) {
+            studentNames.push(originalName);
+            return;
+        }
+        let nameDiv = document.createElement("div");
+        nameDiv.innerHTML = originalName;
+        nameDiv.setAttribute("val", originalName);
+        nameDiv.onclick = function() { simpleClick_setValue(this) };
+        nameDiv.className = "unselectedName";
+        
+        conteinerDiv.append(nameDiv);
+    });
+
+    // ustvarimo študente
+    let studnetTitle = document.createElement("p");
+    studnetTitle.innerText = "Študenti:";
+    conteinerDiv.append(studnetTitle);
+    
+    studentNames.forEach(name => {
+        let nameDiv = document.createElement("div");
+        nameDiv.innerHTML = name;
+        nameDiv.setAttribute("val", name);
+        nameDiv.onclick = function() { simpleClick_setValue(this) };
+        nameDiv.className = "unselectedName";
+        
+        conteinerDiv.append(nameDiv);
+    });
 }
 
 

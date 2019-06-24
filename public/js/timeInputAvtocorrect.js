@@ -138,7 +138,7 @@ function add_liseners_toTextInputWithTime(inputElement) {
     inputElement.addEventListener('blur', function (evt) {
         correct_timeInputValue_onBlur(this);
     });
-    inputElement.addEventListener('focus', function (evt) {
+    inputElement.addEventListener('mouseup', function (evt) {
         select_wholeInputText(this);
     });
 }

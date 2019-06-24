@@ -110,13 +110,43 @@
                 <button id="btn_showWeek">Prikaži teden!</button>
             </div>
 
+            <hr>
+
             <div id="tableZaPlan" style="display: none">
-                <h3><br>Nov plan:</h3>
+                <h3 class="mainTableTitle">Plan za izbran teden:</h3>
                 <datalist id="imenaZaposlenih"></datalist>
                 
-                <!-- Glanva tabela -->
-                <div id="creationTable"></div>
+                <div>
+                    <button id="showSimpleClick" class="showHideSimpleClickBtn">&lt;</button>
+                    <div class="clearFloat"></div>
+                    <div id="simpleClick">
+                        <div id="headerConteinerSimpleClick">
+                            <div id="simpleClickHeader">
+                                <h3>
+                                    <button id="hideSimpleClick" class="showHideSimpleClickBtn">&gt;</button>
+                                    Simple click
+                                </h3>
+                                <div class="clearFloat"></div>
+                                <hr>
+                                <h4>Št. vnosov:</h4>
+                                <div id="numberOfUses">
+                                    <input type="radio" name="numOfUses" id="oneUse" value="one" checked>
+                                    <label for="oneUse">1x</label>
+                                    <br>
+                                    <input type="radio" name="numOfUses" id="moreUses" value="infin">
+                                    <label for="moreUses">Neomejeno</label>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        <div id="simpleClickNames"></div>
+                    </div>
 
+                    <!-- Glanva tabela -->
+                    <div id="creationTable"></div>
+                </div>
+
+                <div class="clearFloat"></div>
                 <!-- gumbi -->
                 <div id="tableButtons"><p>
                     <button id="checkCurrPlan">
