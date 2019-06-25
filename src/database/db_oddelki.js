@@ -112,7 +112,6 @@ async function remove_Oddelek (oddelekData) {
 async function update_newOddelek (oddelekData, maxIndexes) {
     let conn;
     let result = { isError: true, msg: "Neznana napaka"};
-    console.log(maxIndexes);
     
     try {
         conn = await pool.getConnection();
@@ -130,10 +129,12 @@ async function update_newOddelek (oddelekData, maxIndexes) {
 
         // porpavimo idex za vse vmesne
         if (prevPosition > oddelekData.positionForUser) {
-            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser + 1 WHERE smena = '" + 
+            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser + 1 WHERE poslovalnica = '" +
+            oddelekData.poslovalnica + "' AND smena = '" + 
                 smena + "' AND positionForUser < " + prevPosition + " AND positionForUser >= " + oddelekData.positionForUser);
         } else if (prevPosition < oddelekData.positionForUser) {
-            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE smena = '" + 
+            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE poslovalnica = '" +
+            oddelekData.poslovalnica + "' AND smena = '" + 
                 smena + "' AND positionForUser > " + prevPosition + " AND positionForUser <= " + oddelekData.positionForUser);
         }
 

@@ -233,19 +233,19 @@ div[indexType] p {
 button {
     cursor: pointer;
 }
-
-#tableButtons {
-    text-align: center;
-}
 #tableZaPlan button {
     font-size: 20px;
     height: 30px;
     width: 150px;
-    margin: 15px 30px;
+    margin: 7px;
 }
-
+#mainBtns {
+    text-align: center;
+}
 #clearAllInputs {
-    width: 250px !important;
+    /* width: 250px !important; */
+    height: 40px !important;
+    font-size: 15px !important;
 }
 
 .doneIndicator {
@@ -257,11 +257,6 @@ button {
     top: 1px;
 }
 
-/* additional data */
-
-#additionalInfo {
-    
-}
 #additionalInfo table {
     margin: auto;
     border-collapse: collapse;
@@ -380,18 +375,19 @@ button {
     position: relative;
     width: 30px !important;
     height: 30x !important;
-    float: right;
 }
 #showSimpleClick {
     margin: 5px 0 !important;
     padding: 0 !important;
     display: none;
+    float: right;
 }
 #hideSimpleClick {
+    float: left;
     padding: 0 !important;
     margin: 0 !important;
-    top: -3px;
-    right: -3px;
+    top: 2px;
+    left: 2px;
 }
 .mainTableTitle {
     float: left;

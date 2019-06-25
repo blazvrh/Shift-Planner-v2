@@ -102,12 +102,6 @@ input[type="time"]::-webkit-outer-spin-button {
     background-color: rgb(245, 200, 200);
 }
 
-/* fotter */
-footer {
-    clear: both;
-    margin-bottom: 30px;
-}
-
 /* other */
 h2 {
     text-align: center;

@@ -62,11 +62,11 @@ h2 {
     padding: 5px 4px;
     border-radius: 15%;
 }
-#seznamUsposobljenosti input:checked {
+#dodajZaposlenegaDiv input[type=checkbox]:checked {
     outline: 1px solid rgb(30, 104, 30);
     outline-offset: -1px;
 }
-#seznamUsposobljenosti input:not(:checked) {
+#dodajZaposlenegaDiv input[type=checkbox]:not(:checked) {
     outline: 1px solid rgb(148, 13, 13);
     outline-offset: -1px;
 }
@@ -151,22 +151,39 @@ tr:hover .Da {
 #seznamZaposlenihDiv label {
     cursor: pointer;
 }
+
+
+/* Seznam zaposlenih po oddelkih */
+#PodatkiPoOddelkihData {
+    display: block;
+    background-color: rgb(240, 240, 240);
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#PodatkiPoOddelkihData table {
+    align-content: center;
+    margin: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+#PodatkiPoOddelkihData td, #PodatkiPoOddelkihData th{
+    border-bottom: 1px solid black;
+    border-left: 1px solid rgb(185, 185, 185);
+    padding: 5px;
+    text-align: center;
+    font-size: 18px;
+}
+#PodatkiPoOddelkihData td:first-child, #PodatkiPoOddelkihData th:first-child {
+    border-left: 1px solid black;
+}
+
+
 .error {
     background-color: rgb(245, 200, 200);
     color: darkred;
     text-align: center;
 }
-
-
-
-
 button {
     cursor: pointer;
 }
-
-
-
-
-
-
-

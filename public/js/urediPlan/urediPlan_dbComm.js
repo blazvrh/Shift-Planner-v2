@@ -277,6 +277,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
         else {
             buttonElements.saveCurrPlan.disabled = false;
             document.getElementById("saveDoneIndicator").src = "images/kljukica.png";
+            dataSaved = true;
         }
     }; 
 

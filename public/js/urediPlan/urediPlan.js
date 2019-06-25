@@ -3,6 +3,7 @@ var data = { };
 var allErrors = { warnings:[], errors:[] }
 var allDataCellElements;
 var buttonElements = { };
+var dataSaved = true;
 
 var simpleClickData = {
     selectedName: "",
@@ -68,6 +69,12 @@ function showMainPageContent () {
     // lisener za spremembo tedna btn (+1)
     document.getElementById("hideSimpleClick").onclick = function() { btn_hideSimpleClick(); }
 
+    // before unload
+    window.onbeforeunload = function (e) { 
+        if (!dataSaved) {
+            return true
+        }
+    };
 
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
@@ -263,6 +270,7 @@ function simpleClick_input (inputElement) {
     if (simpleClickData.selectedName !== "" && simpleClickData.numberOfUses > 0) {
         inputElement.setAttribute('list','');
         inputElement.value = simpleClickData.selectedName;
+        onDataChange();
 
         inputElement.onmouseup = function(e) { 
             inputElement.blur();
@@ -271,7 +279,6 @@ function simpleClick_input (inputElement) {
     }
     
     inputElement.setAttribute('list','imenaZaposlenih');
-    onDataChange();
     if (simpleClickData.numberOfUses === 1) {
         unselectSimpleClick(true);
     }

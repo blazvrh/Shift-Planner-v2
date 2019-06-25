@@ -44,7 +44,7 @@ function get_currPlan_data_workerOriented () {
     let weekData = { };
 
     for (let i = 0; i < allDataCellElements.length; i++) {
-        let inputs = allDataCellElements[i].querySelectorAll("input");
+        let inputs = allDataCellElements[i].querySelectorAll("input[position]");
         let valName = inputs[0].value;
 
         // če ni imena, skoči na naslednjega

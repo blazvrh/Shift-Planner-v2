@@ -116,14 +116,32 @@
                 <h3 class="mainTableTitle">Plan za izbran teden:</h3>
                 <datalist id="imenaZaposlenih"></datalist>
                 
+                <!-- Simple click -->
                 <div>
                     <button id="showSimpleClick" class="showHideSimpleClickBtn">&lt;</button>
                     <div class="clearFloat"></div>
                     <div id="simpleClick">
+                        <!-- gumbi -->
+                        <div id="headerConteinerSimpleClick">
+                                <button id="hideSimpleClick" class="showHideSimpleClickBtn">&gt;</button>
+                            <div id="mainBtns">
+                                <button id="checkCurrPlan">
+                                    <img id="checkDoneIndicator" class="doneIndicator btnImg" src="images/krizec.png">
+                                    Preveri!
+                                </button>
+                                <button id="saveCurrPlan">
+                                    <img id="saveDoneIndicator" class="doneIndicator btnImg" src="images/krizec.png">
+                                    Shrani!
+                                </button>
+                                <button id="clearAllInputs">Počisti celoten teden!</button>
+                                <hr>
+                            </div>
+                        </div>
+                        <!-- actual simple click -->
                         <div id="headerConteinerSimpleClick">
                             <div id="simpleClickHeader">
                                 <h3>
-                                    <button id="hideSimpleClick" class="showHideSimpleClickBtn">&gt;</button>
+                                    <!-- <button id="hideSimpleClick" class="showHideSimpleClickBtn">&gt;</button> -->
                                     Simple click
                                 </h3>
                                 <div class="clearFloat"></div>
@@ -147,18 +165,6 @@
                 </div>
 
                 <div class="clearFloat"></div>
-                <!-- gumbi -->
-                <div id="tableButtons"><p>
-                    <button id="checkCurrPlan">
-                        <img id="checkDoneIndicator" class="doneIndicator btnImg" src="images/krizec.png">
-                        Preveri!
-                    </button>
-                    <button id="saveCurrPlan">
-                        <img id="saveDoneIndicator" class="doneIndicator btnImg" src="images/krizec.png">
-                        Shrani!
-                    </button>
-                    <button id="clearAllInputs">Počisti celoten teden!</button>
-                </p></div>
 
                 <hr>
                 <p>
@@ -246,6 +252,7 @@
             </div>
         </div>
     </div>
+    <div class="fillEmptyPage"></div>
     <footer>
         Kontakt: krhodev@gmail.com <br>
         Created by Blaž Vrhovec; CopyRight 2019

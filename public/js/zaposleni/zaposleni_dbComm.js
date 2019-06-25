@@ -60,6 +60,7 @@ function submitForm_zaposleniGet() {
             // če je error zaradi nobenega vnosa
             if (serverRes.vsiZaposleni == null) {
                 create_table_osebe_zaposleni();
+                create_table_zaposleniPoOddelkih();
             }
             // če je kak drugačen error
             else {
@@ -80,6 +81,7 @@ function submitForm_zaposleniGet() {
 
             // ustvarimo tabelo zaposlenih
             create_table_osebe_zaposleni(serverRes.vsiZaposleni);
+            create_table_zaposleniPoOddelkih(serverRes.vsiZaposleni);
         }
         
         clearInputValuesZaposleni();

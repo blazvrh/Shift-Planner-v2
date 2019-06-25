@@ -65,4 +65,5 @@ function onDataChange () {
         img = imageElements[i];
         img.src = "images/krizec.png";
     }
+    dataSaved = false;
 }

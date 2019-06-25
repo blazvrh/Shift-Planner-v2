@@ -326,3 +326,94 @@ function toggle_usposobljenostZaposlenega_edit (el) {
         el.setAttribute("class", "jeUsposobljen");
     }
 }
+
+function create_table_zaposleniPoOddelkih (zaposleniData) {
+    let mainDivElement = document.getElementById("PodatkiPoOddelkihData");
+    if (typeof(zaposleniData) === "undefined") {
+        mainDivElement.innerHTML = "Ni najdenega vnosa zaposlenih!";
+        return; 
+    }
+
+    const zaposleniPoOddelkihData = get_zapNamesByOdd(zaposleniData);
+
+    // table 
+    let tableElement = document.createElement("table");
+    // table header
+    let tHead = document.createElement("thead");
+    let headRow = document.createElement("tr");
+
+    vsiOddelki_names.forEach(oddelekName => {
+        let thElement = document.createElement("th");
+        thElement.innerHTML = oddelekName;
+        headRow.append(thElement);
+    });
+    
+    tHead.append(headRow);
+    tableElement.append(tHead);
+    
+    // pridobimo potrebno število vrstic
+    let numOfRows = 0;
+    for (let i = 0; i < vsiOddelki_names.length; i++) {
+        if (zaposleniPoOddelkihData[vsiOddelki_names[i]].length > numOfRows) {
+            numOfRows = zaposleniPoOddelkihData[vsiOddelki_names[i]].length;
+        }
+    }
+
+    // vpišemo zaposlene
+    let tableBody = document.createElement("tbody");
+    for (let i = 0; i < numOfRows; i++) {
+        let row = document.createElement("tr");
+
+        for (let j = 0; j < vsiOddelki_names.length; j++) {
+            let cell = document.createElement("td");
+            if (typeof(zaposleniPoOddelkihData[vsiOddelki_names[j]][i]) !== "undefined") {
+                let zapData = zaposleniPoOddelkihData[vsiOddelki_names[j]][i];
+                cell.innerHTML = zapData.name;
+                cell.setAttribute("zapolenId", zapData.id);
+
+                cell.onmouseover = function () {
+                    let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+                    allCells.forEach(nameCell => {
+                        nameCell.style.backgroundColor = "rgb(190, 190, 190)";
+                    });
+                }
+                cell.onmouseout = function () {
+                    let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+                    allCells.forEach(nameCell => {
+                        nameCell.style.backgroundColor = "initial";
+                    });
+                }
+            }
+            row.append(cell);
+        }
+        tableBody.append(row);
+    }
+    tableElement.append(tableBody);
+    
+    mainDivElement.innerHTML = "";
+    mainDivElement.append(tableElement);
+}
+
+
+function get_zapNamesByOdd (zapData) {
+    let sortedData = { }
+    for (let i = 0; i < vsiOddelki_names.length; i++) {
+        sortedData[vsiOddelki_names[i]] = [];
+    }
+
+    for (let i = 0; i < zapData.length; i++) {
+        const singleZapUsposobljenost = zapData[i].usposobljenostZap;
+        
+        for (let j = 0; j < vsiOddelki_names.length; j++) {
+            const oddName = vsiOddelki_names[j];
+            if (singleZapUsposobljenost[oddName.toLowerCase()]) {
+                sortedData[oddName].push({ 
+                    name: zapData[i].prikazanoImeZap,
+                    id: zapData[i].zapID
+                })
+            }
+        }
+    }
+
+    return sortedData;
+}
