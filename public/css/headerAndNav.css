@@ -18,7 +18,7 @@ body {
     min-height: 98vh;
     margin: 5px;
     padding: 0px;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     display: flex;
     flex-direction: column;
 }
