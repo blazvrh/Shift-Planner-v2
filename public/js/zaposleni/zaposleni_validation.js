@@ -97,7 +97,7 @@ function check_EditValues_zaposleni (zapId) {
         edit_inputFields_zaposleni.prikazanoImeZap_edit.focus();
         return false;
     }
-    else if (edit_inputFields_zaposleni.prikazanoImeZap_edit.value != currentPrikazanoIme &&
+    else if (edit_inputFields_zaposleni.prikazanoImeZap_edit.value.toLowerCase() != currentPrikazanoIme.toLowerCase() &&
         prikazanaImenaVsa.includes((edit_inputFields_zaposleni.prikazanoImeZap_edit.value).toLowerCase())) {
         
         onError_seznamZaposlenih("To prikazano ime je že uporabljeno!\nProsim izberite drugačno ime.");

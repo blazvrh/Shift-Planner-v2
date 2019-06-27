@@ -263,7 +263,7 @@ function create_simpleClickWorkers(zaposleniData) {
     let conteinerDiv = document.getElementById("simpleClickNames");
     conteinerDiv.innerHTML = "";
     
-    const allNames = Object.keys(zaposleniData);
+    const allNames = Object.keys(zaposleniData).sort();
 
     let studentNames = [];
 
@@ -325,7 +325,15 @@ function create_missingPersonsTable (missingPersonData) {
         for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
             let tdEl = document.createElement("td");
             if (missingPersonData.workers[dayIndex][rowIndex]) {
-                tdEl.innerHTML = missingPersonData.workers[dayIndex][rowIndex];
+                const tempName = missingPersonData.workers[dayIndex][rowIndex];
+                tdEl.innerHTML = tempName;
+                
+                if (tempName !== "") {
+                    const zapId = data.zaposleni[tempName.toLowerCase()].zapID;
+                    tdEl.setAttribute("zapolenId", zapId);
+                }
+
+                
             }
             rowEl.append(tdEl);
         }
@@ -340,7 +348,12 @@ function create_missingPersonsTable (missingPersonData) {
         for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
             let tdEl = document.createElement("td");
             if (missingPersonData.students[dayIndex][rowIndex]) {
-                tdEl.innerHTML = missingPersonData.students[dayIndex][rowIndex];
+                const tempName = missingPersonData.students[dayIndex][rowIndex];
+                tdEl.innerHTML = tempName;
+                if (tempName !== "") {
+                    const zapId = data.zaposleni[tempName.toLowerCase()].zapID;
+                    tdEl.setAttribute("zapolenId", zapId);
+                }
             }
             rowEl.append(tdEl);
         }
@@ -348,6 +361,25 @@ function create_missingPersonsTable (missingPersonData) {
     }
 
     tableBodyElemet.innerHTML = newTbody.innerHTML;
+
+    let allCellElements = document.querySelectorAll("#missingPersons td[zapolenId]");
+    
+    for (let i = 0; i < allCellElements.length; i++) {
+        let cell = allCellElements[i];
+        cell.onmouseover = function () {
+            let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+            allCells.forEach(nameCell => {
+                nameCell.style.backgroundColor = "rgb(190, 190, 190)";
+            });
+        }
+        cell.onmouseout = function () {
+            let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+            allCells.forEach(nameCell => {
+                nameCell.style.backgroundColor = "initial";
+            });
+        }
+    }
+    
 }
 
 
@@ -355,7 +387,7 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
     let tableBody = document.getElementById("hoursByWorker").getElementsByTagName("tbody")[0];
     tableBody.innerHTML = "";
     
-    const names = Object.keys(zaposleniData);
+    const names = Object.keys(zaposleniData).sort();
 
     names.forEach(name => {
         let tableRowData = [];

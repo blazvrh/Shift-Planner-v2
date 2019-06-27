@@ -23,7 +23,7 @@ if (!userData) {
 } 
 
 // za primer da smo se prijavili z računom za goste
-if (window.location.pathname === "/predogledGosti" && imePoslovalnice !== "" && !userData) {
+if ((window.location.pathname === "/predogledGosti" || window.location.pathname === "/predogledGosti.html") && imePoslovalnice !== "" && !userData) {
     const userDataDisplay = document.getElementById("userDataDisplay");
     userDataDisplay.innerText = "Poslovalnica: " + imePoslovalnice;
     if (loginBlock) loginBlock.style.display = "none";
@@ -57,9 +57,28 @@ function onGuestLoginError(errorMsg, showBtn) {
 
 // odjavi uporabnika
 function logout() {
-    sessionStorage.clear();
-    window.location.href = "index.html";
-    document.getElementById("logoutBlock").getElementsByTagName("button")[0].disabled = true;
+    // let canceled = false;
+    if (window.location.pathname === "/urediTrenitenPlan" || window.location.pathname === "/urediTrenitenPlan.html") {
+        if (!dataSaved) {
+            let answer = window.confirm("Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli.");
+            if(answer) {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+                document.getElementById("logoutBlock").getElementsByTagName("button")[0].disabled = true;
+                window.onbeforeunload = function (e) { }
+            }
+        }
+        else {
+            document.getElementById("logoutBlock").getElementsByTagName("button")[0].disabled = true;
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        }
+    }
+    else {
+        document.getElementById("logoutBlock").getElementsByTagName("button")[0].disabled = true;
+        sessionStorage.clear();
+        window.location.href = "index.html";
+    }
 }
 
 // prijavi uporabnika

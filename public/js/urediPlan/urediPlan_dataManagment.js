@@ -191,7 +191,7 @@ function create_sundayData_byWorker (allSundayData) {
 
 // vrne osebe ki niso vpisane v plan dela
 function get_missingPresonData (weekData) {
-    const requiredNames = Object.keys(data.zaposleni);
+    const requiredNames = Object.keys(data.zaposleni).sort();
 
     let missingPersons = { 
         workers: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },

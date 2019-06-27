@@ -87,7 +87,7 @@ function set_options_forZaposlene (zaposleni) {
     let imenaZaposlenih_datalist = document.getElementById("imenaZaposlenih");
     imenaZaposlenih_datalist.innerHTML = "";
 
-    let zaposleniNames = Object.keys(zaposleni);
+    let zaposleniNames = Object.keys(zaposleni).sort();
     zaposleniNames.forEach(element => {
         let singleOption = document.createElement("option");
         singleOption.setAttribute("value", element);

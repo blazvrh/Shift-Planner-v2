@@ -284,7 +284,7 @@ button {
 #additionalInfo #hoursByWorker td:nth-last-child(3) {
     font-weight: bold;
 }
-#additionalInfo tr:hover {
+#hoursByWorker tr:hover {
     background-color: rgb(210, 210, 210);
 }
 #additionalInfo #hoursByWorker tbody tr:last-child th,

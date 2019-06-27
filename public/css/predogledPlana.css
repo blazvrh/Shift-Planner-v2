@@ -42,6 +42,14 @@ h2 {
 }
 
 /* glavna tabela */
+.komentarRow {
+    background-color: rgb(235, 235, 235);
+}
+.mainTable_selectedWeek thead th:first-child {
+    font-size: 80%;
+    text-align: center;
+    vertical-align: bottom;
+}
 #planDelaIzbranTedenDiv {
     text-align: center;
 }
@@ -51,7 +59,6 @@ h2 {
     text-decoration: underline;
 }
 #planDelaIzbranTedenDiv table {
-    min-width: 80%;
     width: auto;
     margin: auto;
 }
@@ -108,11 +115,14 @@ h2 {
 }
 #printArea span.nameValue {   
     font-size: 15px;
+    margin-right: 0;
+    padding-right: 0;
 }
 #printArea span.timeValue {
     font-size: 11px;
     position: relative;
     top: 3px;
+
 }
 /* glavna tabela za tiskanje */
 @media print {

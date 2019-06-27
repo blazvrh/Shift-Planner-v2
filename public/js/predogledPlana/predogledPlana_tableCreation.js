@@ -108,6 +108,9 @@ function create_Smeno (smena, mainTable, smenaData) {
             yPos ++;
             var row = document.createElement("tr");
             row.setAttribute("oddId", smenaData[oddNum].oddID);
+            if (smenaData[oddNum].specialOddelek === "Komentar") {
+                row.classList.add("komentarRow");
+            }
 
             // za vsak dan
             for (var dayNum = 0; dayNum < 8; dayNum++) {
