@@ -3,7 +3,7 @@ var vsiOddelki_names = [];
 
 // ustvari tabelo checkboxov za oddelke
 function create_checkBox_usposobljenost_zaposleni (vsiOddelki) {
-    let seznamUsposobljenosti = document.getElementById("seznamUsposobljenosti");
+    var seznamUsposobljenosti = document.getElementById("seznamUsposobljenosti");
     seznamUsposobljenosti.innerHTML = "";
 
     
@@ -18,13 +18,13 @@ function create_checkBox_usposobljenost_zaposleni (vsiOddelki) {
 
 // izris tabele vseh obstoječih zaposlenih
 function create_table_osebe_zaposleni(vsiZaposleni) {
-    let seznamZaposlenihDiv = document.getElementById("seznamZaposlenihDiv");
+    var seznamZaposlenihDiv = document.getElementById("seznamZaposlenihDiv");
     seznamZaposlenihDiv.innerHTML = "";
     
     if (vsiZaposleni == null) {
         seznamZaposlenihDiv.innerText = "Ni najdenega vnosa zaposlenih!";
     } else {
-        let tableZaposlenih = document.createElement("table");
+        var tableZaposlenih = document.createElement("table");
         tableZaposlenih.append(create_TableHead_SeznamZaposlenih());
         tableZaposlenih.append(create_TableBody_SeznamZaposlenih(vsiZaposleni));
 
@@ -51,18 +51,18 @@ function get_PrimerneOddelke(vsiOddelki) {
 
 // ustvari element checkboxov (div) za usposobljenost
 function create_usposobljenostElement (vsiOddelki_names) {
-    let mainEl = document.createElement("div");
+    var mainEl = document.createElement("div");
 
     vsiOddelki_names.forEach(element => {
-        let label = document.createElement("label");
-        let chkbox = document.createElement("input");
+        var label = document.createElement("label");
+        var chkbox = document.createElement("input");
         
         chkbox.setAttribute("type", "checkbox")
         chkbox.setAttribute("value", element.toLowerCase());
         label.appendChild(chkbox);
         label.innerHTML += element;
         
-        let pEl = document.createElement("p");
+        var pEl = document.createElement("p");
         pEl.append(label);
 
         mainEl.appendChild(pEl);
@@ -73,32 +73,32 @@ function create_usposobljenostElement (vsiOddelki_names) {
 
 // ustvari header za tabelo obstoječih zaposlenih
 function create_TableHead_SeznamZaposlenih () {
-    let trEl = document.createElement("tr");
+    var trEl = document.createElement("tr");
 
-    let headerTexts = ["Prik. ime", "Ime", "Priimek", "Ur/dan", "Ur/teden", "Nedelje", "Prazniki", 
+    var headerTexts = ["Prik. ime", "Ime", "Priimek", "Ur/dan", "Ur/teden", "Nedelje", "Prazniki", 
         "Študent", "Mlajši od 18 let", "Usposobljenost"];
 
     headerTexts.push ("Urejanje");
     headerTexts.push ("Brisanje");
 
-    for (let i = 0; i < headerTexts.length; i++) {
-        let thEl = document.createElement("th");
+    for (var i = 0; i < headerTexts.length; i++) {
+        var thEl = document.createElement("th");
         
         thEl.innerText = headerTexts[i];
 
         trEl.append (thEl);
     }
 
-    let tHead = document.createElement("thead");
+    var tHead = document.createElement("thead");
     tHead.append(trEl);
     return tHead;
 }
 
 // ustvari body tabele obstoječih zaposlenih
 function create_TableBody_SeznamZaposlenih (vsiZaposleni) {
-    let tBodyZap = document.createElement("tbody");
+    var tBodyZap = document.createElement("tbody");
 
-    for (let i = 0; i < vsiZaposleni.length; i++) {
+    for (var i = 0; i < vsiZaposleni.length; i++) {
         tBodyZap.append(create_tableRow_seznamZaposlenih(vsiZaposleni[i]))
     }
 
@@ -130,8 +130,8 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
     lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxNedelijZap) < 1 ? "Ne" : "");
     lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxPraznikovZap) < 1 ? "Ne" : "");
 
-    for (let i = 0; i < tdTexts.length; i++) {
-        let tdEl = document.createElement("td");
+    for (var i = 0; i < tdTexts.length; i++) {
+        var tdEl = document.createElement("td");
         tdEl.innerText = tdTexts[i];
         if (i < tdIds.length) {
             tdEl.setAttribute("id", tdIds[i]);
@@ -163,10 +163,10 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
 function create_usposobljenost_element_ZaTabelo (usposobljenost) {
     tdEl = document.createElement("td");
 
-    for (let i = 0; i < vsiOddelki_names.length; i++) {
+    for (var i = 0; i < vsiOddelki_names.length; i++) {
         jeUsposobljen = usposobljenost[vsiOddelki_names[i].toLowerCase()];
         
-        let oddUspEl = document.createElement("span");
+        var oddUspEl = document.createElement("span");
         oddUspEl.innerText = vsiOddelki_names[i];
 
         if (jeUsposobljen == true) {
@@ -219,43 +219,43 @@ function create_removeBtn_tableZaposleni(zapId) {
 // spremeni vrstico v format za urejanje zaposlenega
 function createEditRow_zaposleni (zapId) {
     
-    let tableRowObj = document.querySelector('[zapid="' + zapId + '"]');
+    var tableRowObj = document.querySelector('[zapid="' + zapId + '"]');
     originalTableRow = tableRowObj.innerHTML;
     // za validation; da lahko ignoriramo če se prikazano ime ni spremenilo
     currentPrikazanoIme = tableRowObj.getElementsByTagName("td")[0].innerText;
 
-    let editingTd = tableRowObj.getElementsByTagName("td");
+    var editingTd = tableRowObj.getElementsByTagName("td");
     
-    for (let i = 0; i < editingTd.length; i++) {
-        let tdID = editingTd[i].id;
+    for (var i = 0; i < editingTd.length; i++) {
+        var tdID = editingTd[i].id;
         
         // ustvarimo select polja
         if (tdID == "select") {
-            let inputElement = document.createElement("select");
+            var inputElement = document.createElement("select");
             inputElement.setAttribute("type", tdID);
 
-            let option1 = document.createElement("option");
+            var option1 = document.createElement("option");
             option1.value = true;
             option1.text = "Da";
-            let option2 = document.createElement("option");
+            var option2 = document.createElement("option");
             option2.value = false;
             option2.text = "Ne";
 
             inputElement.appendChild(option1);
             inputElement.appendChild(option2);
             
-            let selectVal = editingTd[i].innerText == "Da" ? true : false;
+            var selectVal = editingTd[i].innerText == "Da" ? true : false;
             inputElement.value = selectVal;
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         }
         // ustvarimo urejanje za usposobljenost
         else if (tdID == "span") {
-            let oddelkiUspos = editingTd[i].getElementsByTagName("span");
-            let inputElement = document.createElement("div");
+            var oddelkiUspos = editingTd[i].getElementsByTagName("span");
+            var inputElement = document.createElement("div");
             
-            for (let j = 0; j < oddelkiUspos.length; j++) {
-                let labelUsp = document.createElement("label");
+            for (var j = 0; j < oddelkiUspos.length; j++) {
+                var labelUsp = document.createElement("label");
                 
                 labelUsp.innerText = oddelkiUspos[j].innerText;
                 labelUsp.setAttribute("value", oddelkiUspos[j].classList.contains("jeUsposobljen"));
@@ -271,7 +271,7 @@ function createEditRow_zaposleni (zapId) {
         }
         // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
-            let inputElement = document.createElement("button");
+            var inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
             inputElement.onclick = () => {btn_confirmEdit_zaposleni(zapId, inputElement)};
             editingTd[i].innerHTML = "";
@@ -279,7 +279,7 @@ function createEditRow_zaposleni (zapId) {
         } 
         // ustvarimo prekliči gumb
         else if (tdID == "editBtn") {
-            let inputElement = document.createElement("button");
+            var inputElement = document.createElement("button");
             inputElement.innerText = "Prekliči!";
             inputElement.onclick = () => { btn_cancelEdit_zaposleni(zapId) };
             editingTd[i].innerHTML = "";
@@ -287,7 +287,7 @@ function createEditRow_zaposleni (zapId) {
         } 
         // ustvarimo preostale input elemente
         else if (tdID != "") {
-            let inputElement = document.createElement("input");
+            var inputElement = document.createElement("input");
             inputElement.setAttribute("type", tdID);
             inputElement.value = editingTd[i].innerText;
             if (tdID == "number") {
@@ -316,7 +316,7 @@ function createEditRow_zaposleni (zapId) {
 
 // spremni vrednost za usposobljenost za posamezen oddelek pri zaposoenemu 
 function toggle_usposobljenostZaposlenega_edit (el) {
-    let val = el.getAttribute("value");
+    var val = el.getAttribute("value");
 
     if (val == "true") {
         el.setAttribute("value", false);
@@ -328,22 +328,22 @@ function toggle_usposobljenostZaposlenega_edit (el) {
 }
 
 function create_table_zaposleniPoOddelkih (zaposleniData) {
-    let mainDivElement = document.getElementById("PodatkiPoOddelkihData");
+    var mainDivElement = document.getElementById("PodatkiPoOddelkihData");
     if (typeof(zaposleniData) === "undefined") {
         mainDivElement.innerHTML = "Ni najdenega vnosa zaposlenih!";
         return; 
     }
 
-    const zaposleniPoOddelkihData = get_zapNamesByOdd(zaposleniData);
+    var zaposleniPoOddelkihData = get_zapNamesByOdd(zaposleniData);
 
     // table 
-    let tableElement = document.createElement("table");
+    var tableElement = document.createElement("table");
     // table header
-    let tHead = document.createElement("thead");
-    let headRow = document.createElement("tr");
+    var tHead = document.createElement("thead");
+    var headRow = document.createElement("tr");
 
     vsiOddelki_names.forEach(oddelekName => {
-        let thElement = document.createElement("th");
+        var thElement = document.createElement("th");
         thElement.innerHTML = oddelekName;
         headRow.append(thElement);
     });
@@ -352,33 +352,33 @@ function create_table_zaposleniPoOddelkih (zaposleniData) {
     tableElement.append(tHead);
     
     // pridobimo potrebno število vrstic
-    let numOfRows = 0;
-    for (let i = 0; i < vsiOddelki_names.length; i++) {
+    var numOfRows = 0;
+    for (var i = 0; i < vsiOddelki_names.length; i++) {
         if (zaposleniPoOddelkihData[vsiOddelki_names[i]].length > numOfRows) {
             numOfRows = zaposleniPoOddelkihData[vsiOddelki_names[i]].length;
         }
     }
 
     // vpišemo zaposlene
-    let tableBody = document.createElement("tbody");
-    for (let i = 0; i < numOfRows; i++) {
-        let row = document.createElement("tr");
+    var tableBody = document.createElement("tbody");
+    for (var i = 0; i < numOfRows; i++) {
+        var row = document.createElement("tr");
 
-        for (let j = 0; j < vsiOddelki_names.length; j++) {
-            let cell = document.createElement("td");
+        for (var j = 0; j < vsiOddelki_names.length; j++) {
+            var cell = document.createElement("td");
             if (typeof(zaposleniPoOddelkihData[vsiOddelki_names[j]][i]) !== "undefined") {
-                let zapData = zaposleniPoOddelkihData[vsiOddelki_names[j]][i];
+                var zapData = zaposleniPoOddelkihData[vsiOddelki_names[j]][i];
                 cell.innerHTML = zapData.name;
                 cell.setAttribute("zapolenId", zapData.id);
 
                 cell.onmouseover = function () {
-                    let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+                    var allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
                     allCells.forEach(nameCell => {
                         nameCell.style.backgroundColor = "rgb(190, 190, 190)";
                     });
                 }
                 cell.onmouseout = function () {
-                    let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+                    var allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
                     allCells.forEach(nameCell => {
                         nameCell.style.backgroundColor = "initial";
                     });
@@ -396,16 +396,16 @@ function create_table_zaposleniPoOddelkih (zaposleniData) {
 
 
 function get_zapNamesByOdd (zapData) {
-    let sortedData = { }
-    for (let i = 0; i < vsiOddelki_names.length; i++) {
+    var sortedData = { }
+    for (var i = 0; i < vsiOddelki_names.length; i++) {
         sortedData[vsiOddelki_names[i]] = [];
     }
 
-    for (let i = 0; i < zapData.length; i++) {
-        const singleZapUsposobljenost = zapData[i].usposobljenostZap;
+    for (var i = 0; i < zapData.length; i++) {
+        var singleZapUsposobljenost = zapData[i].usposobljenostZap;
         
-        for (let j = 0; j < vsiOddelki_names.length; j++) {
-            const oddName = vsiOddelki_names[j];
+        for (var j = 0; j < vsiOddelki_names.length; j++) {
+            var oddName = vsiOddelki_names[j];
             if (singleZapUsposobljenost[oddName.toLowerCase()]) {
                 sortedData[oddName].push({ 
                     name: zapData[i].prikazanoImeZap,

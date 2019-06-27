@@ -10,20 +10,20 @@ function get_currPlan_data_dayOriented (workerOrientedData) {
         7: { day: "Nedelja" } 
     };
     
-    let dataKeys = Object.keys(workerOrientedData);
+    var dataKeys = Object.keys(workerOrientedData);
    
     dataKeys.forEach(key => {        
         workerData = workerOrientedData[key];
         workerData.forEach(element => {
-            let day = element.dayIndex;
-            let startTime = element.startTime;
-            let endTime = element.endTime;
-            let oddId = element.oddelekId;
+            var day = element.dayIndex;
+            var startTime = element.startTime;
+            var endTime = element.endTime;
+            var oddId = element.oddelekId;
             
             if (!dayOrientedData[day][oddId]) {
                 dayOrientedData[day][oddId] = [];
             }
-            let cellData = { nameVal: key, oddName: element.oddelekName };
+            var cellData = { nameVal: key, oddName: element.oddelekName };
             
             if (startTime != null) {
                 cellData.startTime = startTime;
@@ -41,21 +41,21 @@ function get_currPlan_data_dayOriented (workerOrientedData) {
 
 // worker oriented data of the week
 function get_currPlan_data_workerOriented () {
-    let weekData = { };
+    var weekData = { };
 
-    for (let i = 0; i < allDataCellElements.length; i++) {
-        let inputs = allDataCellElements[i].querySelectorAll("input[position]");
-        let valName = inputs[0].value;
+    for (var i = 0; i < allDataCellElements.length; i++) {
+        var inputs = allDataCellElements[i].querySelectorAll("input[position]");
+        var valName = inputs[0].value;
 
         // če ni imena, skoči na naslednjega
         if (valName == "") continue;
 
-        let pos = allDataCellElements[i].getAttribute("position");
-        let dayIndex = pos.split(",")[0];
-        let oddelekId = allDataCellElements[i].getAttribute("oddelekId");
-        let smena = allDataCellElements[i].getAttribute("smena");
-        let startTimeVal = null;
-        let endTimeVal = null;
+        var pos = allDataCellElements[i].getAttribute("position");
+        var dayIndex = pos.split(",")[0];
+        var oddelekId = allDataCellElements[i].getAttribute("oddelekId");
+        var smena = allDataCellElements[i].getAttribute("smena");
+        var startTimeVal = null;
+        var endTimeVal = null;
 
         try {
             startTimeVal = inputs[1].value;
@@ -70,7 +70,7 @@ function get_currPlan_data_workerOriented () {
         }
         
         // podatki o tej celici
-        let cellData = {
+        var cellData = {
             position: pos,
             oddelekId: oddelekId,
             oddelekName: data.oddById[oddelekId],
@@ -88,20 +88,20 @@ function get_currPlan_data_workerOriented () {
 
 // pretvori celoten zapis zaposlenega v dnevni zapis
 function get_currPlan_Worker_dayOriented (weekData) {
-    let workerOrientedWeekData = { };
-    let workerNames = Object.keys(weekData);
+    var workerOrientedWeekData = { };
+    var workerNames = Object.keys(weekData);
 
     workerNames.forEach(name => {
         // ustvarimo originalno ime, brez presledkov in odstranimo vse desno od zvezdice
-        let originalName = name;
-        let zvezdicaPos = originalName.indexOf("*");
+        var originalName = name;
+        var zvezdicaPos = originalName.indexOf("*");
 
         if (zvezdicaPos >= 0) {
             originalName = originalName.substring(0,zvezdicaPos);
         }
         originalName = originalName.trim();
         if (originalName == "") return;
-        let nameLowerCase = originalName.toLowerCase();
+        var nameLowerCase = originalName.toLowerCase();
         
         if (!workerOrientedWeekData[nameLowerCase]) {
             workerOrientedWeekData[nameLowerCase] = { 
@@ -109,10 +109,10 @@ function get_currPlan_Worker_dayOriented (weekData) {
             }
         }
         
-        for (let i = 0; i < weekData[name].length; i++) {
-            let cellData = weekData[name][i];
+        for (var i = 0; i < weekData[name].length; i++) {
+            var cellData = weekData[name][i];
             cellData.originalName = originalName;
-            let dayIndex = cellData.dayIndex;
+            var dayIndex = cellData.dayIndex;
             workerOrientedWeekData[nameLowerCase][dayIndex].push(cellData);
         }
     });
@@ -124,24 +124,24 @@ function get_currPlan_Worker_dayOriented (weekData) {
 function get_sundayData(tableData) {
     
 
-    let sundayDate = new Date(currDateData.workingMondayDate);
+    var sundayDate = new Date(currDateData.workingMondayDate);
     sundayDate.setDate(sundayDate.getDate() + 6);
 
-    let sundayData = {
+    var sundayData = {
         month: sundayDate.getMonth(),
         weekNumber: currDateData.workingWeekNumber,
         workers: []
     };
 
-    const names = Object.keys(tableData);
+    var names = Object.keys(tableData);
     names.forEach(name => {
-        for(let i = 0; i < tableData[name].length; i++) {
+        for(var i = 0; i < tableData[name].length; i++) {
             if (tableData[name][i].dayIndex !== "7" || isSpecialOddelek(tableData[name][i])) {
                 continue;
             }
 
             try {
-                const prikazanoIme = data.zaposleni[name.toLowerCase()].prikazanoImeZap;
+                var prikazanoIme = data.zaposleni[name.toLowerCase()].prikazanoImeZap;
                 if (!sundayData.workers.includes(prikazanoIme)) {
                     sundayData.workers.push(prikazanoIme);
                 }
@@ -160,11 +160,11 @@ function create_sundayData_byWorker (allSundayData) {
         return;
     } 
 
-    let workersSundayData = { };
+    var workersSundayData = { };
 
-    let sundayDate = new Date(currDateData.selectedMondayDate);
+    var sundayDate = new Date(currDateData.selectedMondayDate);
     sundayDate.setDate(sundayDate.getDate() + 6);
-    const currMonth = sundayDate.getMonth();
+    var currMonth = sundayDate.getMonth();
 
     allSundayData.forEach(sundayElement => {
         sundayDataJson = JSON.parse(sundayElement);
@@ -173,7 +173,7 @@ function create_sundayData_byWorker (allSundayData) {
         if (sundayDataJson.weekNumber === currDateData.selectedWeekNumber) return;
 
         sundayDataJson.workers.forEach(name => {
-            const nameLowerCase = name.toLowerCase();
+            var nameLowerCase = name.toLowerCase();
             // če tega delavca še ni v objektu ga dodaj
             if (!workersSundayData[nameLowerCase]) {
                 workersSundayData[nameLowerCase] = { yearSundays: 0, monthSundays: 0 }
@@ -191,26 +191,26 @@ function create_sundayData_byWorker (allSundayData) {
 
 // vrne osebe ki niso vpisane v plan dela
 function get_missingPresonData (weekData) {
-    const requiredNames = Object.keys(data.zaposleni).sort();
+    var requiredNames = Object.keys(data.zaposleni).sort();
 
-    let missingPersons = { 
+    var missingPersons = { 
         workers: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
         students: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] }
     }
 
     requiredNames.forEach(name => {
-        const subObjectName = data.zaposleni[name].student > 0 ? "students" : "workers";
-        const originalName = data.zaposleni[name].prikazanoImeZap;
+        var subObjectName = data.zaposleni[name].student > 0 ? "students" : "workers";
+        var originalName = data.zaposleni[name].prikazanoImeZap;
 
         // če ga sploh ni v celem tednu dodaj v vse celice
         if (!weekData[name]) {
-            for (let i = 1; i < 8; i++) {
+            for (var i = 1; i < 8; i++) {
                 missingPersons[subObjectName][i].push(originalName);
             }
         }
         // drugače zaroteraj po dnevih in dodaj če ga ni
         else {
-            for (let i = 1; i < 8; i++) {
+            for (var i = 1; i < 8; i++) {
                 if (weekData[name][i].length < 1) {
                     missingPersons[subObjectName][i].push(originalName);
                 }

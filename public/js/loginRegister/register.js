@@ -91,7 +91,7 @@ function submitForm_Register() {
     xhr.open("POST", "/register"); 
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        var serverRes = JSON.parse(event.target.response);
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

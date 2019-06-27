@@ -5,11 +5,11 @@ function submitForm_get_weekData(mondayDate, year, weekIdentifier) {
     xhr.open("POST", "/urediTrenutenPlan/get");
     xhr.responseType = 'json';
 
-    const weekNum = get_weekNumber_fromDate(mondayDate);
+    var weekNum = get_weekNumber_fromDate(mondayDate);
 
     xhr.onload = function(event) {
-        let serverRes = event.target.response;
-        const divElement = document.getElementById("planDela_" + weekIdentifier + "_Div");
+        var serverRes = event.target.response;
+        var divElement = document.getElementById("planDela_" + weekIdentifier + "_Div");
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
            // če je error zaradi nobenega vnosa

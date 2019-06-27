@@ -4,12 +4,12 @@ var timeValOnFocus = "";
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
 // on name input blur
 function onBlur_name_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
-    let inp_txt_position = inp_txt.getAttribute("position");
-    let smena = inp_txt.getAttribute("smena");
+    var inp_txt_position = inp_txt.getAttribute("position");
+    var smena = inp_txt.getAttribute("smena");
     
-    let inp_startTime = document.querySelectorAll("input.startTime[position='" + inp_txt_position + 
+    var inp_startTime = document.querySelectorAll("input.startTime[position='" + inp_txt_position + 
         "'][smena='" + smena + "']")[0];
-    let inp_endTime = document.querySelectorAll("input.endTime[position='" + inp_txt_position + 
+    var inp_endTime = document.querySelectorAll("input.endTime[position='" + inp_txt_position + 
         "'][smena='" + smena + "']")[0];
         
     if (inp_txt.value == "" || inp_txt.value.substring(0,1) == "*") {
@@ -25,21 +25,21 @@ function onBlur_name_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
     }
     
     // seštejemo in prikažemo seštevek ur v tednu
-    // let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
+    // var currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
     // sumAndShow_sestevekUr(currWeekData);
 }
 
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
 // on time input blur
 function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
-    let position = inp_timeEl.getAttribute("position");
-    let smena = inp_timeEl.getAttribute("smena");
+    var position = inp_timeEl.getAttribute("position");
+    var smena = inp_timeEl.getAttribute("smena");
     
-    let txt_input = document.querySelector("input[type='text'][position='" + position + 
+    var txt_input = document.querySelector("input[type='text'][position='" + position + 
         "'][smena='" + smena + "']");
 
     if (txt_input.value != "" && txt_input.value.substring(0,1) != "*" && inp_timeEl.value === "") {
-        let timeType = inp_timeEl.className;
+        var timeType = inp_timeEl.className;
 
         if(timeType === "startTime") {
             inp_timeEl.value = startTime;
@@ -54,14 +54,14 @@ function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
         onDataChange();
     }
     // seštejemo in prikažemo seštevek ur v tednu
-    // let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
+    // var currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
     // sumAndShow_sestevekUr(currWeekData);
 }
 
 function onDataChange () {
-    let imageElements = document.getElementsByClassName("doneIndicator");
+    var imageElements = document.getElementsByClassName("doneIndicator");
 
-    for (let i = 0; i < imageElements.length; i++) {
+    for (var i = 0; i < imageElements.length; i++) {
         img = imageElements[i];
         img.src = "images/krizec.png";
     }

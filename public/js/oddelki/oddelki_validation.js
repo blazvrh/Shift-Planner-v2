@@ -42,8 +42,8 @@ function mainInputValidation () {
         }
 
         // preveri če je prihod večji od odhoda
-        const prihodDate = getDateFromTimeString(inputFields_oddelki.prihodNaOddelek.value);
-        const odhodDate = getDateFromTimeString(inputFields_oddelki.odhodIzOddelka.value);
+        var prihodDate = getDateFromTimeString(inputFields_oddelki.prihodNaOddelek.value);
+        var odhodDate = getDateFromTimeString(inputFields_oddelki.odhodIzOddelka.value);
         if (prihodDate >= odhodDate)
         {
             onInputErrorOddelki("Čas prihoda za oddelek mora biti manjši od časa odhoda za oddelek!", true);
@@ -65,7 +65,7 @@ var edit_inputFields_oddelki = {};
 
 // preverimo če so vnesene vrednosti vredu
 function checkEditValues (oddelekId) {
-    let tableRow = document.getElementById(oddelekId);
+    var tableRow = document.getElementById(oddelekId);
     
     edit_inputFields_oddelki.oddID = oddelekId;
     edit_inputFields_oddelki.positionForUser = tableRow.getElementsByTagName("td")[0].getElementsByTagName("input")[0];
@@ -109,8 +109,8 @@ function checkEditValues (oddelekId) {
             return false;
         }
 
-        let prihodDate = getDateFromTimeString(edit_inputFields_oddelki.prihodEdit.value);
-        let odhodDate = getDateFromTimeString(edit_inputFields_oddelki.odhodEdit.value);
+        var prihodDate = getDateFromTimeString(edit_inputFields_oddelki.prihodEdit.value);
+        var odhodDate = getDateFromTimeString(edit_inputFields_oddelki.odhodEdit.value);
         if (prihodDate >= odhodDate)
         {
             onTableErrorOddelki("Čas prihoda za oddelek mora biti manjši od časa odhoda za oddelek!");

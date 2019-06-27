@@ -10,7 +10,7 @@ function btn_createCurrTable () {
     currDateData.workingWeekNumber = currDateData.selectedWeekNumber;
     currDateData.workingMondayDate = currDateData.selectedMondayDate;
 
-    let mainTableDiv = document.getElementById("creationTable");
+    var mainTableDiv = document.getElementById("creationTable");
     mainTableDiv.innerHTML = "";
     
     tableElement = document.createElement("table");
@@ -32,30 +32,30 @@ function btn_createCurrTable () {
 
 // Ustvari header tabele za ustvarjanje plana
 function ustvariHeader () {
-    let tempDate = new Date (currDateData.selectedMondayDate);
-    let leto = tempDate.getFullYear();
+    var tempDate = new Date (currDateData.selectedMondayDate);
+    var leto = tempDate.getFullYear();
 
-    let tHeader = document.createElement("thead");
+    var tHeader = document.createElement("thead");
     var rowHeader = document.createElement("tr");
 
     var imenaDnevov = ["Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota", "Nedelja"];
 
-    for (let i = 0; i < 8; i++) {
-        let subTable = document.createElement("table");
+    for (var i = 0; i < 8; i++) {
+        var subTable = document.createElement("table");
 
         // če je to prva vrsta
         if (i == 0) {
-            let thData = document.createElement("th");
+            var thData = document.createElement("th");
             thData.innerText = leto + " Teden: " + currDateData.selectedWeekNumber;
             subTable.append(thData);
         }
         // če je to vrsta s tednom
         else {
-            let thDataDay = document.createElement("th");
+            var thDataDay = document.createElement("th");
             thDataDay.innerText = imenaDnevov[i-1];
             
-            let thDataDate = document.createElement("th");
-            let currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "long"});
+            var thDataDate = document.createElement("th");
+            var currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "long"});
 
             thDataDate.innerText = currDatum;
             tempDate.setDate(tempDate.getDate() + 1);
@@ -63,17 +63,17 @@ function ustvariHeader () {
             subTable.append(thDataDay);
             subTable.append(thDataDate);
         }
-        let tdHead = document.createElement("td");
+        var tdHead = document.createElement("td");
         tdHead.append(subTable);
         rowHeader.append(tdHead);
     }
 
     tHeader.append(rowHeader);
 
-    let praznikiRow = document.createElement("tr");
+    var praznikiRow = document.createElement("tr");
 
-    for (let i = 0; i < 8; i++) {
-        let cell = document.createElement("td");
+    for (var i = 0; i < 8; i++) {
+        var cell = document.createElement("td");
         if (i > 0) {
             cell.innerHTML = "Praznik?";
         }
@@ -87,7 +87,7 @@ function ustvariHeader () {
 
 // doda celotno smeno (dop/pop) v tabelo
 function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
-    let smenaData = data["oddelki_" + smena];
+    var smenaData = data["oddelki_" + smena];
 
     var tBody = document.createElement("tbody");
 
@@ -95,7 +95,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
     var xPos = 0;
     
     // za vsak oddelek
-    for (let oddNum = 0; oddNum < smenaData.length; oddNum ++) {
+    for (var oddNum = 0; oddNum < smenaData.length; oddNum ++) {
         // za št. vrstic tega oddelka
         for (var rowNum = 0; rowNum < smenaData[oddNum].stVrsticOddelka; rowNum++)
         {
@@ -148,19 +148,19 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     // inputElem_name.setAttribute ("oddelekId", smenaData[oddNum].oddID);
                     
                     // ustvarimo error in warning index
-                    let warnIndex = document.createElement("div");
+                    var warnIndex = document.createElement("div");
                     warnIndex.setAttribute("fullPosition", xPos + "," + yPos + "," + smena);
                     warnIndex.setAttribute("indexType", "warning");
                     warnIndex.classList.add("hide");
                     // warnIndex.innerHTML = "<p>12</p>"
                     
-                    let errIndex = document.createElement("div");
+                    var errIndex = document.createElement("div");
                     errIndex.setAttribute("fullPosition", xPos + "," + yPos + "," + smena);
                     errIndex.setAttribute("indexType", "error");
                     errIndex.classList.add("hide");
                     // errIndex.innerHTML = "<p>3</p>"
 
-                    let errorIndexContenier = document.createElement("div");
+                    var errorIndexContenier = document.createElement("div");
                     errorIndexContenier.className = "errWarnIndexConteiner";
                     errorIndexContenier.append(warnIndex);
                     errorIndexContenier.append(errIndex);
@@ -170,8 +170,8 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     // tdNameInp.append(errIndex);
 
                     
-                    let rowError = document.createElement("tr");
-                    let rowData = document.createElement("tr");
+                    var rowError = document.createElement("tr");
+                    var rowData = document.createElement("tr");
 
 
                     tdNameInp.append(errorIndexContenier);
@@ -180,11 +180,11 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
                     // če ni SPECIAL oddelek
                     if (smenaData[oddNum].specialOddelek == "") {
-                        let inputElemTime = [document.createElement("input"), document.createElement("input")];
-                        let tdHourInp = document.createElement("td");
+                        var inputElemTime = [document.createElement("input"), document.createElement("input")];
+                        var tdHourInp = document.createElement("td");
                         
-                        for (let i = 0; i < inputElemTime.length; i++) {
-                            let element = inputElemTime[i];
+                        for (var i = 0; i < inputElemTime.length; i++) {
+                            var element = inputElemTime[i];
                             // element.setAttribute ("type", "time");
                             element.setAttribute ("type", "text");
                             
@@ -215,7 +215,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     }
                     // če je SPECIAL oddelek
                     else {
-                        let specType = smenaData[oddNum].specialOddelek == "Komentar" ? "komentar" : "dopustiBoln";
+                        var specType = smenaData[oddNum].specialOddelek == "Komentar" ? "komentar" : "dopustiBoln";
                         
                         inputElem_name.setAttribute ("class", inputElem_name.getAttribute ("class") + 
                             " specialOddelek " + specType);
@@ -225,10 +225,10 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     cell.classList.add("tooltip");
 
                     // za pozicijo tooltipa
-                    let posDiv = document.createElement("div"); 
+                    var posDiv = document.createElement("div"); 
                     posDiv.classList.add("tooltipPos");
                     
-                    let toolTipTextDiv = document.createElement("div");
+                    var toolTipTextDiv = document.createElement("div");
                     toolTipTextDiv.classList.add("tooltipText");
                     toolTipTextDiv.setAttribute("isEmpty", "true");
                     toolTipTextDiv.setAttribute ("fullPosition", xPos + "," + yPos + "," + smena);
@@ -260,20 +260,20 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
 
 function create_simpleClickWorkers(zaposleniData) {
-    let conteinerDiv = document.getElementById("simpleClickNames");
+    var conteinerDiv = document.getElementById("simpleClickNames");
     conteinerDiv.innerHTML = "";
     
-    const allNames = Object.keys(zaposleniData).sort();
+    var allNames = Object.keys(zaposleniData).sort();
 
-    let studentNames = [];
+    var studentNames = [];
 
     allNames.forEach(name => {
-        const originalName = zaposleniData[name].prikazanoImeZap;
+        var originalName = zaposleniData[name].prikazanoImeZap;
         if (zaposleniData[name].student !== 0) {
             studentNames.push(originalName);
             return;
         }
-        let nameDiv = document.createElement("div");
+        var nameDiv = document.createElement("div");
         nameDiv.innerHTML = originalName;
         nameDiv.setAttribute("val", originalName);
         nameDiv.onclick = function() { simpleClick_setValue(this) };
@@ -283,12 +283,12 @@ function create_simpleClickWorkers(zaposleniData) {
     });
 
     // ustvarimo študente
-    let studnetTitle = document.createElement("p");
+    var studnetTitle = document.createElement("p");
     studnetTitle.innerText = "Študenti:";
     conteinerDiv.append(studnetTitle);
     
     studentNames.forEach(name => {
-        let nameDiv = document.createElement("div");
+        var nameDiv = document.createElement("div");
         nameDiv.innerHTML = name;
         nameDiv.setAttribute("val", name);
         nameDiv.onclick = function() { simpleClick_setValue(this) };
@@ -300,15 +300,15 @@ function create_simpleClickWorkers(zaposleniData) {
 
 
 function create_missingPersonsTable (missingPersonData) {
-    let tableBodyElemet = document.getElementById("missingPersons").getElementsByTagName("tbody")[0];
+    var tableBodyElemet = document.getElementById("missingPersons").getElementsByTagName("tbody")[0];
     tableBodyElemet.innerHTML = "Posodablanje tabele ...";
 
-    let newTbody = document.createElement("tbody");
+    var newTbody = document.createElement("tbody");
 
-    let maxWorkerCount = 0;
-    let maxStudentCount = 0;
+    var maxWorkerCount = 0;
+    var maxStudentCount = 0;
 
-    for (let index = 1; index < 8; index++) { 
+    for (var index = 1; index < 8; index++) { 
         if (missingPersonData.workers[index].length > maxWorkerCount) {
             maxWorkerCount = missingPersonData.workers[index].length;
         }
@@ -319,17 +319,17 @@ function create_missingPersonsTable (missingPersonData) {
 
     // izpišemo redno zaposlene
     // newTbody.innerHTML += "<tr><th>Redno zaposleni:</th></tr>";
-    for (let rowIndex = 0; rowIndex < maxWorkerCount; rowIndex++) {
-        let rowEl = document.createElement("tr");
+    for (var rowIndex = 0; rowIndex < maxWorkerCount; rowIndex++) {
+        var rowEl = document.createElement("tr");
 
-        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
-            let tdEl = document.createElement("td");
+        for (var dayIndex = 1; dayIndex < 8; dayIndex++) {
+            var tdEl = document.createElement("td");
             if (missingPersonData.workers[dayIndex][rowIndex]) {
-                const tempName = missingPersonData.workers[dayIndex][rowIndex];
+                var tempName = missingPersonData.workers[dayIndex][rowIndex];
                 tdEl.innerHTML = tempName;
                 
                 if (tempName !== "") {
-                    const zapId = data.zaposleni[tempName.toLowerCase()].zapID;
+                    var zapId = data.zaposleni[tempName.toLowerCase()].zapID;
                     tdEl.setAttribute("zapolenId", zapId);
                 }
 
@@ -342,16 +342,16 @@ function create_missingPersonsTable (missingPersonData) {
 
     newTbody.innerHTML += "<tr><th>Študentje:</th></tr>";
     // izpišemo študente
-    for (let rowIndex = 0; rowIndex < maxStudentCount; rowIndex++) {
-        let rowEl = document.createElement("tr");
+    for (var rowIndex = 0; rowIndex < maxStudentCount; rowIndex++) {
+        var rowEl = document.createElement("tr");
 
-        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
-            let tdEl = document.createElement("td");
+        for (var dayIndex = 1; dayIndex < 8; dayIndex++) {
+            var tdEl = document.createElement("td");
             if (missingPersonData.students[dayIndex][rowIndex]) {
-                const tempName = missingPersonData.students[dayIndex][rowIndex];
+                var tempName = missingPersonData.students[dayIndex][rowIndex];
                 tdEl.innerHTML = tempName;
                 if (tempName !== "") {
-                    const zapId = data.zaposleni[tempName.toLowerCase()].zapID;
+                    var zapId = data.zaposleni[tempName.toLowerCase()].zapID;
                     tdEl.setAttribute("zapolenId", zapId);
                 }
             }
@@ -362,18 +362,18 @@ function create_missingPersonsTable (missingPersonData) {
 
     tableBodyElemet.innerHTML = newTbody.innerHTML;
 
-    let allCellElements = document.querySelectorAll("#missingPersons td[zapolenId]");
+    var allCellElements = document.querySelectorAll("#missingPersons td[zapolenId]");
     
-    for (let i = 0; i < allCellElements.length; i++) {
-        let cell = allCellElements[i];
+    for (var i = 0; i < allCellElements.length; i++) {
+        var cell = allCellElements[i];
         cell.onmouseover = function () {
-            let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+            var allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
             allCells.forEach(nameCell => {
                 nameCell.style.backgroundColor = "rgb(190, 190, 190)";
             });
         }
         cell.onmouseout = function () {
-            let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
+            var allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
             allCells.forEach(nameCell => {
                 nameCell.style.backgroundColor = "initial";
             });
@@ -384,24 +384,24 @@ function create_missingPersonsTable (missingPersonData) {
 
 
 function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniData) {
-    let tableBody = document.getElementById("hoursByWorker").getElementsByTagName("tbody")[0];
+    var tableBody = document.getElementById("hoursByWorker").getElementsByTagName("tbody")[0];
     tableBody.innerHTML = "";
     
-    const names = Object.keys(zaposleniData).sort();
+    var names = Object.keys(zaposleniData).sort();
 
     names.forEach(name => {
-        let tableRowData = [];
+        var tableRowData = [];
         // tableRowData.push(zaposleniData[name].prikazanoImeZap);
-        let weekMinutes = 0;
-        let workingThisSunday = false;
+        var weekMinutes = 0;
+        var workingThisSunday = false;
 
         // pridobimo ure v tednu
         if (typeof(weekData[name]) !== "undefined") {
-            for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
-                let dayMinutes = 0;
+            for (var dayIndex = 1; dayIndex < 8; dayIndex++) {
+                var dayMinutes = 0;
                 
-                for (let i = 0; i < weekData[name][dayIndex].length; i++) {
-                    const cell = weekData[name][dayIndex][i];
+                for (var i = 0; i < weekData[name][dayIndex].length; i++) {
+                    var cell = weekData[name][dayIndex][i];
                     if (isSpecialOddelek(cell)) continue;
 
                     if (dayIndex === 7) {
@@ -414,19 +414,19 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
             }
         }
         else {
-            for (let i = 0; i < 7; i++) {
+            for (var i = 0; i < 7; i++) {
                 tableRowData.push("0");
             }
         }
         tableRowData.push(Number.parseInt(weekMinutes/60).toString());
 
-        let workerSundayDataExists = false;
+        var workerSundayDataExists = false;
         if (sundayData !== null) {
             if(typeof(sundayData[name]) !== "undefined") {
                 workerSundayDataExists = true;
 
-                let monthSundays = sundayData[name].monthSundays;
-                let yearSundays = sundayData[name].monthSundays;
+                var monthSundays = sundayData[name].monthSundays;
+                var yearSundays = sundayData[name].monthSundays;
 
                 monthSundays = workingThisSunday ? monthSundays + 1 : monthSundays;
                 yearSundays = workingThisSunday ? yearSundays + 1 : yearSundays;
@@ -448,8 +448,8 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
         }
 
         // vpišemo v tabelo
-        let htmlText = "<tr><th>" + zaposleniData[name].prikazanoImeZap + "</th>";
-        for (let i = 0; i < tableRowData.length; i++) {
+        var htmlText = "<tr><th>" + zaposleniData[name].prikazanoImeZap + "</th>";
+        for (var i = 0; i < tableRowData.length; i++) {
             htmlText += "<td>" + tableRowData[i] + "</td>";
         }
         htmlText += "</tr>";

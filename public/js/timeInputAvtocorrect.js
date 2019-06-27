@@ -4,9 +4,9 @@ var isEmptyOnFocus = false;
 function correct_timeInput_onKeyDown (timeInputElement, evt) {
     isEmptyOnFocus = false;
     
-    const keyPressed = evt.key;
-    const keyPressedNum = Number.parseInt(evt.key);
-    const valueWhole = timeInputElement.value;
+    var keyPressed = evt.key;
+    var keyPressedNum = Number.parseInt(evt.key);
+    var valueWhole = timeInputElement.value;
 
     // če je izbran text
     if (timeInputElement.selectionStart !== timeInputElement.selectionEnd) {
@@ -73,7 +73,7 @@ function cancelInput (evt) {
 
 // popravi čas med inputom
 function correct_timeInputValue_onInput (timeInputElement) {
-    let timeVal = timeInputElement.value;
+    var timeVal = timeInputElement.value;
     
     timeVal = timeVal.replace(":", "");
 
@@ -98,16 +98,16 @@ function correct_timeInputValue_onBlur (timeInputElement) {
         return;
     }
 
-    const timeVal = timeInputElement.value.replace("[^0-9]", "");
+    var timeVal = timeInputElement.value.replace("[^0-9]", "");
 
     // če ni vnosa končaj
     if (timeVal === "") return;
 
     // razdelimo na ure in minute
-    const splitedTime = timeVal.split(":");
+    var splitedTime = timeVal.split(":");
 
-    let hourValNum = Number.parseInt(splitedTime[0]);
-    let minuteValNum = Number.parseInt(splitedTime[1]);
+    var hourValNum = Number.parseInt(splitedTime[0]);
+    var minuteValNum = Number.parseInt(splitedTime[1]);
 
     if (Number.isNaN(hourValNum) || typeof(hourValNum) === undefined) hourValNum = 0;
     if (Number.isNaN(minuteValNum) || typeof(minuteValNum) === undefined) minuteValNum = 0;
@@ -115,8 +115,8 @@ function correct_timeInputValue_onBlur (timeInputElement) {
     if (hourValNum > 24) hourValNum = 0;
     if (minuteValNum > 59) minuteValNum = 0;
 
-    const hourStr = hourValNum > 9 ? hourValNum.toString() : "0" + hourValNum.toString();
-    const minuteStr = minuteValNum > 9 ? minuteValNum.toString() : "0" + minuteValNum.toString();
+    var hourStr = hourValNum > 9 ? hourValNum.toString() : "0" + hourValNum.toString();
+    var minuteStr = minuteValNum > 9 ? minuteValNum.toString() : "0" + minuteValNum.toString();
 
     timeInputElement.value = hourStr + ":" + minuteStr;
 }

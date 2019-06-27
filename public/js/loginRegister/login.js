@@ -1,8 +1,8 @@
 var userData = JSON.parse(sessionStorage.getItem("UserData"));
 var imePoslovalnice = "";
 
-const loginBlock = document.getElementById("loginBlock");
-const logoutBlock = document.getElementById("logoutBlock");
+var loginBlock = document.getElementById("loginBlock");
+var logoutBlock = document.getElementById("logoutBlock");
 
 
 // preveri če smo prijavljeni
@@ -16,7 +16,7 @@ if (!userData) {
 } else if (userData != null) {
     imePoslovalnice = userData.poslovalnica;
     
-    const userDataDisplay = document.getElementById("userDataDisplay");
+    var userDataDisplay = document.getElementById("userDataDisplay");
     userDataDisplay.innerText = "Poslovalnica: " + userData.poslovalnica + "; Uporabnik: " +userData.username;
     if (loginBlock) loginBlock.style.display = "none";
     logoutBlock.style.display = "block";
@@ -24,7 +24,7 @@ if (!userData) {
 
 // za primer da smo se prijavili z računom za goste
 if ((window.location.pathname === "/predogledGosti" || window.location.pathname === "/predogledGosti.html") && imePoslovalnice !== "" && !userData) {
-    const userDataDisplay = document.getElementById("userDataDisplay");
+    var userDataDisplay = document.getElementById("userDataDisplay");
     userDataDisplay.innerText = "Poslovalnica: " + imePoslovalnice;
     if (loginBlock) loginBlock.style.display = "none";
     logoutBlock.style.display = "block";
@@ -57,10 +57,10 @@ function onGuestLoginError(errorMsg, showBtn) {
 
 // odjavi uporabnika
 function logout() {
-    // let canceled = false;
+    // var canceled = false;
     if (window.location.pathname === "/urediTrenitenPlan" || window.location.pathname === "/urediTrenitenPlan.html") {
         if (!dataSaved) {
-            let answer = window.confirm("Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli.");
+            var answer = window.confirm("Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli.");
             if(answer) {
                 sessionStorage.clear();
                 window.location.href = "index.html";
@@ -86,8 +86,8 @@ function login () {
     // loginBlock.style.display = "none";
     document.getElementById("loginBtn").disabled = true;
 
-    const loginUsernameField = document.getElementById("loginUsernameField");
-    const loginPasswordField = document.getElementById("loginPasswordField");
+    var loginUsernameField = document.getElementById("loginUsernameField");
+    var loginPasswordField = document.getElementById("loginPasswordField");
 
     if (loginUsernameField.value == "") {
         onLoginError("Prosim vnesite vaše uporabniško ime!");
@@ -109,8 +109,8 @@ function loginGuest () {
     // loginBlock.style.display = "none";
     document.getElementById("loginGuestBtn").disabled = true;
 
-    const loginPoslovalnicaField = document.getElementById("loginPoslovalnicaField");
-    const loginGuestPasswordField = document.getElementById("loginGuestPasswordField");
+    var loginPoslovalnicaField = document.getElementById("loginPoslovalnicaField");
+    var loginGuestPasswordField = document.getElementById("loginGuestPasswordField");
 
     if (loginPoslovalnicaField.value == "") {
         onGuestLoginError("Prosim vnesite ime poslovalnice!");
@@ -133,7 +133,7 @@ function submitForm_Login() {
     xhr.open("POST", "/login"); 
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        var serverRes = JSON.parse(event.target.response);
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -159,7 +159,7 @@ function submitForm_Login_guest() {
     xhr.open("POST", "/login/guest"); 
 
     xhr.onload=function(event){ 
-        let serverRes = JSON.parse(event.target.response);
+        var serverRes = JSON.parse(event.target.response);
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

@@ -1,7 +1,7 @@
 
 // poišče originalno ime za celico
 function get_originalName (currName, cell) {
-    let originalName = "";
+    var originalName = "";
     if (data.zaposleni[currName] != null) {
         originalName = data.zaposleni[currName].prikazanoImeZap;
     } else {
@@ -26,9 +26,9 @@ function insert_errorWarrning_tooltipMessage (msg, fullPosition, msgType) {
 
 // preveri če je celica na posebnem oddelku (komentar, dopusti)
 function isSpecialOddelek (cellData) {
-    const oddelekId = Number.parseInt(cellData.oddelekId);
+    var oddelekId = Number.parseInt(cellData.oddelekId);
 
-    let result;
+    var result;
     // pogledamo za dopoldne
     data.oddelki_dopoldne.forEach(element => {
         if (element.oddID === oddelekId) {
@@ -57,9 +57,9 @@ function isSpecialOddelek (cellData) {
 
 // pridobi oddelek type; komentar, "", ld,nn,boln;
 function get_OddelekType (cellData) {
-    const oddelekId = Number.parseInt(cellData.oddelekId);
+    var oddelekId = Number.parseInt(cellData.oddelekId);
 
-    let result = "";
+    var result = "";
     // pogledamo za dopoldne
     data.oddelki_dopoldne.forEach(element => {
         if (element.oddID === oddelekId) {
@@ -81,13 +81,13 @@ function get_cell_minStartTime_forWorker_inDay (workerDayData) {
     // če ni vnosa vrnemo null
     if (workerDayData.length < 1) return null;
 
-    let minTime = "";
-    let minTimeCell = null;
-    for (let i = 0; i < workerDayData.length; i++) {
-        let cell = workerDayData[i];
+    var minTime = "";
+    var minTimeCell = null;
+    for (var i = 0; i < workerDayData.length; i++) {
+        var cell = workerDayData[i];
         if (isSpecialOddelek(cell)) continue;
 
-        let startTime = cell.startTime;
+        var startTime = cell.startTime;
 
         if (minTime === "" || compare_times_is_time1_greaterThan_time2(minTime, startTime)) {
             minTime = startTime;
@@ -110,15 +110,15 @@ function get_cell_maxEndTime_forWorker_inDay (workerDayData) {
     // če ni vnosa vrnemo null
     if (workerDayData.length < 1) return null;
 
-    let maxTime = "";
-    let maxTimeInNextDay = false;
-    let maxTimeCell = null;
-    for (let i = 0; i < workerDayData.length; i++) {
-        let cell = workerDayData[i];
+    var maxTime = "";
+    var maxTimeInNextDay = false;
+    var maxTimeCell = null;
+    for (var i = 0; i < workerDayData.length; i++) {
+        var cell = workerDayData[i];
         if (isSpecialOddelek(cell)) continue;
 
-        let endTime = cell.endTime;
-        let timeInNextDay = check_is_time2inNextDay(cell.startTime, endTime);
+        var endTime = cell.endTime;
+        var timeInNextDay = check_is_time2inNextDay(cell.startTime, endTime);
 
         if (maxTimeInNextDay && !timeInNextDay) continue;
 
@@ -150,8 +150,8 @@ function get_cell_maxEndTime_forWorker_inDay (workerDayData) {
 
 // get time difference for 2 days next to each other
 function get_timeDiference_between_TwoDays_inMinutes(maxEndTimeCell, minStartTimeCell) {
-    let maxEndTime = "";
-    let minStartTime = "";
+    var maxEndTime = "";
+    var minStartTime = "";
     try {
         maxEndTime = maxEndTimeCell.endTime;
         minStartTime = minStartTimeCell.startTime;
@@ -162,11 +162,11 @@ function get_timeDiference_between_TwoDays_inMinutes(maxEndTimeCell, minStartTim
         return null;
     }
 
-    let timeDiff = get_timeDifference_inMinutes_betweenTwoTimes(maxEndTime, minStartTime);
+    var timeDiff = get_timeDifference_inMinutes_betweenTwoTimes(maxEndTime, minStartTime);
     
     // popravimo čas če je potrebno
-    const maxEndTimeInNextDay = check_is_time2inNextDay(maxEndTimeCell.startTime, maxEndTime);
-    const maxEndTime_greaterThan_minStartTime = compare_times_is_time1_greaterThan_time2(maxEndTime, minStartTime);
+    var maxEndTimeInNextDay = check_is_time2inNextDay(maxEndTimeCell.startTime, maxEndTime);
+    var maxEndTime_greaterThan_minStartTime = compare_times_is_time1_greaterThan_time2(maxEndTime, minStartTime);
     if (!maxEndTimeInNextDay && !maxEndTime_greaterThan_minStartTime) {
         timeDiff += 24 * 60;
     }
