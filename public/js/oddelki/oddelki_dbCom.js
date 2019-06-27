@@ -6,7 +6,7 @@ function submitForm_oddelekGet() {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -21,10 +21,10 @@ function submitForm_oddelekGet() {
         // drugače prikaži oddelke
         else {
             // shranimo v storage
-            var dopOddleki = [];
-            var popOddleki = [];
-            var maxDopIndex = 0;
-            var maxPopIndex = 0;
+            let dopOddleki = [];
+            let popOddleki = [];
+            let maxDopIndex = 0;
+            let maxPopIndex = 0;
             serverRes.vsiOddelki.forEach(element => {
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
@@ -58,7 +58,7 @@ function submitForm_oddelekAdd() {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         
         // če je prišlo do napake, izpiši napako
@@ -77,7 +77,7 @@ function submitForm_oddelekAdd() {
     var formData = new FormData (document.getElementById("addOddelekForm"));
 
     formData.append("poslovalnica", userData.poslovalnica);
-    var smena = document.getElementById("smenaOddelka").value;
+    let smena = document.getElementById("smenaOddelka").value;
     formData.append("positionForUser", maxIndexes["maxIndex_" + smena] + 1);
     
     xhr.send(formData);
@@ -90,7 +90,7 @@ function submitForm_oddelekRemove(oddelekId) {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -118,7 +118,7 @@ function submitForm_oddelekUpdate(updateData) {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         
         // če je prišlo do napake, izpiši napako

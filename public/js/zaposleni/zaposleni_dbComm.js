@@ -6,7 +6,7 @@ function submitForm_oddelekGet() {
     xhr.responseType = 'json';   // cant set responseType for synchronous
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -22,8 +22,8 @@ function submitForm_oddelekGet() {
         }
         else {
             // shranimo v storage
-            var dopOddleki = [];
-            var popOddleki = []
+            let dopOddleki = [];
+            let popOddleki = []
             serverRes.vsiOddelki.forEach(element => {
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
@@ -53,7 +53,7 @@ function submitForm_zaposleniGet() {
     xhrGetZaposlene.responseType = 'json';
 
     xhrGetZaposlene.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -91,7 +91,7 @@ function submitForm_zaposleniGet() {
     var formData = new FormData ();
     
     formData.append("poslovalnica", userData.poslovalnica);
-    var seznamZaposlenihDiv = document.getElementById("seznamZaposlenihDiv").innerHTML = "Nalaganje ...";
+    let seznamZaposlenihDiv = document.getElementById("seznamZaposlenihDiv").innerHTML = "Nalaganje ...";
 
     xhrGetZaposlene.send(formData);
 }
@@ -103,7 +103,7 @@ function submitForm_zaposleniAdd() {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -121,7 +121,7 @@ function submitForm_zaposleniAdd() {
     usposobljenost_chkBox_Arr = document.getElementById("seznamUsposobljenosti").getElementsByTagName("input");
     usposobljenost_object = {};
 
-    for (var i = 0; i < usposobljenost_chkBox_Arr.length; i++) {
+    for (let i = 0; i < usposobljenost_chkBox_Arr.length; i++) {
         oddelek = usposobljenost_chkBox_Arr[i];
         usposobljenost_object[oddelek.value] = oddelek.checked;
     }
@@ -141,7 +141,7 @@ function submitForm_zaposleniRemove(zapId) {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -170,7 +170,7 @@ function submitForm_zaposleniUpdate(edit_inputFields_zaposleni) {
     xhr.responseType = 'json';
 
     xhr.onload=function(event){
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

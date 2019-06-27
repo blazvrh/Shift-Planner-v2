@@ -53,8 +53,8 @@ function showMainPageContent () {
     // lisener za clear all inputs
     buttonElements.clearAllInputs.onclick = function() { btn_clear_WeekInputs(); }
 
-    var simpleButtonNumberRadios = document.querySelectorAll("input[name='numOfUses']");
-    for (var i = 0; i < simpleButtonNumberRadios.length; i++) {
+    const simpleButtonNumberRadios = document.querySelectorAll("input[name='numOfUses']");
+    for (let i = 0; i < simpleButtonNumberRadios.length; i++) {
         simpleButtonNumberRadios[i].onclick = function () { 
             if (this.value === "one") {
                 simpleClickData.numberOfUses = 1;
@@ -84,12 +84,12 @@ function showMainPageContent () {
 
 // nastavi seznam opcij zaposlenih
 function set_options_forZaposlene (zaposleni) {
-    var imenaZaposlenih_datalist = document.getElementById("imenaZaposlenih");
+    let imenaZaposlenih_datalist = document.getElementById("imenaZaposlenih");
     imenaZaposlenih_datalist.innerHTML = "";
 
-    var zaposleniNames = Object.keys(zaposleni).sort();
+    let zaposleniNames = Object.keys(zaposleni).sort();
     zaposleniNames.forEach(element => {
-        var singleOption = document.createElement("option");
+        let singleOption = document.createElement("option");
         singleOption.setAttribute("value", element);
         imenaZaposlenih_datalist.append(singleOption);
     });
@@ -100,13 +100,13 @@ function set_options_forZaposlene (zaposleni) {
 function btn_save_currPlan () {
     buttonElements.saveCurrPlan.disabled = true;
     
-    var weekNum = currDateData.workingWeekNumber;
-    var year = currDateData.workingMondayDate.getFullYear();
-    var mondayDate = convertDateToString(currDateData.workingMondayDate);
+    let weekNum = currDateData.workingWeekNumber;
+    let year = currDateData.workingMondayDate.getFullYear();
+    let mondayDate = convertDateToString(currDateData.workingMondayDate);
 
-    var tableData = get_currPlan_data_workerOriented();
+    let tableData = get_currPlan_data_workerOriented();
 
-    var sundayData = get_sundayData(tableData);
+    let sundayData = get_sundayData(tableData);
 
     submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData);
 }
@@ -120,10 +120,10 @@ function btn_clear_WeekInputs () {
         return;
     }
 
-    for (var i = 0; i < allDataCellElements.length; i++) {
-        var inputs = allDataCellElements[i].querySelectorAll("input");
+    for (let i = 0; i < allDataCellElements.length; i++) {
+        let inputs = allDataCellElements[i].querySelectorAll("input");
         
-        for (var j = 0; j < inputs.length; j++) {
+        for (let j = 0; j < inputs.length; j++) {
             inputs[j].value = "";
         }
     }
@@ -137,18 +137,18 @@ function btn_check_currPlan () {
     buttonElements.checkCurrPlan.disabled = true;
 
     allErrors = { warnings:[], errors:[] }
-    var tooltips = document.getElementsByClassName("tooltipText");
+    let tooltips = document.getElementsByClassName("tooltipText");
     
     // postavimo vse tooltipe na prazno
-    for (var i = 0; i < tooltips.length; i++) {
+    for (let i = 0; i < tooltips.length; i++) {
         tooltips[i].setAttribute("isEmpty", "true");
         tooltips[i].innerHTML = "";
     }
     
     // prebermo podatke iz tabele 
-    var rawWeekData = get_currPlan_data_workerOriented()
+    let rawWeekData = get_currPlan_data_workerOriented()
     // pretvorimo podatke v primeren format
-    var currWeekData = get_currPlan_Worker_dayOriented(rawWeekData);
+    let currWeekData = get_currPlan_Worker_dayOriented(rawWeekData);
 
     // seštejemo in prikažemo seštevek ur v tednu
     sumAndShow_sestevekUr(currWeekData);
@@ -188,15 +188,15 @@ function displayErrors (tooltips) {
     clearWarnErrorIndexes();
 
     // gremo čez vse tooltipe
-    for (var i = 0; i < tooltips.length; i++) {
-        var fullPos = tooltips[i].getAttribute("fullPosition")
+    for (let i = 0; i < tooltips.length; i++) {
+        let fullPos = tooltips[i].getAttribute("fullPosition")
 
         // preverimo če je error za ta tooltip
         if (fullPos in allErrors.errors) {
-            var errorMsgHtml = "<div class = 'errorInTooltip'><span class='tooltipTitle'>Napake:</span>"
-            var posErrors = allErrors.errors[fullPos];
+            let errorMsgHtml = "<div class = 'errorInTooltip'><span class='tooltipTitle'>Napake:</span>"
+            let posErrors = allErrors.errors[fullPos];
             // izpišemo vse warninge za to pozicijo
-            for (var keyIndex = 0; keyIndex < posErrors.length; keyIndex++) {
+            for (let keyIndex = 0; keyIndex < posErrors.length; keyIndex++) {
                 
                 errorMsgHtml += "<p>" + posErrors[keyIndex] + "</p>";
                 tooltips[i].setAttribute("isEmpty", "false");   
@@ -205,18 +205,18 @@ function displayErrors (tooltips) {
             tooltips[i].innerHTML = errorMsgHtml;
             
             // prikaže index za error
-            var errIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='error']")[0];
+            let errIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='error']")[0];
             errIndex.innerHTML = "<p>" + posErrors.length.toString() + "</p>";
             errIndex.className = "show";
         }
 
         // preverimo če je warning za ta tooltip
         if (fullPos in allErrors.warnings) {
-            var warningMsgHtml = "<div class = warningInTooltip><span class='tooltipTitle'>Opozorila:</span>"
-            var posWarnings = allErrors.warnings[fullPos];
+            let warningMsgHtml = "<div class = warningInTooltip><span class='tooltipTitle'>Opozorila:</span>"
+            let posWarnings = allErrors.warnings[fullPos];
 
             // izpišemo vse warninge za to pozicijo
-            for (var keyIndex = 0; keyIndex < posWarnings.length; keyIndex++) {
+            for (let keyIndex = 0; keyIndex < posWarnings.length; keyIndex++) {
                 // tooltips[i].innerHTML += posWarnings[keyIndex];
                 warningMsgHtml += "<p>" + posWarnings[keyIndex] + "</p>";
                 tooltips[i].setAttribute("isEmpty", "false");   
@@ -225,7 +225,7 @@ function displayErrors (tooltips) {
             tooltips[i].innerHTML += warningMsgHtml;
 
             // prikaže index za error
-            var warnIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='warning']")[0];
+            let warnIndex = tooltips[i].parentNode.parentNode.querySelectorAll("div[indextype='warning']")[0];
             warnIndex.innerHTML = "<p>" + posWarnings.length.toString() + "</p>";
             warnIndex.className = "show";
         }
@@ -235,7 +235,7 @@ function displayErrors (tooltips) {
 // pobriše indexe errorjev in warningov
 function clearWarnErrorIndexes () {
     allIndexes = document.querySelectorAll("div[indextype]");
-    for (var i = 0; i < allIndexes.length; i++) {
+    for (let i = 0; i < allIndexes.length; i++) {
         allIndexes[i].className = "hide";
     }
 }
@@ -243,7 +243,7 @@ function clearWarnErrorIndexes () {
 
 function simpleClick_setValue (nameElement) {
     
-    var selectedNameStr = nameElement.getAttribute("val");
+    const selectedNameStr = nameElement.getAttribute("val");
     
     if(selectedNameStr === simpleClickData.selectedName) {
         unselectSimpleClick(true);
@@ -255,8 +255,8 @@ function simpleClick_setValue (nameElement) {
     simpleClickData.selectedName = selectedNameStr;
     nameElement.className = "selectedName";
     
-    // var numOfUsesElement = document.getElementById("numberOfUses");
-    var numOfUsesElement = document.querySelector("input[name='numOfUses']:checked");
+    // const numOfUsesElement = document.getElementById("numberOfUses");
+    const numOfUsesElement = document.querySelector("input[name='numOfUses']:checked");
 
     if (numOfUsesElement.value === "one") {
         simpleClickData.numberOfUses = 1;
@@ -288,7 +288,7 @@ function unselectSimpleClick(clearDataBool) {
     if (simpleClickData.allNameElements.length < 1) {
         simpleClickData.allNameElements = document.getElementById("simpleClickNames").getElementsByTagName("div");
     }
-    for (var i = 0; i < simpleClickData.allNameElements.length; i++) {
+    for (let i = 0; i < simpleClickData.allNameElements.length; i++) {
         simpleClickData.allNameElements[i].className = "unselectedName";
     }
 

@@ -10,10 +10,10 @@ function checkForZvezdicaInString (stringValue) {
 
 // preveri če so input podatki pravilno vneseni
 function checkInputData () {
-    var maxUrNaDanInt = parseInt(documentObjects_zaposleni.inp_maxUrDan.value);
-    var maxUrNaTedenInt = parseInt(documentObjects_zaposleni.inp_maxUrTeden.value);
-    var maxNedelij = parseInt(documentObjects_zaposleni.inp_maxNedelij.value);
-    var maxPraznikov = parseInt(documentObjects_zaposleni.inp_maxPraznikov.value);
+    let maxUrNaDanInt = parseInt(documentObjects_zaposleni.inp_maxUrDan.value);
+    let maxUrNaTedenInt = parseInt(documentObjects_zaposleni.inp_maxUrTeden.value);
+    let maxNedelij = parseInt(documentObjects_zaposleni.inp_maxNedelij.value);
+    let maxPraznikov = parseInt(documentObjects_zaposleni.inp_maxPraznikov.value);
     
     // odstrani odvečne presledke iz prikazanega imena
     documentObjects_zaposleni.inp_prikazanoImeZaposlenega.value = documentObjects_zaposleni.inp_prikazanoImeZaposlenega.value.trim();
@@ -75,14 +75,14 @@ var edit_inputFields_zaposleni = {};
 // preveri vnos podatkov za urejanje zaposlenega
 function check_EditValues_zaposleni (zapId) {
 
-    var tableRowObj = document.querySelector('[zapid="' + zapId + '"]').getElementsByTagName("td");
+    let tableRowObj = document.querySelector('[zapid="' + zapId + '"]').getElementsByTagName("td");
 
     edit_inputFields_zaposleni = create_edit_inputFields_object(zapId, tableRowObj);
 
-    var maxUrDanZap = parseInt(edit_inputFields_zaposleni.maxUrDanZap_edit.value);
-    var maxUrTedenZap = parseInt(edit_inputFields_zaposleni.maxUrTedenZap_edit.value);
-    var maxNedelijZap = parseInt(edit_inputFields_zaposleni.maxNedelijZap_edit.value);
-    var maxPraznikovZap = parseInt(edit_inputFields_zaposleni.maxPraznikovZap_edit.value);
+    let maxUrDanZap = parseInt(edit_inputFields_zaposleni.maxUrDanZap_edit.value);
+    let maxUrTedenZap = parseInt(edit_inputFields_zaposleni.maxUrTedenZap_edit.value);
+    let maxNedelijZap = parseInt(edit_inputFields_zaposleni.maxNedelijZap_edit.value);
+    let maxPraznikovZap = parseInt(edit_inputFields_zaposleni.maxPraznikovZap_edit.value);
     
     // odstrani odvečne presledke iz prikazanega imena
     edit_inputFields_zaposleni.prikazanoImeZap_edit.value = edit_inputFields_zaposleni.prikazanoImeZap_edit.value.trim();
@@ -157,10 +157,10 @@ function create_edit_inputFields_object (zapId, tableRowObj) {
     inpObj.student_edit = tableRowObj[7].getElementsByTagName("select")[0];
     inpObj.studentMlajsi_edit = tableRowObj[8].getElementsByTagName("select")[0];
     
-    var oddelkiZaZaposl = tableRowObj[9].getElementsByTagName("label");
-    var usposobljenost = { };
+    let oddelkiZaZaposl = tableRowObj[9].getElementsByTagName("label");
+    let usposobljenost = { };
 
-    for (var i = 0; i < oddelkiZaZaposl.length; i++) {
+    for (let i = 0; i < oddelkiZaZaposl.length; i++) {
         usposobljenost[oddelkiZaZaposl[i].innerText.toLowerCase()] = JSON.parse(oddelkiZaZaposl[i].getAttribute("value"));
     }
     inpObj.usposobljenost = usposobljenost;

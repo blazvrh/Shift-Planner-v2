@@ -13,8 +13,8 @@ function onTableMsgOddelki (msg) {
 // posodobi tabelo oddlkov
 function updateTableOddelki (vsiOddelki) {
     tablesDiv.innerHTML = "<h4>Nalaganje ...</h4>";
-    var TableDop = document.createElement("table");
-    var TablePop = document.createElement("table");
+    const TableDop = document.createElement("table");
+    const TablePop = document.createElement("table");
 
     TableDop.appendChild(createHeaderRow());
     TablePop.appendChild(createHeaderRow());
@@ -28,7 +28,7 @@ function updateTableOddelki (vsiOddelki) {
             TablePop.append(newRow);
         }
     });
-    var tableErrorMsg = document.createElement("p");
+    let tableErrorMsg = document.createElement("p");
     tableErrorMsg.setAttribute("class", "Error");
     tableErrorMsg.setAttribute("id", "tableErrorMsg");
     
@@ -44,8 +44,8 @@ function createHeaderRow () {
     trEl = document.createElement("tr");
     textElements = ["Položaj:", "Oddelek:", "Čas prihoda:", "Čas odhoda:", "Št. vrstic", "Posebnost:", "Urejanje:", "Brisanje!"]
 
-    for (var i = 0; i < textElements.length; i++) {
-        var thEl = document.createElement("th");
+    for (let i = 0; i < textElements.length; i++) {
+        let thEl = document.createElement("th");
         thEl.innerText = textElements[i];
         trEl.appendChild(thEl);
     }
@@ -54,23 +54,23 @@ function createHeaderRow () {
 
 // ustvari posamezno vrstico za tabelo
 function createTableRow (rowData) {
-    var tableDataTxts = [rowData.positionForUser, rowData.imeOddelka, rowData.prihod, rowData.odhod, rowData.stVrsticOddelka, 
+    const tableDataTxts = [rowData.positionForUser, rowData.imeOddelka, rowData.prihod, rowData.odhod, rowData.stVrsticOddelka, 
         rowData.specialOddelek];
-    var tableDataId = ["index", "text", "time", "time", "number", "select"]
+    const tableDataId = ["index", "text", "time", "time", "number", "select"]
 
     trEl = document.createElement("tr");
     trEl.setAttribute("id", String(rowData.oddID));
-    for (var i = 0; i < tableDataTxts.length; i++) {
-        var tdEl = document.createElement("td");
+    for (let i = 0; i < tableDataTxts.length; i++) {
+        let tdEl = document.createElement("td");
         tdEl.setAttribute("id", tableDataId[i])
-        var txt = String(tableDataTxts[i]);
+        let txt = String(tableDataTxts[i]);
         if (txt == "") txt = "/";
         tdEl.innerText = txt;
         trEl.appendChild (tdEl);
     }
 
     // edit btn
-    var tdEditBtnEl = document.createElement("td");
+    let tdEditBtnEl = document.createElement("td");
     tdEditBtnEl.setAttribute("id", "editBtn");
 
     btnEditEl = document.createElement("button");
@@ -82,7 +82,7 @@ function createTableRow (rowData) {
     trEl.appendChild(tdEditBtnEl);
 
     // delete btn
-    var tdRemoveBtnEl = document.createElement("td");
+    let tdRemoveBtnEl = document.createElement("td");
     tdRemoveBtnEl.setAttribute("id", "removeBtn");
 
     btnRemoveEl = document.createElement("button");
@@ -100,26 +100,26 @@ function createTableRow (rowData) {
 // ustvari vrstico za urejanje oddelka
 function createEditRow_oddelki (oddelekId) {
     
-    var tableRowObj = document.getElementById(oddelekId);
+    let tableRowObj = document.getElementById(oddelekId);
     originalTableRow = tableRowObj.innerHTML;
 
-    var editingTd = tableRowObj.getElementsByTagName("td");
+    let editingTd = tableRowObj.getElementsByTagName("td");
 
-    for (var i = 0; i < editingTd.length; i++) {
-        var tdID = editingTd[i].id;
+    for (let i = 0; i < editingTd.length; i++) {
+        let tdID = editingTd[i].id;
         
         // ustvarimo posebnost oddelka
         if (tdID == "select") {
-            var inputElement = document.createElement("select");
+            let inputElement = document.createElement("select");
             inputElement.setAttribute("type", tdID);
 
-            var option1 = document.createElement("option");
+            let option1 = document.createElement("option");
             option1.value = "";
             option1.text = "/";
-            var option2 = document.createElement("option");
+            let option2 = document.createElement("option");
             option2.value = "Komentar";
             option2.text = "Komentar";
-            var option3 = document.createElement("option");
+            let option3 = document.createElement("option");
             option3.value = "Oddelek brez delovnega časa";
             option3.text = "Oddelek brez delovnega časa";
 
@@ -127,7 +127,7 @@ function createEditRow_oddelki (oddelekId) {
             inputElement.appendChild(option2);
             inputElement.appendChild(option3);
             
-            var selectVal = editingTd[i].innerText;
+            let selectVal = editingTd[i].innerText;
             if (selectVal == "/") selectVal ="";
             inputElement.value = selectVal;
             inputElement.onchange = () => {onSpecialSelect(oddelekId)};
@@ -136,7 +136,7 @@ function createEditRow_oddelki (oddelekId) {
         } 
         // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
-            var inputElement = document.createElement("button");
+            let inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
             inputElement.onclick = function() {btn_confirmEdit(this, oddelekId)};
             editingTd[i].innerHTML = "";
@@ -144,14 +144,14 @@ function createEditRow_oddelki (oddelekId) {
         } 
         // ustvarimo prekliči gumb
         else if (tdID == "editBtn") {
-            var inputElement = document.createElement("button");
+            let inputElement = document.createElement("button");
             inputElement.innerText = "Prekliči!";
             inputElement.onclick = () => { btn_cancelEdit(oddelekId) };
             editingTd[i].innerHTML = "";
             editingTd[i].append(inputElement);
         } 
         else if (tdID === "index") {
-            var inputElement = document.createElement("input");
+            let inputElement = document.createElement("input");
             inputElement.setAttribute("type", "number");
             inputElement.value = editingTd[i].innerText;
             inputElement.setAttribute("min", "0");
@@ -160,7 +160,7 @@ function createEditRow_oddelki (oddelekId) {
         }
         // ustvarimo preostale input elemente
         else if (tdID != "") {
-            var inputElement = document.createElement("input");
+            let inputElement = document.createElement("input");
             inputElement.value = editingTd[i].innerText;
             inputElement.setAttribute("type", tdID);
             if (tdID == "number") {

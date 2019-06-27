@@ -6,7 +6,7 @@ function submitForm_oddelekGet() {
     xhr.responseType = 'json';
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -25,9 +25,9 @@ function submitForm_oddelekGet() {
         }
         else {
             // shranimo v storage
-            var dopOddleki = [];
-            var popOddleki = [];
-            var oddById = { };
+            let dopOddleki = [];
+            let popOddleki = [];
+            let oddById = { };
 
             serverRes.vsiOddelki.forEach(element => {
                 if (element.smena == "dopoldne") {
@@ -61,13 +61,13 @@ function submitForm_zaposleniGet() {
     xhrGetZaposlene.responseType = 'json';
 
     xhrGetZaposlene.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
             if (serverRes.vsiZaposleni == null) {
-                var prevMsg = document.getElementById("loadWeekError").innerHTML;
+                let prevMsg = document.getElementById("loadWeekError").innerHTML;
                 prevMsg += prevMsg != "" ? "<br>" : "";
                 
                 error_onTableShow(prevMsg + "<strong>Ni vnosa za zaposlene!</strong><br> &emsp;Pojdite na zavihek \"" +
@@ -81,9 +81,9 @@ function submitForm_zaposleniGet() {
         }
         else {
             // pridobimo vsa prikazana imena
-            var prikazanaImenaLowerCase = {};
-            var prikazanaImena = {};
-            // var prikazanaImena = [];
+            let prikazanaImenaLowerCase = {};
+            let prikazanaImena = {};
+            // let prikazanaImena = [];
             serverRes.vsiZaposleni.forEach(element => {
                 // prikazanaImena.push((element.prikazanoImeZap).toLowerCase());
                 prikazanaImena[(element.prikazanoImeZap)] = element.zapID;
@@ -94,9 +94,9 @@ function submitForm_zaposleniGet() {
             sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
             
             // tako da je key ime zaposlenega
-            var newZaposleniObj = {};
-            for (var i = 0; i < serverRes.vsiZaposleni.length; i++) {
-                var zaposlen = serverRes.vsiZaposleni[i];
+            let newZaposleniObj = {};
+            for (let i = 0; i < serverRes.vsiZaposleni.length; i++) {
+                let zaposlen = serverRes.vsiZaposleni[i];
                 newZaposleniObj[(zaposlen.prikazanoImeZap).toLowerCase()] = zaposlen;
             }
             
@@ -124,7 +124,7 @@ function submitForm_get_trenuenPlan() {
     xhr.responseType = 'json';
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
            // če je error zaradi nobenega vnosa
@@ -162,7 +162,7 @@ function submitForm_get_sundaysInThisYear() {
     xhr.responseType = 'json';
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // izpiši error
@@ -177,7 +177,7 @@ function submitForm_get_sundaysInThisYear() {
 
     var formData = new FormData ();
 
-    var sundayDate = new Date(currDateData.selectedMondayDate);
+    let sundayDate = new Date(currDateData.selectedMondayDate);
     sundayDate.setDate(sundayDate.getDate() + 6);
 
     formData.append("poslovalnica", userData.poslovalnica);
@@ -194,7 +194,7 @@ function submitForm_get_lastWeekPlan() {
     xhr.responseType = 'json';
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -213,18 +213,18 @@ function submitForm_get_lastWeekPlan() {
             }
         }
         else {
-            var prevWeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.weekData.weekData));
+            let prevWeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.weekData.weekData));
             // pridobimo še nedeljo pred tem
             if (serverRes.prevWeekData != null) {
-                var prev2WeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.prevWeekData.weekData));
+                let prev2WeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.prevWeekData.weekData));
                 
-                var prev2Names = Object.keys(prev2WeekData);
+                let prev2Names = Object.keys(prev2WeekData);
                 prev2Names.forEach(name => {
                     if (prev2WeekData[name][7].length > 0 && prevWeekData[name] != null) {
                         prevWeekData[name][0] = prev2WeekData[name][7];
 
                         // popravimo day index na 0
-                        var keys = Object.keys(prevWeekData[name][0]);
+                        const keys = Object.keys(prevWeekData[name][0]);
                         keys.forEach(key => {
                             prevWeekData[name][0][key].dayIndex = "0"; 
                         });
@@ -247,7 +247,7 @@ function submitForm_get_lastWeekPlan() {
 
     var formData = new FormData ();
 
-    var lastMondayDate = new Date(currDateData.selectedMondayDate);
+    let lastMondayDate = new Date(currDateData.selectedMondayDate);
     lastMondayDate.setDate(lastMondayDate.getDate() - 7);
 
     formData.append("poslovalnica", userData.poslovalnica);
@@ -265,7 +265,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
     xhr.responseType = 'json';
 
     xhr.onload=function(event){ 
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

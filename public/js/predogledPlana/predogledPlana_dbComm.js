@@ -6,7 +6,7 @@ function submitForm_get_trenuenPlan() {
     xhr.responseType = 'json';
 
     xhr.onload = function(event) {
-        var serverRes = event.target.response;
+        let serverRes = event.target.response;
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

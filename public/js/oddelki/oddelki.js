@@ -1,7 +1,7 @@
 
 // some varibles
-var inputFields_oddelki = getInputFields();
-var btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
+const inputFields_oddelki = getInputFields();
+const btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
 var maxIndexes = {};
 
 window.addEventListener('load', () => {
@@ -49,7 +49,7 @@ function onInputErrorOddelki(msg, showBtn) {
 
 // izpiše error za table
 function onTableErrorOddelki(msg) {
-    var tableErrorMsg = document.getElementById("tableErrorMsg");
+    let tableErrorMsg = document.getElementById("tableErrorMsg");
     tableErrorMsg.innerHTML = msg;
     
     if (msg != "") {
@@ -59,11 +59,11 @@ function onTableErrorOddelki(msg) {
 
 // vrne datum iz podanega stringa v obliki "hh:mm"
 function getDateFromTimeString(timeString) {
-    var timeSplited = timeString.split(":");
-    var hour = parseInt(timeSplited[0]);
-    var minute = parseInt(timeSplited[1]);
+    let timeSplited = timeString.split(":");
+    let hour = parseInt(timeSplited[0]);
+    let minute = parseInt(timeSplited[1]);
     
-    var date = new Date();
+    let date = new Date();
     date.setHours(hour, minute, 0);
     
     return date;
@@ -84,7 +84,7 @@ function clearInputValues() {
 
 // pojavno okno pred izbrisom
 function removeOddelekFromDb (itemKey) {
-    var oddName = document.getElementById(itemKey).getElementsByTagName("td")[1].innerText;
+    let oddName = document.getElementById(itemKey).getElementsByTagName("td")[1].innerText;
 
     if (window.confirm ("Ali ste prepričani da želite odstraniti oddelek \"" + oddName + "\"")) {
         submitForm_oddelekRemove(itemKey)
@@ -101,7 +101,7 @@ var originalTableRow = "";
 function btn_odpriUrediOddelek (oddelekId) {
     // če imamo eno urejanje že odprto in izberemo drugo, zapremo prvo
     if (originalTableRow != "") {
-        var openRow = document.getElementById(openRowId);
+        let openRow = document.getElementById(openRowId);
         openRow.innerHTML = originalTableRow;
         onTableErrorOddelki("");
     }
@@ -113,7 +113,7 @@ function btn_odpriUrediOddelek (oddelekId) {
 
 // gumb za preklic urejanja oddelka
 function btn_cancelEdit (oddelekId) {
-    var tablerow = document.getElementById(oddelekId);
+    let tablerow = document.getElementById(oddelekId);
     tablerow.innerHTML = originalTableRow;
     originalTableRow = "";
     openRowId = "";
@@ -122,13 +122,13 @@ function btn_cancelEdit (oddelekId) {
 
 // pobriše čase če si izberemo poseben oddelek
 function onSpecialSelect (oddelekId) {
-    var tableRow = document.getElementById(oddelekId);
-    var posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
+    let tableRow = document.getElementById(oddelekId);
+    let posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
 
     if (posebnostEdit.value != "")
     {
-        var prihodEdit = tableRow.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
-        var odhodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
+        let prihodEdit = tableRow.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
+        let odhodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
 
         prihodEdit.value = "";
         odhodEdit.value = "";
@@ -137,8 +137,8 @@ function onSpecialSelect (oddelekId) {
 // pobriše posebnost če vpišemo čas
 function onTimeEnterEdit (oddelekId, val) {
     if (val != "") {
-        var tableRow = document.getElementById(oddelekId);
-        var posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
+        let tableRow = document.getElementById(oddelekId);
+        let posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
         posebnostEdit.value = "";
     }
 }

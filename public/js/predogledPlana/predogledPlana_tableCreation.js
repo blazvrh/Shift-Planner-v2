@@ -1,10 +1,10 @@
 
 // ustvari predogled plana za izbran teden
 function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additionalDataObject) {
-    var workingWeekNumber;
-    var workingMondayDate;
-    var poslovalnica = "";
-    var noEntryText = "";
+    let workingWeekNumber;
+    let workingMondayDate;
+    let poslovalnica = "";
+    let noEntryText = "";
     
     if (typeof(additionalDataObject) === "undefined") {
         workingWeekNumber = currDateData.selectedWeekNumber;
@@ -19,7 +19,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
         noEntryText = "Za ta teden ni objavljenega vnosa!";
     }
     
-    var planDelaIzbranTedenDiv = divElement;
+    let planDelaIzbranTedenDiv = divElement;
     
     // če je prazen objekt potem izpiši "NI VNOSA"
     if (Object.keys(weekData).length < 1) {
@@ -30,7 +30,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     
     
     
-    var tableElement = document.createElement("table");
+    let tableElement = document.createElement("table");
     tableElement.setAttribute("id", "mainTable_selectedWeek");
     tableElement.setAttribute("class", "mainTable_selectedWeek");
     
@@ -48,7 +48,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     planDelaIzbranTedenDiv.append(tableElement);
     
     if (typeof(additionalDataObject) === "undefined") {
-        var printBtn = document.createElement("button");
+        let printBtn = document.createElement("button");
         printBtn.classList.add("hideOnPrint");
         printBtn.innerHTML = "Tiskaj!";
         printBtn.onclick = function() { printPlan(); }
@@ -60,27 +60,27 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
 
 // Ustvari header tabele za predogled izbranega tedna
 function ustvariHeader (mondayDate, weekNumber) {
-    var tempDate = new Date (mondayDate);
-    var leto = tempDate.getFullYear();
+    let tempDate = new Date (mondayDate);
+    let leto = tempDate.getFullYear();
 
-    var tHeader = document.createElement("thead");
+    let tHeader = document.createElement("thead");
     var rowHeader = document.createElement("tr");
 
     var imenaDnevov = ["Pon", "Tor", "Sre", "Čet", "Pet", "Sob", "Ned"];
 
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
         // če je to prva vrsta
-        var thData = document.createElement("th");
+        let thData = document.createElement("th");
         if (i == 0) {
             thData.innerText = leto + " Teden: " + weekNumber;
         }
         // če je to vrsta s tednom
         else {
-            var thDataDayName = document.createElement("th");
+            let thDataDayName = document.createElement("th");
             thDataDayName.innerText = imenaDnevov[i-1];
             
-            var thDataDate = document.createElement("th");
-            var currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "long"});
+            let thDataDate = document.createElement("th");
+            let currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "long"});
 
             thData.innerHTML = imenaDnevov[i-1] + " - " + currDatum;
             
@@ -101,7 +101,7 @@ function create_Smeno (smena, mainTable, smenaData) {
     var xPos = 0;
     
     // za vsak oddelek
-    for (var oddNum = 0; oddNum < smenaData.length; oddNum ++) {
+    for (let oddNum = 0; oddNum < smenaData.length; oddNum ++) {
         // za št. vrstic tega oddelka
         for (var rowNum = 0; rowNum < smenaData[oddNum].stVrsticOddelka; rowNum++)
         {
@@ -147,29 +147,29 @@ function create_Smeno (smena, mainTable, smenaData) {
 
 
 function fillTableWithData(weekData, wholeTable) {
-    var workerNames = Object.keys(weekData);
+    const workerNames = Object.keys(weekData);
 
     workerNames.forEach(name => {
-        for (var i = 0; i < weekData[name].length; i++) {
-            var cellData = weekData[name][i];
+        for (let i = 0; i < weekData[name].length; i++) {
+            const cellData = weekData[name][i];
             
-            var position = cellData.position;
-            var smena = cellData.smena;
-            var casDela = "";
+            const position = cellData.position;
+            const smena = cellData.smena;
+            let casDela = "";
             
             if (cellData.startTime !== null && cellData.startTime !== "" && cellData.endTime !== null && cellData.endTime !== "") {
                 casDela = cellData.startTime + " - " + cellData.endTime;
             }
 
-            var matchingCell = wholeTable.querySelector("td[position='" + position + "'][smena='" + smena + "']");
+            let matchingCell = wholeTable.querySelector("td[position='" + position + "'][smena='" + smena + "']");
 
-            var nameSpan = document.createElement("span");
+            let nameSpan = document.createElement("span");
             nameSpan.classList.add("nameValue");
             nameSpan.innerHTML = name;
             matchingCell.append(nameSpan);
             
             if (casDela !== "") {
-                var timeSpan = document.createElement("span");
+                let timeSpan = document.createElement("span");
                 timeSpan.classList.add("timeValue");
                 timeSpan.innerHTML = casDela;
                 matchingCell.append(timeSpan);
@@ -179,11 +179,11 @@ function fillTableWithData(weekData, wholeTable) {
 }
 
 function delete_emptyRows (table) {
-    var rows = table.querySelectorAll("tr[oddId]");
-    var rowsByOddelekId = {};
+    let rows = table.querySelectorAll("tr[oddId]");
+    let rowsByOddelekId = {};
 
-    for (var i = 0; i < rows.length; i++) {
-        var oddId = rows[i].getAttribute("oddId");
+    for (let i = 0; i < rows.length; i++) {
+        const oddId = rows[i].getAttribute("oddId");
         
         if (!rowsByOddelekId[oddId]) {
             rowsByOddelekId[oddId] = [];
@@ -192,24 +192,24 @@ function delete_emptyRows (table) {
         rowsByOddelekId[oddId].push(rows[i]);
     }
 
-    var rowKeys = Object.keys(rowsByOddelekId);
+    const rowKeys = Object.keys(rowsByOddelekId);
 
     rowKeys.forEach(rowKey => {
-        var headerDeleted = false;
-        var headerName = "";
-        for (var j = 0; j < rowsByOddelekId[rowKey].length; j++) {
-            var row = rowsByOddelekId[rowKey][j];
-            var tdCells = row.querySelectorAll("td");
+        let headerDeleted = false;
+        let headerName = "";
+        for (let j = 0; j < rowsByOddelekId[rowKey].length; j++) {
+            let row = rowsByOddelekId[rowKey][j];
+            let tdCells = row.querySelectorAll("td");
             
-            var isEmptyRow = true;
-            for (var i = 0; i < tdCells.length; i++) {
+            let isEmptyRow = true;
+            for (let i = 0; i < tdCells.length; i++) {
                 if (tdCells[i].innerText !== "") {
                     isEmptyRow = false;
                     break;
                 }
             }
             
-            var header = row.querySelector("th");
+            const header = row.querySelector("th");
             if (isEmptyRow) {
                 if (header.innerHTML !== "") {
                     headerDeleted = true;

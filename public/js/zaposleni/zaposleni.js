@@ -38,7 +38,7 @@ function onInputErrorZaposleni (msg, showBtn) {
 
 // izpiše error za tabelo zaposlenih
 function onError_seznamZaposlenih (msg) {
-    var seznamZaposlenihErrorMsg = document.getElementById("seznamZaposlenihErrorMsg");
+    let seznamZaposlenihErrorMsg = document.getElementById("seznamZaposlenihErrorMsg");
     seznamZaposlenihErrorMsg.innerText = msg;
 
     if (msg != "") {
@@ -48,7 +48,7 @@ function onError_seznamZaposlenih (msg) {
 
 // poišče vsa glavna input polja
 function get_documentObjects_zaposleni () {
-    var docObj = {};
+    let docObj = {};
 
     docObj.inp_imeZaposlenega = document.getElementById("inp_imeZaposlenega");
     docObj.inp_priimekZaposlenega = document.getElementById("inp_priimekZaposlenega");
@@ -74,10 +74,10 @@ function get_documentObjects_zaposleni () {
 
 // avtomatsko izpolni prikazano ime ko vnašamo Ime in priimek
 function onChange_autoFillPrikazanoIme () {
-    var ime = inp_imeZaposlenega.value;
-    var priimek = inp_priimekZaposlenega.value;
+    let ime = inp_imeZaposlenega.value;
+    let priimek = inp_priimekZaposlenega.value;
 
-    var prikazanoIme = "";
+    let prikazanoIme = "";
     if (ime.length < 11) {
         prikazanoIme = ime;
     } else {
@@ -101,8 +101,8 @@ function clearInputValuesZaposleni() {
             docElement.checked = false;
         }
     }
-    var usposobljenostChkBoxes = document.getElementById("seznamUsposobljenosti").getElementsByTagName("label");
-    for (var i = 0; i < usposobljenostChkBoxes.length; i++) {
+    let usposobljenostChkBoxes = document.getElementById("seznamUsposobljenosti").getElementsByTagName("label");
+    for (let i = 0; i < usposobljenostChkBoxes.length; i++) {
         chBox = usposobljenostChkBoxes[i].getElementsByTagName("input")[0];
         chBox.checked = false;
     }
@@ -131,9 +131,9 @@ function btn_dodajZaposlenoOsebo () {
 
 // gumb za odstranjevanje zaposlenega
 function btn_removeZaposleniFromDb (zapId) {
-    var zapTdArray = document.querySelector('[zapid="' + zapId + '"]').getElementsByTagName("td");
+    let zapTdArray = document.querySelector('[zapid="' + zapId + '"]').getElementsByTagName("td");
     
-    var zapName = zapTdArray[1].innerText + " " + zapTdArray[2].innerText + ' - "' + zapTdArray[0].innerText + '"';
+    let zapName = zapTdArray[1].innerText + " " + zapTdArray[2].innerText + ' - "' + zapTdArray[0].innerText + '"';
 
     if (window.confirm ("Ali ste prepričani da želite odstraniti zaposlenega: " + zapName + "?")) {
         submitForm_zaposleniRemove(zapId);
@@ -151,7 +151,7 @@ var currentPrikazanoIme = "";
 function btn_odpriUrediZaposlenega(zapId) {
     // če imamo eno urejanje že odprto in izberemo drugo, zapremo prvo
     if (originalTableRow != "") {
-        var openRow = document.querySelector('[zapid="' + openRowId + '"]');
+        let openRow = document.querySelector('[zapid="' + openRowId + '"]');
         openRow.innerHTML = originalTableRow;
         onError_seznamZaposlenih("");
     }
@@ -162,7 +162,7 @@ function btn_odpriUrediZaposlenega(zapId) {
 
 // gumb za preklic urejanja zaposlenega
 function btn_cancelEdit_zaposleni (zapId) {
-    var tablerow = document.querySelector('[zapid="' + zapId + '"]');
+    let tablerow = document.querySelector('[zapid="' + zapId + '"]');
     tablerow.innerHTML = originalTableRow;
     originalTableRow = "";
     openRowId = "";

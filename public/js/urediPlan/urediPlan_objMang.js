@@ -2,17 +2,17 @@
 // izpolni tableo z podatki iz db
 function fill_table_withDbData(weekData) {
     // spremenimo tako da imamo po urejeno oddelkih/dnevih
-    var tempWeekData = get_currPlan_data_dayOriented(weekData);
+    let tempWeekData = get_currPlan_data_dayOriented(weekData);
     
     // za vsako celico poglej če obstaja element ki ga bi lahko vstavili; potem izbriši vstavljenega iz dayOrientedData
-    for (var i = 0; i < allDataCellElements.length; i++) {
-        var inputElements = allDataCellElements[i].querySelectorAll("input");
+    for (let i = 0; i < allDataCellElements.length; i++) {
+        let inputElements = allDataCellElements[i].querySelectorAll("input");
 
-        var day = ((allDataCellElements[i].getAttribute("position")).split(","))[0];
+        let day = ((allDataCellElements[i].getAttribute("position")).split(","))[0];
         
-        var oddId = allDataCellElements[i].getAttribute("oddelekid");
+        let oddId = allDataCellElements[i].getAttribute("oddelekid");
         
-        var cellVals = null;
+        let cellVals = null;
         try {
             cellVals = tempWeekData[day][oddId][0];
             inputElements[0].value = cellVals.nameVal;
@@ -25,24 +25,24 @@ function fill_table_withDbData(weekData) {
     }
 
     // pogledamo če smo izpisali vse; če ne potem izpiši error
-    var errorMsg = "<strong><ins>Ni bilo mogoče izpisati naslednjih vnosov:</ins></strong><br>";
+    let errorMsg = "<strong><ins>Ni bilo mogoče izpisati naslednjih vnosov:</ins></strong><br>";
     var errorFound = false;
 
-    for (var i = 1; i < 8; i++) {
-        var dayName = tempWeekData[i].day;
-        var danVpisan = false;
-        var keys = Object.keys(tempWeekData[i]);
+    for (let i = 1; i < 8; i++) {
+        let dayName = tempWeekData[i].day;
+        let danVpisan = false;
+        let keys = Object.keys(tempWeekData[i]);
         keys.forEach(key => {
             if (key != "day") {
-                var remainingValues = tempWeekData[i][key];
+                let remainingValues = tempWeekData[i][key];
                 
-                var oddelekNameVpisan = false;
+                let oddelekNameVpisan = false;
                 remainingValues.forEach(element => {
                     errorFound = true;
-                    var oddelek = element.oddName != null ? element.oddName : "";
-                    var name = element.nameVal != null ? element.nameVal : "";
-                    var startTime = element.startTime != null ? element.startTime : "";
-                    var endTime = element.endTime != null ? element.endTime : "";
+                    let oddelek = element.oddName != null ? element.oddName : "";
+                    let name = element.nameVal != null ? element.nameVal : "";
+                    let startTime = element.startTime != null ? element.startTime : "";
+                    let endTime = element.endTime != null ? element.endTime : "";
 
                     
                     if (name != "") {
