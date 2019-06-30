@@ -7,6 +7,7 @@ function correct_timeInput_onKeyDown (timeInputElement, evt) {
     const keyPressed = evt.key;
     const keyPressedNum = parseInt(evt.key);
     const valueWhole = timeInputElement.value;
+    const specialKeys = ["Backspace", "Delete", "Del", "Tab", "Left", "Right", "Up", "Down", "F5"];
 
     // če je izbran text
     if (timeInputElement.selectionStart !== timeInputElement.selectionEnd) {
@@ -57,7 +58,7 @@ function correct_timeInput_onKeyDown (timeInputElement, evt) {
         cancelInput(evt);
     }
     // če brišemo  
-    else if (keyPressed === "Backspace" || keyPressed === "Delete" || keyPressed === "Tab" || keyPressed.match(/Arrow/)) {
+    else if (specialKeys.indexOf(keyPressed) > -1 || keyPressed.match(/Arrow/)) {
         return;
     }
     // če je neveljavna tipka
