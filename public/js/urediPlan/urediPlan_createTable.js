@@ -204,11 +204,24 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
                             element.setAttribute("oddIndex", oddNum);
                             // auto fill on blur za time
-                            element.onblur = function() {
-                                let oddIndex = this.getAttribute("oddIndex");
-                                onBlur_time_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
-                                    smenaData[oddIndex].odhod)
-                            };
+                            if (element.addEventListener)  // W3C DOM
+                            element.addEventListener("blur", function(evt) {
+                                    let oddIndex = this.getAttribute("oddIndex");
+                                    onBlur_time_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
+                                        smenaData[oddIndex].odhod)
+                                });
+                            else if (element.attachEvent) { // IE DOM
+                                element.attachEvent("onblur", function(evt) {
+                                    let oddIndex = this.getAttribute("oddIndex");
+                                    onBlur_time_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
+                                        smenaData[oddIndex].odhod)
+                                });
+                            }
+                            // element.onblur = function() {
+                            //     let oddIndex = this.getAttribute("oddIndex");
+                            //     onBlur_time_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
+                            //         smenaData[oddIndex].odhod)
+                            // };
 
                             element.onfocus = function() { timeValOnFocus = this.value };
                             // element.setAttribute ("oddelekId", smenaData[oddNum].oddID);

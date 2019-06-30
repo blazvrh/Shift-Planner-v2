@@ -135,8 +135,14 @@ function add_liseners_toTextInputWithTime(inputElement) {
     inputElement.onkeydown = function (evt) {
         correct_timeInput_onKeyDown(this, evt);
     }
-    inputElement.onblur = function (evt) {
-        correct_timeInputValue_onBlur(this);
+    if (inputElement.addEventListener)  // W3C DOM
+        inputElement.addEventListener("blur", function(evt) {
+            correct_timeInputValue_onBlur(this);
+        });
+    else if (inputElement.attachEvent) { // IE DOM
+        inputElement.attachEvent("onblur", function(evt) {
+            correct_timeInputValue_onBlur(this);
+        });
     }
     inputElement.onmouseup = function (evt) {
         select_wholeInputText(this);
