@@ -4,14 +4,14 @@ const inputFields_oddelki = getInputFields();
 const btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
 var maxIndexes = {};
 
-window.addEventListener('load', () => {
+window.onload = function () {
     if (userData) {
         submitForm_oddelekGet();
 
         add_liseners_toTextInputWithTime(document.getElementById("prihodNaOddelek"))
         add_liseners_toTextInputWithTime(document.getElementById("odhodIzOddelka"))
     }
-});
+}
 
 // poišče polja za vnos
 function getInputFields () {
@@ -29,7 +29,8 @@ function getInputFields () {
 // gumb za dodajanje oddlek
 function btnDodajOddelek ()
 {
-    btn_dodajOddelek.style.display = "none";
+    // btn_dodajOddelek.style.display = "none";
+    btn_dodajOddelek.disabled = true;
     
     if (mainInputValidation()) {
         // pobrišemo error; gumba še ne prikažemo
@@ -43,7 +44,8 @@ function btnDodajOddelek ()
 function onInputErrorOddelki(msg, showBtn) {
     inputFields_oddelki.oddelkiErrorMsg.innerHTML = msg;
     if (showBtn) {
-        btn_dodajOddelek.style.display = "initial";
+        // btn_dodajOddelek.style.display = "initial";
+        btn_dodajOddelek.disabled = false;
     }
 }
 
@@ -79,7 +81,8 @@ function clearInputValues() {
     inputFields_oddelki.specialOddelek.value = "";
     inputFields_oddelki.oddelkiErrorMsg.value = "";
     
-    btn_dodajOddelek.style.display = "initial";
+    // btn_dodajOddelek.style.display = "initial";
+    btn_dodajOddelek.disabled = false;
 }
 
 // pojavno okno pred izbrisom
@@ -123,12 +126,12 @@ function btn_cancelEdit (oddelekId) {
 // pobriše čase če si izberemo poseben oddelek
 function onSpecialSelect (oddelekId) {
     let tableRow = document.getElementById(oddelekId);
-    let posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
+    let posebnostEdit = tableRow.getElementsByTagName("td")[5].getElementsByTagName("select")[0];
 
     if (posebnostEdit.value != "")
     {
-        let prihodEdit = tableRow.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
-        let odhodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
+        let prihodEdit = tableRow.getElementsByTagName("td")[2].getElementsByTagName("input")[0];
+        let odhodEdit = tableRow.getElementsByTagName("td")[3].getElementsByTagName("input")[0];
 
         prihodEdit.value = "";
         odhodEdit.value = "";
@@ -138,7 +141,7 @@ function onSpecialSelect (oddelekId) {
 function onTimeEnterEdit (oddelekId, val) {
     if (val != "") {
         let tableRow = document.getElementById(oddelekId);
-        let posebnostEdit = tableRow.getElementsByTagName("td")[4].getElementsByTagName("select")[0];
+        let posebnostEdit = tableRow.getElementsByTagName("td")[5].getElementsByTagName("select")[0];
         posebnostEdit.value = "";
     }
 }

@@ -12,9 +12,9 @@ function get_currPlan_data_dayOriented (workerOrientedData) {
     
     let dataKeys = Object.keys(workerOrientedData);
    
-    dataKeys.forEach(key => {        
+    dataKeys.forEach(function(key) {        
         workerData = workerOrientedData[key];
-        workerData.forEach(element => {
+        workerData.forEach(function(element) {
             let day = element.dayIndex;
             let startTime = element.startTime;
             let endTime = element.endTime;
@@ -91,7 +91,7 @@ function get_currPlan_Worker_dayOriented (weekData) {
     let workerOrientedWeekData = { };
     let workerNames = Object.keys(weekData);
 
-    workerNames.forEach(name => {
+    workerNames.forEach(function(name) {
         // ustvarimo originalno ime, brez presledkov in odstranimo vse desno od zvezdice
         let originalName = name;
         let zvezdicaPos = originalName.indexOf("*");
@@ -134,7 +134,7 @@ function get_sundayData(tableData) {
     };
 
     const names = Object.keys(tableData);
-    names.forEach(name => {
+    names.forEach(function(name) {
         for(let i = 0; i < tableData[name].length; i++) {
             if (tableData[name][i].dayIndex !== "7" || isSpecialOddelek(tableData[name][i])) {
                 continue;
@@ -142,7 +142,8 @@ function get_sundayData(tableData) {
 
             try {
                 const prikazanoIme = data.zaposleni[name.toLowerCase()].prikazanoImeZap;
-                if (!sundayData.workers.includes(prikazanoIme)) {
+                // if (!sundayData.workers.includes(prikazanoIme)) {
+                if (!sundayData.workers.indexOf(prikazanoIme) > -1) {
                     sundayData.workers.push(prikazanoIme);
                 }
             } catch (e) { return; }
@@ -166,13 +167,13 @@ function create_sundayData_byWorker (allSundayData) {
     sundayDate.setDate(sundayDate.getDate() + 6);
     const currMonth = sundayDate.getMonth();
 
-    allSundayData.forEach(sundayElement => {
+    allSundayData.forEach(function(sundayElement) {
         sundayDataJson = JSON.parse(sundayElement);
         
         // če je to teden s katerim delamo bomo preskočili
         if (sundayDataJson.weekNumber === currDateData.selectedWeekNumber) return;
 
-        sundayDataJson.workers.forEach(name => {
+        sundayDataJson.workers.forEach(function(name) {
             const nameLowerCase = name.toLowerCase();
             // če tega delavca še ni v objektu ga dodaj
             if (!workersSundayData[nameLowerCase]) {
@@ -198,7 +199,7 @@ function get_missingPresonData (weekData) {
         students: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] }
     }
 
-    requiredNames.forEach(name => {
+    requiredNames.forEach(function(name) {
         const subObjectName = data.zaposleni[name].student > 0 ? "students" : "workers";
         const originalName = data.zaposleni[name].prikazanoImeZap;
 

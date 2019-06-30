@@ -19,15 +19,16 @@ function updateTableOddelki (vsiOddelki) {
     TableDop.appendChild(createHeaderRow());
     TablePop.appendChild(createHeaderRow());
     
-    vsiOddelki.forEach(element => {
+    for (let k = 0; k < vsiOddelki.length; k++) {
+        const element = vsiOddelki[k];
         newRow = createTableRow(element);
         if (element.smena == "dopoldne") {
-            TableDop.append(newRow);
+            TableDop.appendChild(newRow);
         }
         else if (element.smena == "popoldne") {
-            TablePop.append(newRow);
+            TablePop.appendChild(newRow);
         }
-    });
+    }
     let tableErrorMsg = document.createElement("p");
     tableErrorMsg.setAttribute("class", "Error");
     tableErrorMsg.setAttribute("id", "tableErrorMsg");
@@ -130,9 +131,9 @@ function createEditRow_oddelki (oddelekId) {
             let selectVal = editingTd[i].innerText;
             if (selectVal == "/") selectVal ="";
             inputElement.value = selectVal;
-            inputElement.onchange = () => {onSpecialSelect(oddelekId)};
+            inputElement.onchange = function () {onSpecialSelect(oddelekId)};
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         } 
         // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
@@ -140,15 +141,15 @@ function createEditRow_oddelki (oddelekId) {
             inputElement.innerText = "Potrdi!";
             inputElement.onclick = function() {btn_confirmEdit(this, oddelekId)};
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         } 
         // ustvarimo prekliči gumb
         else if (tdID == "editBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Prekliči!";
-            inputElement.onclick = () => { btn_cancelEdit(oddelekId) };
+            inputElement.onclick = function () { btn_cancelEdit(oddelekId) };
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         } 
         else if (tdID === "index") {
             let inputElement = document.createElement("input");
@@ -156,7 +157,7 @@ function createEditRow_oddelki (oddelekId) {
             inputElement.value = editingTd[i].innerText;
             inputElement.setAttribute("min", "0");
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         }
         // ustvarimo preostale input elemente
         else if (tdID != "") {
@@ -174,9 +175,12 @@ function createEditRow_oddelki (oddelekId) {
                 add_liseners_toTextInputWithTime(inputElement);
                 inputElement.classList.add("textTime");
                 inputElement.setAttribute("onchange", "onTimeEnterEdit(" + oddelekId + ", this.value)");
+                if (inputElement.value === "/") {
+                    inputElement.value = "";
+                }
             }
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         }
     }
     

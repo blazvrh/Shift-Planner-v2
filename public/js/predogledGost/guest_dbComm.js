@@ -9,6 +9,10 @@ function submitForm_get_weekData(mondayDate, year, weekIdentifier) {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         const divElement = document.getElementById("planDela_" + weekIdentifier + "_Div");
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -34,6 +38,7 @@ function submitForm_get_weekData(mondayDate, year, weekIdentifier) {
                     mondayDate: mondayDate,
                     weekNum: weekNum
                 });
+
         }
         
     }; 

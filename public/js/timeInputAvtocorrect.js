@@ -5,7 +5,7 @@ function correct_timeInput_onKeyDown (timeInputElement, evt) {
     isEmptyOnFocus = false;
     
     const keyPressed = evt.key;
-    const keyPressedNum = Number.parseInt(evt.key);
+    const keyPressedNum = parseInt(evt.key);
     const valueWhole = timeInputElement.value;
 
     // če je izbran text
@@ -33,7 +33,7 @@ function correct_timeInput_onKeyDown (timeInputElement, evt) {
             timeInputElement.value = keyPressed;
         }
         else if (valueWhole.length === 1) {
-            if (Number.parseInt(valueWhole) == "2" && keyPressedNum > 4) {
+            if (parseInt(valueWhole) == "2" && keyPressedNum > 4) {
                 if (keyPressedNum < 6) {
                     timeInputElement.value = "0" + valueWhole + ":" + keyPressed;
                 }
@@ -81,7 +81,7 @@ function correct_timeInputValue_onInput (timeInputElement) {
         timeVal = timeVal.substr(0,2) + ":" + timeVal.substr(2);
     }
     else if (timeVal.length === 1 && timeVal.match(/[0-9]/)) {
-        timeVal = Number.parseInt(timeVal) > 2 ? "0" + timeVal + ":" : timeVal;
+        timeVal = parseInt(timeVal) > 2 ? "0" + timeVal + ":" : timeVal;
     }
 
     if (timeVal.length > 5) {
@@ -106,11 +106,11 @@ function correct_timeInputValue_onBlur (timeInputElement) {
     // razdelimo na ure in minute
     const splitedTime = timeVal.split(":");
 
-    let hourValNum = Number.parseInt(splitedTime[0]);
-    let minuteValNum = Number.parseInt(splitedTime[1]);
+    let hourValNum = parseInt(splitedTime[0]);
+    let minuteValNum = parseInt(splitedTime[1]);
 
-    if (Number.isNaN(hourValNum) || typeof(hourValNum) === undefined) hourValNum = 0;
-    if (Number.isNaN(minuteValNum) || typeof(minuteValNum) === undefined) minuteValNum = 0;
+    if (isNaN(hourValNum) || typeof(hourValNum) === undefined) hourValNum = 0;
+    if (isNaN(minuteValNum) || typeof(minuteValNum) === undefined) minuteValNum = 0;
     
     if (hourValNum > 24) hourValNum = 0;
     if (minuteValNum > 59) minuteValNum = 0;
@@ -132,13 +132,13 @@ function select_wholeInputText(inputElement) {
 }
 
 function add_liseners_toTextInputWithTime(inputElement) {
-    inputElement.addEventListener('keydown', function (evt) {
+    inputElement.onkeydown = function (evt) {
         correct_timeInput_onKeyDown(this, evt);
-    });
-    inputElement.addEventListener('blur', function (evt) {
+    }
+    inputElement.onblur = function (evt) {
         correct_timeInputValue_onBlur(this);
-    });
-    inputElement.addEventListener('mouseup', function (evt) {
+    }
+    inputElement.onmouseup = function (evt) {
         select_wholeInputText(this);
-    });
+    }
 }

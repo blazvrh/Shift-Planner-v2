@@ -87,7 +87,7 @@ async function remove_Oddelek (oddelekData) {
         const prevPosition = prevPositionQurey[0].positionForUser;
         
         let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE smena = '" + 
-            smena + "' AND positionForUser > " + prevPosition);
+            smena + "' AND positionForUser > " + prevPosition + " AND poslovalnica = '" + oddelekData.poslovalnica + "'");
    
 
         let deleted = await conn.query("DELETE FROM oddelki WHERE poslovalnica = '" + oddelekData.poslovalnica + 
@@ -130,18 +130,18 @@ async function update_newOddelek (oddelekData, maxIndexes) {
         // porpavimo idex za vse vmesne
         if (prevPosition > oddelekData.positionForUser) {
             let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser + 1 WHERE poslovalnica = '" +
-            oddelekData.poslovalnica + "' AND smena = '" + 
+                oddelekData.poslovalnica + "' AND smena = '" + 
                 smena + "' AND positionForUser < " + prevPosition + " AND positionForUser >= " + oddelekData.positionForUser);
         } else if (prevPosition < oddelekData.positionForUser) {
             let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE poslovalnica = '" +
-            oddelekData.poslovalnica + "' AND smena = '" + 
+                oddelekData.poslovalnica + "' AND smena = '" + 
                 smena + "' AND positionForUser > " + prevPosition + " AND positionForUser <= " + oddelekData.positionForUser);
         }
 
         let inserted = await conn.query("UPDATE oddelki SET positionForUser = ?, poslovalnica = ?, imeOddelka = ?, stVrsticOddelka = ?, " +
-            "prihod = ?, odhod = ?, specialOddelek = ? WHERE oddID = ?", 
+            "prihod = ?, odhod = ?, specialOddelek = ? WHERE oddID = ? AND poslovalnica = ?", 
             [oddelekData.positionForUser, oddelekData.poslovalnica, oddelekData.imeOddelka, oddelekData.stVrsticOddelka,
-            oddelekData.prihod, oddelekData.odhod, oddelekData.specialOddelek, oddelekData.oddID]);
+            oddelekData.prihod, oddelekData.odhod, oddelekData.specialOddelek, oddelekData.oddID, oddelekData.poslovalnica]);
     
         if (inserted) {
             result = {isError: false, msg: "Success", oddelekData: {

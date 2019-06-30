@@ -5,7 +5,7 @@
 function preveri_cas_prekrivanje (weekData) {
     let allNames = Object.keys(weekData);
 
-    allNames.forEach(name => {
+    allNames.forEach(function (name) {
         for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
             let dayData = weekData[name][dayIndex];
             // če sta manj kot 2 vnosa, prekrivanje ni možno
@@ -32,10 +32,12 @@ function preveri_cas_prekrivanje (weekData) {
                     // dodamo celico v array če je čas konca na prvem oddelku večji od časa pričetka na drugem oddelku
                     if (compare_times_is_time1_greaterThan_time2(cell1EndTime, cell2StartTime, cell1_inNextDay) &&
                         compare_times_is_time1_greaterThan_time2(cell2EndTime, cell1StartTime, cell2_inNextDay)) {
-                        if (!(dayCellErrors.includes(firstCell))) {
+                        // if (!(dayCellErrors.includes(firstCell))) {
+                        if (!(dayCellErrors.indexOf(firstCell) > -1)) {
                             dayCellErrors.push(firstCell);
                         }
-                        if (!(dayCellErrors.includes(secondCell))) {
+                        // if (!(dayCellErrors.includes(secondCell))) {
+                        if (!(dayCellErrors.indexOf(secondCell) > -1)) {
                             dayCellErrors.push(secondCell);
                         }
                     }
@@ -44,9 +46,10 @@ function preveri_cas_prekrivanje (weekData) {
             // pogledamo na katerih oddelkih je prekrivanje in shranimo error
             let oddelkiSPrekrivanjemArr = [];
             let fullTooltipPositions = [];
-            dayCellErrors.forEach(cellData => {
+            dayCellErrors.forEach(function (cellData) {
                 let oddName = cellData.oddelekName + " (" + cellData.smena + ")";
-                if (!(oddelkiSPrekrivanjemArr.includes(oddName))) {
+                // if (!(oddelkiSPrekrivanjemArr.includes(oddName))) {
+                if (!(oddelkiSPrekrivanjemArr.indexOf(oddName) > -1)) {
                     oddelkiSPrekrivanjemArr.push(oddName);
                 }
                 fullTooltipPositions.push(cellData.position + "," + cellData.smena);
@@ -62,7 +65,7 @@ function preveri_cas_prekrivanje (weekData) {
             let errMsg = " - Zaznano prekrivanje delovnega časa za osebo <strong><em>" + prikazanoImeZap + 
             "</em></strong> na oddelkih: <strong><em>" + oddelkiSPrekrivanjemArr.join(", ") + "</em></strong>";
             
-            fullTooltipPositions.forEach(fullPosition => {
+            fullTooltipPositions.forEach(function(fullPosition) {
                 if (!allErrors.errors[fullPosition]) {
                     allErrors.errors[fullPosition] = [];
                 }
@@ -79,7 +82,7 @@ function preveri_cas_prekrivanje (weekData) {
 function preveri_maxCase (weekData) {
     let allNames = Object.keys(weekData);
 
-    allNames.forEach(name => {
+    allNames.forEach(function(name) {
         if (!(name in data.prikazanaImena)) return;
         let tedenskiDelovniCas = 0;
         let dnevniDelovniCas = 0;
@@ -102,7 +105,7 @@ function preveri_maxCase (weekData) {
             let maxDnevniCas = data.zaposleni[name].maxUrDanZap;
             
             if (dnevniDelovniCas > maxDnevniCas * 60) {
-                let opravljeneUre = Number.parseInt(dnevniDelovniCas / 60);
+                let opravljeneUre = parseInt(dnevniDelovniCas / 60);
                 let opravljeneMinute = dnevniDelovniCas % 60;
                 let opravljenCas = opravljeneUre.toString() + " ur";
                 opravljenCas += opravljeneMinute > 0 ? " " + opravljeneMinute.toString() + " min" : "";
@@ -128,7 +131,7 @@ function preveri_maxCase (weekData) {
         let maxTedenskiCas = data.zaposleni[name].maxUrTedenZap;
         
         if (tedenskiDelovniCas > maxTedenskiCas * 60) {
-            let opravljeneUre = Number.parseInt(tedenskiDelovniCas / 60);
+            let opravljeneUre = parseInt(tedenskiDelovniCas / 60);
             let opravljeneMinute = tedenskiDelovniCas % 60;
             let opravljenCas = opravljeneUre.toString() + " ur";
             opravljenCas += opravljeneMinute > 0 ? " " + opravljeneMinute.toString() + " min" : "";
@@ -160,7 +163,7 @@ function preveri_maxCase (weekData) {
 function preveri_dnevniPocitek (prevWeekData, currWeekData) {
     
     let nameKeys = Object.keys(currWeekData);
-    nameKeys.forEach(name => {
+    nameKeys.forEach(function(name) {
         // najprej preverimo ponedeljek, ker je poseben ... potrebuje podatke iz prejšnjega tedna
         let minStartTime = "";
         let cellWithMinStartTime = null;
@@ -225,7 +228,7 @@ function preveri_dnevniPocitek (prevWeekData, currWeekData) {
                 timeDiff += 24*60;
             }
             if (timeDiff < dnevniPocitek * 60) {
-                let pocitekUre = Math.abs(Number.parseInt(timeDiff / 60));
+                let pocitekUre = Math.abs(parseInt(timeDiff / 60));
                 let pocitekMinute = Math.abs(timeDiff % 60);
                 let totalTime = timeDiff < 0 ? "- " : "";
                 totalTime += pocitekUre.toString() + " ur " + pocitekMinute.toString() + " min";
@@ -316,7 +319,7 @@ function preveri_dnevniPocitek (prevWeekData, currWeekData) {
                     timeDiff += 24*60;
                 }
                 if (timeDiff < dnevniPocitek * 60) {
-                    let pocitekUre = Math.abs(Number.parseInt(timeDiff / 60));
+                    let pocitekUre = Math.abs(parseInt(timeDiff / 60));
                     let pocitekMinute = Math.abs(timeDiff % 60);
                     let totalTime = timeDiff < 0 ? "- " : "";
                     totalTime += pocitekUre.toString() + " ur " + pocitekMinute.toString() + " min";
@@ -363,7 +366,8 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         let freeDaysNum_PrevWeek = 0;
         
         // če prejšni teden ta oseba ni delala potem ustavi zanko in vrni 6
-        if (!(prevWeekNames.includes(name))) return 7;
+        // if (!(prevWeekNames.includes(name))) return 7;
+        if (!(prevWeekNames.indexOf(name) > -1)) return 7;
         
         let maxEndTime_cell = null;
         if (prevWeekData[name][0]) {
@@ -400,14 +404,14 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
             
             // prištejemo manjkajoče dneve
             if (maxEndTime_cell !== null) {
-                let dayDiff = Number.parseInt(minStartTime_cell.dayIndex) - Number.parseInt(maxEndTime_cell.dayIndex) - 1;
+                let dayDiff = parseInt(minStartTime_cell.dayIndex) - parseInt(maxEndTime_cell.dayIndex) - 1;
                 timeDiff += dayDiff *24 *60;
             }
 
             // odštejemo dnevni počitek in delimo z 24 da dobimo št. prostih dni
             timeDiff -= dnevniPocitek * 60;
             if (timeDiff > 0) {
-                freeDaysNum_PrevWeek += Number.parseInt(timeDiff / 60 / 24);
+                freeDaysNum_PrevWeek += parseInt(timeDiff / 60 / 24);
             }
 
             if (freeDaysNum_PrevWeek > 1) {
@@ -423,7 +427,8 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
 
     // preverimo nedeljo v prejšnjem tedu
     function get_LastSundayFreeDay (name) {
-        if (!(prevWeekNames.includes(name))) return 0;
+        // if (!(prevWeekNames.includes(name))) return 0;
+        if (!(prevWeekNames.indexOf(name) > -1)) return 0;
         let sundayCell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
         let saturdayCell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][6]);
         let mondayCell = get_cell_minStartTime_forWorker_inDay(currWeekData[name][1]);
@@ -445,14 +450,15 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         // odštejemo dnevni počitek
         timeDiff_satToMon -= dnevniPocitek * 60;
 
-        return Number.parseInt(timeDiff_satToMon / 60 / 24);
+        return parseInt(timeDiff_satToMon / 60 / 24);
     }
 
     function get_steviloProstihDni_trenutenTeden (name) {
         let freeDaysNum_currWeek = 0;
         
         let maxEndTime_cell = null;
-        if (prevWeekNames.includes(name) && prevWeekData[name][7]) {
+        // if (prevWeekNames.includes(name) && prevWeekData[name][7]) {
+        if (prevWeekNames.indexOf(name) > -1 && prevWeekData[name][7]) {
             maxEndTime_cell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
         }
 
@@ -464,7 +470,7 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
             if (minStartTime_cell === null && dayIndex < 7) {
                 continue;
             } else if (minStartTime_cell === null && dayIndex === 7) {
-                freeDaysNum_currWeek += maxEndTime_cell === null ? 7 : (7 - Number.parseInt(maxEndTime_cell.dayIndex));
+                freeDaysNum_currWeek += maxEndTime_cell === null ? 7 : (7 - parseInt(maxEndTime_cell.dayIndex));
                 return freeDaysNum_currWeek;
             }
 
@@ -509,16 +515,16 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
             // prištejemo manjkajoče dneve
             if (maxEndTime_cell !== null) {
 
-                const endDayIndex = Number.parseInt(maxEndTime_cell.dayIndex) === 7 ? 0 : Number.parseInt(maxEndTime_cell.dayIndex);
+                const endDayIndex = parseInt(maxEndTime_cell.dayIndex) === 7 ? 0 : parseInt(maxEndTime_cell.dayIndex);
                 
-                let dayDiff = Number.parseInt(minStartTime_cell.dayIndex) - endDayIndex - 1;
+                let dayDiff = parseInt(minStartTime_cell.dayIndex) - endDayIndex - 1;
                 timeDiff += dayDiff *24 *60;
             }
 
             // odštejemo dnevni počitek in delimo z 24 da dobimo št. prostih dni
             timeDiff -= dnevniPocitek * 60;
             if (timeDiff > 0) {
-                freeDaysNum_currWeek += Number.parseInt(timeDiff / 60 / 24);
+                freeDaysNum_currWeek += parseInt(timeDiff / 60 / 24);
             }
 
             if (freeDaysNum_currWeek > 1) {
@@ -533,7 +539,7 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         return freeDaysNum_currWeek;
     }
 
-    currWeekNames.forEach(name => {
+    currWeekNames.forEach(function (name) {
         const prevWeekFreeDays = get_steviloProstihDni_PrejsniTeden(name) + get_LastSundayFreeDay(name);
         const currWeekFreeDays = get_steviloProstihDni_trenutenTeden(name);
 
@@ -572,7 +578,7 @@ function preveri_prepovedDeljenegaDela (weekData) {
     const names = Object.keys(weekData);
     let errorCells = [];
     
-    names.forEach(name => {
+    names.forEach(function (name) {
         let maxDnevniCas = null;
         try {
             maxDnevniCas = data.zaposleni[name].maxUrDanZap;
@@ -619,7 +625,7 @@ function preveri_prepovedDeljenegaDela (weekData) {
     });
 
     // shranimo error
-    errorCells.forEach(cell => {
+    errorCells.forEach(function(cell) {
         let originalName = get_originalName(cell.currName, cell);
         let errMsg = " - Oseba <strong><em>" + originalName + "</em></strong>" +
         " ima dovoljeni dnevni čas krajši od 4 ure in <strong>ne sme delati deljeno</strong>!";
@@ -636,7 +642,7 @@ function preveri_stNedelijLetno (weekData) {
     if (!data.sundayData) return;
     // pogledamo za vsakega delavca ki dela v nedeljo
     const names = Object.keys(weekData);
-    names.forEach(name => {
+    names.forEach(function(name) {
         if (!data.zaposleni[name] || !data.sundayData[name]) return;
 
         for (let i = 0; i < weekData[name][7].length; i++) {   

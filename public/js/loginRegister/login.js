@@ -4,7 +4,6 @@ var imePoslovalnice = "";
 const loginBlock = document.getElementById("loginBlock");
 const logoutBlock = document.getElementById("logoutBlock");
 
-
 // preveri če smo prijavljeni
 if (!userData) {
     if (sessionStorage.getItem("poslovalnica") !== null) {

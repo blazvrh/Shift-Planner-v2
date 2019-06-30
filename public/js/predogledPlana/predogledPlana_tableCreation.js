@@ -34,7 +34,8 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     tableElement.setAttribute("id", "mainTable_selectedWeek");
     tableElement.setAttribute("class", "mainTable_selectedWeek");
     
-    tableElement.append(ustvariHeader(workingMondayDate, workingWeekNumber));
+    
+    tableElement.appendChild(ustvariHeader(workingMondayDate, workingWeekNumber));
     
     create_Smeno("dopoldne", tableElement, oddDop);
     create_Smeno("popoldne", tableElement, oddPop);
@@ -45,14 +46,14 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     planDelaIzbranTedenDiv.innerHTML = "<h3>" + workingWeekNumber + " teden " + workingMondayDate.getFullYear() + 
         " - Poslovalnica: " + poslovalnica + "</h3>";
 
-    planDelaIzbranTedenDiv.append(tableElement);
+    planDelaIzbranTedenDiv.appendChild(tableElement);
     
     if (typeof(additionalDataObject) === "undefined") {
         let printBtn = document.createElement("button");
         printBtn.classList.add("hideOnPrint");
         printBtn.innerHTML = "Tiskaj!";
         printBtn.onclick = function() { printPlan(); }
-        planDelaIzbranTedenDiv.append(printBtn);
+        planDelaIzbranTedenDiv.appendChild(printBtn);
     }
     
     window.location.href ="#planDelaIzbranTedenDiv";
@@ -86,10 +87,10 @@ function ustvariHeader (mondayDate, weekNumber) {
             
             tempDate.setDate(tempDate.getDate() + 1);
         }
-        rowHeader.append(thData);
+        rowHeader.appendChild(thData);
     }
 
-    tHeader.append(rowHeader);
+    tHeader.appendChild(rowHeader);
     return tHeader;
 }
 
@@ -137,19 +138,21 @@ function create_Smeno (smena, mainTable, smenaData) {
                 cell.setAttribute ("smena", smena);
                 cell.setAttribute ("oddelekName", smenaData[oddNum].imeOddelka);
                 
-                row.append(cell);
+                row.appendChild(cell);
             }
-            tBody.append(row);
+            tBody.appendChild(row);
         }
     }
-    mainTable.append(tBody);
+    mainTable.appendChild(tBody);
 }
 
 
 function fillTableWithData(weekData, wholeTable) {
     const workerNames = Object.keys(weekData);
 
-    workerNames.forEach(name => {
+    // workerNames.forEach(name => {
+    for (let j = 0; j < workerNames.length; j++) {
+        const name = workerNames[j];
         for (let i = 0; i < weekData[name].length; i++) {
             const cellData = weekData[name][i];
             
@@ -166,16 +169,16 @@ function fillTableWithData(weekData, wholeTable) {
             let nameSpan = document.createElement("span");
             nameSpan.classList.add("nameValue");
             nameSpan.innerHTML = name;
-            matchingCell.append(nameSpan);
+            matchingCell.appendChild(nameSpan);
             
             if (casDela !== "") {
                 let timeSpan = document.createElement("span");
                 timeSpan.classList.add("timeValue");
                 timeSpan.innerHTML = casDela;
-                matchingCell.append(timeSpan);
+                matchingCell.appendChild(timeSpan);
             }
         }
-    });
+    }
 }
 
 function delete_emptyRows (table) {
@@ -194,7 +197,9 @@ function delete_emptyRows (table) {
 
     const rowKeys = Object.keys(rowsByOddelekId);
 
-    rowKeys.forEach(rowKey => {
+    // rowKeys.forEach(rowKey => {
+    for (let k = 0; k < rowKeys.length; k++) {
+        let rowKey = rowKeys[k];
         let headerDeleted = false;
         let headerName = "";
         for (let j = 0; j < rowsByOddelekId[rowKey].length; j++) {
@@ -224,5 +229,5 @@ function delete_emptyRows (table) {
                 headerDeleted = false;
             }
         }
-    });
+    }
 }

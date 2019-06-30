@@ -1,7 +1,7 @@
 
-window.addEventListener('load', () => {
+window.onload = function () { 
     pageInit();
-});
+} 
 
 // dodajanje lisenerjev in podobno
 function pageInit () {

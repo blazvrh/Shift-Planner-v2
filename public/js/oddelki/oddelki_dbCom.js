@@ -7,7 +7,9 @@ function submitForm_oddelekGet() {
 
     xhr.onload=function(event){ 
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             console.log(serverRes.msg);
@@ -25,7 +27,10 @@ function submitForm_oddelekGet() {
             let popOddleki = [];
             let maxDopIndex = 0;
             let maxPopIndex = 0;
-            serverRes.vsiOddelki.forEach(element => {
+
+            // serverRes.vsiOddelki.forEach(element => {
+            for (let k = 0; k < serverRes.vsiOddelki.length; k++) {
+                const element = serverRes.vsiOddelki[k];
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
                     if(element.positionForUser > maxDopIndex) maxDopIndex = element.positionForUser;
@@ -33,14 +38,14 @@ function submitForm_oddelekGet() {
                     popOddleki.push(element);
                     if(element.positionForUser > maxPopIndex) maxPopIndex = element.positionForUser;
                 }
-            });
-            sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
-            sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
+            }
+            // sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
+            // sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
             
             maxIndexes.maxIndex_dopoldne = maxDopIndex;
             maxIndexes.maxIndex_popoldne = maxPopIndex;
             
-            updateTableOddelki(serverRes.vsiOddelki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1));
+            updateTableOddelki(serverRes.vsiOddelki.sort(function (a, b) { return (a.positionForUser > b.positionForUser) ? 1 : -1 }));
         }
     }; 
 
@@ -48,6 +53,7 @@ function submitForm_oddelekGet() {
 
     formData.append("poslovalnica", userData.poslovalnica);
     onTableMsgOddelki("Nalaganje ...");
+
     xhr.send(formData);
 }
 
@@ -59,7 +65,9 @@ function submitForm_oddelekAdd() {
 
     xhr.onload=function(event){ 
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -91,7 +99,10 @@ function submitForm_oddelekRemove(oddelekId) {
 
     xhr.onload=function(event){ 
         let serverRes = event.target.response;
-        
+        if ((isIE())) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             onTableErrorOddelki(serverRes.msg);
@@ -116,10 +127,12 @@ function submitForm_oddelekUpdate(updateData) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/oddelki/update"); 
     xhr.responseType = 'json';
-
+    
     xhr.onload=function(event){ 
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

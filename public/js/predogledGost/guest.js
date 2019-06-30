@@ -1,7 +1,7 @@
 
 var data = { };
 
-window.addEventListener('load', () => {
+window.onload = function () {
     if (imePoslovalnice !== "") {
         let currDate = new Date;
 
@@ -17,4 +17,4 @@ window.addEventListener('load', () => {
         submitForm_get_weekData(nextMondayDate, nextMondayDate.getFullYear(), "nextWeek");
         
     }
-});
+}

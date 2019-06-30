@@ -14,14 +14,14 @@ function btn_createCurrTable () {
     mainTableDiv.innerHTML = "";
     
     tableElement = document.createElement("table");
-    tableElement.append(ustvariHeader());
+    tableElement.appendChild(ustvariHeader());
     
     pripniSmenoZaGalvnoTabelo("dopoldne", tableElement);
     pripniSmenoZaGalvnoTabelo("popoldne", tableElement);
     
     tableElement.setAttribute("id", "mainTable");
     
-    mainTableDiv.append(tableElement);
+    mainTableDiv.appendChild(tableElement);
 
     allDataCellElements = document.querySelectorAll("#mainTable td[position]");
     
@@ -47,7 +47,7 @@ function ustvariHeader () {
         if (i == 0) {
             let thData = document.createElement("th");
             thData.innerText = leto + " Teden: " + currDateData.selectedWeekNumber;
-            subTable.append(thData);
+            subTable.appendChild(thData);
         }
         // če je to vrsta s tednom
         else {
@@ -60,15 +60,15 @@ function ustvariHeader () {
             thDataDate.innerText = currDatum;
             tempDate.setDate(tempDate.getDate() + 1);
 
-            subTable.append(thDataDay);
-            subTable.append(thDataDate);
+            subTable.appendChild(thDataDay);
+            subTable.appendChild(thDataDate);
         }
         let tdHead = document.createElement("td");
-        tdHead.append(subTable);
-        rowHeader.append(tdHead);
+        tdHead.appendChild(subTable);
+        rowHeader.appendChild(tdHead);
     }
 
-    tHeader.append(rowHeader);
+    tHeader.appendChild(rowHeader);
 
     let praznikiRow = document.createElement("tr");
 
@@ -77,10 +77,10 @@ function ustvariHeader () {
         if (i > 0) {
             cell.innerHTML = "Praznik?";
         }
-        praznikiRow.append(cell);
+        praznikiRow.appendChild(cell);
     }
 
-    tHeader.append(praznikiRow);
+    tHeader.appendChild(praznikiRow);
 
     return tHeader;
 }
@@ -95,7 +95,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
     var xPos = 0;
     
     // za vsak oddelek
-    for (let oddNum = 0; oddNum < smenaData.length; oddNum ++) {
+    for (let oddNum = 0; oddNum < smenaData.length; oddNum++) {
         // za št. vrstic tega oddelka
         for (var rowNum = 0; rowNum < smenaData[oddNum].stVrsticOddelka; rowNum++)
         {
@@ -133,9 +133,12 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     if (smenaData[oddNum].specialOddelek == "") {
                         // max dolžina inputa za ime
                         inputElem_name.setAttribute ("maxlength", "20");
+                        inputElem_name.setAttribute ("oddIndex", oddNum);
                         inputElem_name.onblur = function() {
-                        onBlur_name_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
-                            smenaData[oddNum].odhod)
+                            let oddIndex = this.getAttribute("oddIndex");
+                            
+                            onBlur_name_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
+                                smenaData[oddIndex].odhod)
                         }
                     } else {
                         // max dolžina inputa za poseben oddelek
@@ -162,21 +165,21 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
                     let errorIndexContenier = document.createElement("div");
                     errorIndexContenier.className = "errWarnIndexConteiner";
-                    errorIndexContenier.append(warnIndex);
-                    errorIndexContenier.append(errIndex);
+                    errorIndexContenier.appendChild(warnIndex);
+                    errorIndexContenier.appendChild(errIndex);
                     // dodamo v celico za ime in v pod-tabelo
                     var tdNameInp = document.createElement("td");
-                    // tdNameInp.append(warnIndex);
-                    // tdNameInp.append(errIndex);
+                    // tdNameInp.appendChild(warnIndex);
+                    // tdNameInp.appendChild(errIndex);
 
                     
                     let rowError = document.createElement("tr");
                     let rowData = document.createElement("tr");
 
 
-                    tdNameInp.append(errorIndexContenier);
-                    tdNameInp.append(inputElem_name);
-                    subTable.append(tdNameInp);
+                    tdNameInp.appendChild(errorIndexContenier);
+                    tdNameInp.appendChild(inputElem_name);
+                    subTable.appendChild(tdNameInp);
 
                     // če ni SPECIAL oddelek
                     if (smenaData[oddNum].specialOddelek == "") {
@@ -199,19 +202,21 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                             if (i == 0) { element.setAttribute ("class", "startTime"); }
                             else { element.setAttribute ("class", "endTime"); }
 
+                            element.setAttribute("oddIndex", oddNum);
                             // auto fill on blur za time
                             element.onblur = function() {
-                                onBlur_time_setUsualTimesForOddelek(this, smenaData[oddNum].prihod, 
-                                    smenaData[oddNum].odhod)
+                                let oddIndex = this.getAttribute("oddIndex");
+                                onBlur_time_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
+                                    smenaData[oddIndex].odhod)
                             };
 
                             element.onfocus = function() { timeValOnFocus = this.value };
                             // element.setAttribute ("oddelekId", smenaData[oddNum].oddID);
 
-                            tdHourInp.append(element);
+                            tdHourInp.appendChild(element);
                         }
 
-                        subTable.append(tdHourInp);
+                        subTable.appendChild(tdHourInp);
                     }
                     // če je SPECIAL oddelek
                     else {
@@ -232,9 +237,9 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     toolTipTextDiv.classList.add("tooltipText");
                     toolTipTextDiv.setAttribute("isEmpty", "true");
                     toolTipTextDiv.setAttribute ("fullPosition", xPos + "," + yPos + "," + smena);
-                    posDiv.append(toolTipTextDiv);
-                    cell.append(posDiv);
-                    cell.append(subTable);
+                    posDiv.appendChild(toolTipTextDiv);
+                    cell.appendChild(posDiv);
+                    cell.appendChild(subTable);
                 }
 
                 // če je zadnja vrstica potem dodamo class - za style
@@ -249,13 +254,13 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                 cell.setAttribute ("smena", smena);
                 cell.setAttribute ("oddelekId", smenaData[oddNum].oddID);
                 
-                row.append(cell);
+                row.appendChild(cell);
                 row.setAttribute("id", smenaData[oddNum].oddID);
             }
-            tBody.append(row);
+            tBody.appendChild(row);
         }
     }
-    mainTable.append(tBody);
+    mainTable.appendChild(tBody);
 }
 
 
@@ -267,7 +272,7 @@ function create_simpleClickWorkers(zaposleniData) {
 
     let studentNames = [];
 
-    allNames.forEach(name => {
+    allNames.forEach(function(name) {
         const originalName = zaposleniData[name].prikazanoImeZap;
         if (zaposleniData[name].student !== 0) {
             studentNames.push(originalName);
@@ -279,22 +284,22 @@ function create_simpleClickWorkers(zaposleniData) {
         nameDiv.onclick = function() { simpleClick_setValue(this) };
         nameDiv.className = "unselectedName";
         
-        conteinerDiv.append(nameDiv);
+        conteinerDiv.appendChild(nameDiv);
     });
 
     // ustvarimo študente
     let studnetTitle = document.createElement("p");
     studnetTitle.innerText = "Študenti:";
-    conteinerDiv.append(studnetTitle);
+    conteinerDiv.appendChild(studnetTitle);
     
-    studentNames.forEach(name => {
+    studentNames.forEach(function(name) {
         let nameDiv = document.createElement("div");
         nameDiv.innerHTML = name;
         nameDiv.setAttribute("val", name);
         nameDiv.onclick = function() { simpleClick_setValue(this) };
         nameDiv.className = "unselectedName";
         
-        conteinerDiv.append(nameDiv);
+        conteinerDiv.appendChild(nameDiv);
     });
 }
 
@@ -335,9 +340,9 @@ function create_missingPersonsTable (missingPersonData) {
 
                 
             }
-            rowEl.append(tdEl);
+            rowEl.appendChild(tdEl);
         }
-        newTbody.append(rowEl);
+        newTbody.appendChild(rowEl);
     }
 
     newTbody.innerHTML += "<tr><th>Študentje:</th></tr>";
@@ -355,9 +360,9 @@ function create_missingPersonsTable (missingPersonData) {
                     tdEl.setAttribute("zapolenId", zapId);
                 }
             }
-            rowEl.append(tdEl);
+            rowEl.appendChild(tdEl);
         }
-        newTbody.append(rowEl);
+        newTbody.appendChild(rowEl);
     }
 
     tableBodyElemet.innerHTML = newTbody.innerHTML;
@@ -368,15 +373,19 @@ function create_missingPersonsTable (missingPersonData) {
         let cell = allCellElements[i];
         cell.onmouseover = function () {
             let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
-            allCells.forEach(nameCell => {
+            // allCells.forEach(function(nameCell) {
+            for (let c = 0; c < allCells.length; c++) {
+                let nameCell = allCells[c];
                 nameCell.style.backgroundColor = "rgb(190, 190, 190)";
-            });
+            }
         }
         cell.onmouseout = function () {
             let allCells = document.querySelectorAll("#missingPersons td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
-            allCells.forEach(nameCell => {
-                nameCell.style.backgroundColor = "initial";
-            });
+            // allCells.forEach(function(nameCell) {
+            for (let c = 0; c < allCells.length; c++) {
+                let nameCell = allCells[c];
+                nameCell.style.backgroundColor = "transparent";
+            }
         }
     }
     
@@ -389,7 +398,7 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
     
     const names = Object.keys(zaposleniData).sort();
 
-    names.forEach(name => {
+    names.forEach(function(name) {
         let tableRowData = [];
         // tableRowData.push(zaposleniData[name].prikazanoImeZap);
         let weekMinutes = 0;
@@ -409,7 +418,7 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
                     }
                     dayMinutes += get_timeDifference_inMinutes_betweenTwoTimes(cell.startTime, cell.endTime);
                 }
-                tableRowData.push(Number.parseInt(dayMinutes/60).toString());
+                tableRowData.push(parseInt(dayMinutes/60).toString());
                 weekMinutes += dayMinutes;
             }
         }
@@ -418,7 +427,7 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
                 tableRowData.push("0");
             }
         }
-        tableRowData.push(Number.parseInt(weekMinutes/60).toString());
+        tableRowData.push(parseInt(weekMinutes/60).toString());
 
         let workerSundayDataExists = false;
         if (sundayData !== null) {

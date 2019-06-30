@@ -7,7 +7,8 @@ function submitForm_oddelekGet() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
-        
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
@@ -29,7 +30,7 @@ function submitForm_oddelekGet() {
             let popOddleki = [];
             let oddById = { };
 
-            serverRes.vsiOddelki.forEach(element => {
+            serverRes.vsiOddelki.forEach(function(element) {
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
                 } else if (element.smena == "popoldne") {
@@ -38,13 +39,13 @@ function submitForm_oddelekGet() {
                 oddById[element.oddID] = element.imeOddelka;
             });
             // shranimo podatke
-            sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
-            sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
+            // sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
+            // sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
 
-            data.oddelki_dopoldne = dopOddleki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1);
-            data.oddelki_popoldne = popOddleki.sort((a, b) => (a.positionForUser > b.positionForUser) ? 1 : -1);
+            data.oddelki_dopoldne = dopOddleki.sort(function(a, b) { return a.positionForUser > b.positionForUser ? 1 : -1});
+            data.oddelki_popoldne = popOddleki.sort(function(a, b) { return a.positionForUser > b.positionForUser ? 1 : -1});
             data.oddById = oddById;
-            document.getElementById("btn_showWeek").style.display = "initital";
+            document.getElementById("btn_showWeek").style.display = "inlineBlock";
         }
         submitForm_zaposleniGet();
     }; 
@@ -62,6 +63,7 @@ function submitForm_zaposleniGet() {
 
     xhrGetZaposlene.onload=function(event){ 
         let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -84,7 +86,7 @@ function submitForm_zaposleniGet() {
             let prikazanaImenaLowerCase = {};
             let prikazanaImena = {};
             // let prikazanaImena = [];
-            serverRes.vsiZaposleni.forEach(element => {
+            serverRes.vsiZaposleni.forEach(function(element) {
                 // prikazanaImena.push((element.prikazanoImeZap).toLowerCase());
                 prikazanaImena[(element.prikazanoImeZap)] = element.zapID;
                 prikazanaImenaLowerCase[(element.prikazanoImeZap).toLowerCase()] = element.zapID;
@@ -125,6 +127,8 @@ function submitForm_get_trenuenPlan() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
            // če je error zaradi nobenega vnosa
@@ -163,6 +167,8 @@ function submitForm_get_sundaysInThisYear() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // izpiši error
@@ -195,6 +201,7 @@ function submitForm_get_lastWeekPlan() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -204,7 +211,7 @@ function submitForm_get_lastWeekPlan() {
                data.prevWeekData = null;
 
                btn_check_currPlan();
-               document.getElementById("tableZaPlan").style.display = "initial";
+               document.getElementById("tableZaPlan").style.display = "block";
             }
             // če je kak drugačen error
             else {
@@ -219,13 +226,13 @@ function submitForm_get_lastWeekPlan() {
                 let prev2WeekData = get_currPlan_Worker_dayOriented(JSON.parse(serverRes.prevWeekData.weekData));
                 
                 let prev2Names = Object.keys(prev2WeekData);
-                prev2Names.forEach(name => {
+                prev2Names.forEach(function(name) {
                     if (prev2WeekData[name][7].length > 0 && prevWeekData[name] != null) {
                         prevWeekData[name][0] = prev2WeekData[name][7];
 
                         // popravimo day index na 0
                         const keys = Object.keys(prevWeekData[name][0]);
-                        keys.forEach(key => {
+                        keys.forEach(function(key) {
                             prevWeekData[name][0][key].dayIndex = "0"; 
                         });
                     }
@@ -236,7 +243,7 @@ function submitForm_get_lastWeekPlan() {
 
             btn_check_currPlan();
 
-            document.getElementById("tableZaPlan").style.display = "initial";
+            document.getElementById("tableZaPlan").style.display = "block";
         }
         window.location.href ="#creationTable";
         
@@ -266,6 +273,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
 
     xhr.onload=function(event){ 
         let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {

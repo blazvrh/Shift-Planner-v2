@@ -26,11 +26,11 @@ function insert_errorWarrning_tooltipMessage (msg, fullPosition, msgType) {
 
 // preveri če je celica na posebnem oddelku (komentar, dopusti)
 function isSpecialOddelek (cellData) {
-    const oddelekId = Number.parseInt(cellData.oddelekId);
+    const oddelekId = parseInt(cellData.oddelekId);
 
     let result;
     // pogledamo za dopoldne
-    data.oddelki_dopoldne.forEach(element => {
+    data.oddelki_dopoldne.forEach(function(element) {
         if (element.oddID === oddelekId) {
             if (element.specialOddelek === "") {
                 result = false;
@@ -41,7 +41,7 @@ function isSpecialOddelek (cellData) {
         }
     });
     // pogledamo za popoldne
-    data.oddelki_popoldne.forEach(element => {
+    data.oddelki_popoldne.forEach(function(element) {
         if (element.oddID === oddelekId) {
             if (element.specialOddelek === "") {
                 result = false;
@@ -57,17 +57,17 @@ function isSpecialOddelek (cellData) {
 
 // pridobi oddelek type; komentar, "", ld,nn,boln;
 function get_OddelekType (cellData) {
-    const oddelekId = Number.parseInt(cellData.oddelekId);
+    const oddelekId = parseInt(cellData.oddelekId);
 
     let result = "";
     // pogledamo za dopoldne
-    data.oddelki_dopoldne.forEach(element => {
+    data.oddelki_dopoldne.forEach(function(element) {
         if (element.oddID === oddelekId) {
             result = element.specialOddelek;
         }
     });
     // pogledamo za popoldne
-    data.oddelki_popoldne.forEach(element => {
+    data.oddelki_popoldne.forEach(function(element) {
         if (element.oddID === oddelekId) {
             result = element.specialOddelek;
         }

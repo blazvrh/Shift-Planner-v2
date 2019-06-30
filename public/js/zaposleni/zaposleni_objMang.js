@@ -12,7 +12,7 @@ function create_checkBox_usposobljenost_zaposleni (vsiOddelki) {
         "<a href='oddelki'>Urejanje oddelkov</a>\" in ustvarite primerne oddelke.";
     } else {
         vsiOddelki_names = get_PrimerneOddelke(vsiOddelki);
-        seznamUsposobljenosti.append(create_usposobljenostElement(vsiOddelki_names));
+        seznamUsposobljenosti.appendChild(create_usposobljenostElement(vsiOddelki_names));
     }
 }
 
@@ -25,10 +25,10 @@ function create_table_osebe_zaposleni(vsiZaposleni) {
         seznamZaposlenihDiv.innerText = "Ni najdenega vnosa zaposlenih!";
     } else {
         let tableZaposlenih = document.createElement("table");
-        tableZaposlenih.append(create_TableHead_SeznamZaposlenih());
-        tableZaposlenih.append(create_TableBody_SeznamZaposlenih(vsiZaposleni));
+        tableZaposlenih.appendChild(create_TableHead_SeznamZaposlenih());
+        tableZaposlenih.appendChild(create_TableBody_SeznamZaposlenih(vsiZaposleni));
 
-        seznamZaposlenihDiv.append(tableZaposlenih);
+        seznamZaposlenihDiv.appendChild(tableZaposlenih);
     }
 }
 
@@ -37,14 +37,17 @@ function get_PrimerneOddelke(vsiOddelki) {
     oddelkiNames = [];
     oddelkiNamesLowerCase = []; // ta je da sledimo če je uporabnik vnesel oddelek z različnimi črkami, vseeno pa rabimo samo en izpis
 
-    vsiOddelki.forEach(element => {
+    for (let m = 0; m < vsiOddelki.length; m++) {
+        const element = vsiOddelki[m];
+
         oddName = element.imeOddelka;
         specialOdd = element.specialOddelek;
-        if (specialOdd == "" && !oddelkiNamesLowerCase.includes(oddName.toLowerCase())) {
+
+        if (specialOdd == "" && oddelkiNamesLowerCase.indexOf(oddName.toLowerCase()) < 0) {
             oddelkiNames.push(oddName);
             oddelkiNamesLowerCase.push(oddName.toLowerCase());
         }
-    });
+    }
 
     return oddelkiNames;
 }
@@ -53,7 +56,9 @@ function get_PrimerneOddelke(vsiOddelki) {
 function create_usposobljenostElement (vsiOddelki_names) {
     let mainEl = document.createElement("div");
 
-    vsiOddelki_names.forEach(element => {
+    for (let m = 0; m < vsiOddelki_names.length; m++) {
+        const element = vsiOddelki_names[m];
+
         let label = document.createElement("label");
         let chkbox = document.createElement("input");
         
@@ -63,10 +68,10 @@ function create_usposobljenostElement (vsiOddelki_names) {
         label.innerHTML += element;
         
         let pEl = document.createElement("p");
-        pEl.append(label);
+        pEl.appendChild(label);
 
         mainEl.appendChild(pEl);
-    });
+    }
 
     return mainEl;
 }
@@ -86,11 +91,11 @@ function create_TableHead_SeznamZaposlenih () {
         
         thEl.innerText = headerTexts[i];
 
-        trEl.append (thEl);
+        trEl.appendChild(thEl);
     }
 
     let tHead = document.createElement("thead");
-    tHead.append(trEl);
+    tHead.appendChild(trEl);
     return tHead;
 }
 
@@ -99,7 +104,7 @@ function create_TableBody_SeznamZaposlenih (vsiZaposleni) {
     let tBodyZap = document.createElement("tbody");
 
     for (let i = 0; i < vsiZaposleni.length; i++) {
-        tBodyZap.append(create_tableRow_seznamZaposlenih(vsiZaposleni[i]))
+        tBodyZap.appendChild(create_tableRow_seznamZaposlenih(vsiZaposleni[i]))
     }
 
     return tBodyZap;
@@ -125,10 +130,10 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
     // tdTexts = tdTexts.concat(convert_ToTextArray_usposobljenostZaposlenega(singleZaposlenData.usposobljenostZap));
 
     var lowValue_stylig =[];
-    lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxUrDanZap) < 8 ? "Ne" : "");
-    lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxUrTedenZap) < 40 ? "Ne" : "");
-    lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxNedelijZap) < 1 ? "Ne" : "");
-    lowValue_stylig.push(Number.parseInt(singleZaposlenData.maxPraznikovZap) < 1 ? "Ne" : "");
+    lowValue_stylig.push(parseInt(singleZaposlenData.maxUrDanZap) < 8 ? "Ne" : "");
+    lowValue_stylig.push(parseInt(singleZaposlenData.maxUrTedenZap) < 40 ? "Ne" : "");
+    lowValue_stylig.push(parseInt(singleZaposlenData.maxNedelijZap) < 1 ? "Ne" : "");
+    lowValue_stylig.push(parseInt(singleZaposlenData.maxPraznikovZap) < 1 ? "Ne" : "");
 
     for (let i = 0; i < tdTexts.length; i++) {
         let tdEl = document.createElement("td");
@@ -148,12 +153,12 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
             tdTexts[i]== "Da" ? tdEl.setAttribute("class", tdTexts[i] = "Da") : false;
         }
 
-        trElement.append (tdEl);
+        trElement.appendChild(tdEl);
     }
 
-    trElement.append(create_usposobljenost_element_ZaTabelo(singleZaposlenData.usposobljenostZap));
-    trElement.append(create_editBtn_tableZaposleni(singleZaposlenData.zapID));
-    trElement.append(create_removeBtn_tableZaposleni(singleZaposlenData.zapID));
+    trElement.appendChild(create_usposobljenost_element_ZaTabelo(singleZaposlenData.usposobljenostZap));
+    trElement.appendChild(create_editBtn_tableZaposleni(singleZaposlenData.zapID));
+    trElement.appendChild(create_removeBtn_tableZaposleni(singleZaposlenData.zapID));
 
     trElement.setAttribute("zapid", singleZaposlenData.zapID);
     return trElement;
@@ -177,7 +182,7 @@ function create_usposobljenost_element_ZaTabelo (usposobljenost) {
 
         tdEl.setAttribute("id", "span");
 
-        tdEl.append(oddUspEl);
+        tdEl.appendChild(oddUspEl);
     }
 
     return tdEl;
@@ -195,7 +200,7 @@ function create_editBtn_tableZaposleni(zapId) {
     btnEl.innerText = "Uredi!";
     
     tdEl.setAttribute("id", "editBtn");
-    tdEl.append(btnEl);
+    tdEl.appendChild(btnEl);
     return tdEl;
 }
 
@@ -211,7 +216,7 @@ function create_removeBtn_tableZaposleni(zapId) {
     btnEl.innerText = "Odstrani!";
     
     tdEl.setAttribute("id", "removeBtn");
-    tdEl.append(btnEl);
+    tdEl.appendChild(btnEl);
     return tdEl;
 }
 
@@ -247,7 +252,7 @@ function createEditRow_zaposleni (zapId) {
             let selectVal = editingTd[i].innerText == "Da" ? true : false;
             inputElement.value = selectVal;
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         }
         // ustvarimo urejanje za usposobljenost
         else if (tdID == "span") {
@@ -264,26 +269,26 @@ function createEditRow_zaposleni (zapId) {
 
                 labelUsp.onclick = function() { toggle_usposobljenostZaposlenega_edit(this) };
 
-                inputElement.append(labelUsp);
+                inputElement.appendChild(labelUsp);
             }
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         }
         // ustvarimo potrdi gumb
         else if (tdID == "removeBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Potrdi!";
-            inputElement.onclick = () => {btn_confirmEdit_zaposleni(zapId, inputElement)};
+            inputElement.onclick = function() {btn_confirmEdit_zaposleni(zapId, inputElement)};
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         } 
         // ustvarimo prekliči gumb
         else if (tdID == "editBtn") {
             let inputElement = document.createElement("button");
             inputElement.innerText = "Prekliči!";
-            inputElement.onclick = () => { btn_cancelEdit_zaposleni(zapId) };
+            inputElement.onclick = function() { btn_cancelEdit_zaposleni(zapId) };
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         } 
         // ustvarimo preostale input elemente
         else if (tdID != "") {
@@ -309,7 +314,7 @@ function createEditRow_zaposleni (zapId) {
                 }
             }
             editingTd[i].innerHTML = "";
-            editingTd[i].append(inputElement);
+            editingTd[i].appendChild(inputElement);
         }
     }
 }
@@ -342,14 +347,15 @@ function create_table_zaposleniPoOddelkih (zaposleniData) {
     let tHead = document.createElement("thead");
     let headRow = document.createElement("tr");
 
-    vsiOddelki_names.forEach(oddelekName => {
+    for (let m = 0; m < vsiOddelki_names.length; m++) {
+        const oddelekName = vsiOddelki_names[m];
         let thElement = document.createElement("th");
         thElement.innerHTML = oddelekName;
-        headRow.append(thElement);
-    });
+        headRow.appendChild(thElement);
+    }
     
-    tHead.append(headRow);
-    tableElement.append(tHead);
+    tHead.appendChild(headRow);
+    tableElement.appendChild(tHead);
     
     // pridobimo potrebno število vrstic
     let numOfRows = 0;
@@ -373,25 +379,27 @@ function create_table_zaposleniPoOddelkih (zaposleniData) {
 
                 cell.onmouseover = function () {
                     let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
-                    allCells.forEach(nameCell => {
+                    for (let m = 0; m < allCells.length; m++) {
+                        let nameCell = allCells[m];
                         nameCell.style.backgroundColor = "rgb(190, 190, 190)";
-                    });
+                    }
                 }
                 cell.onmouseout = function () {
                     let allCells = document.querySelectorAll("#PodatkiPoOddelkihData td[zapolenId = '" + this.getAttribute("zapolenId") + "']")
-                    allCells.forEach(nameCell => {
-                        nameCell.style.backgroundColor = "initial";
-                    });
+                    for (let m = 0; m < allCells.length; m++) {
+                        let nameCell = allCells[m];           
+                        nameCell.style.backgroundColor = "transparent";
+                    }
                 }
             }
-            row.append(cell);
+            row.appendChild(cell);
         }
-        tableBody.append(row);
+        tableBody.appendChild(row);
     }
-    tableElement.append(tableBody);
+    tableElement.appendChild(tableBody);
     
     mainDivElement.innerHTML = "";
-    mainDivElement.append(tableElement);
+    mainDivElement.appendChild(tableElement);
 }
 
 

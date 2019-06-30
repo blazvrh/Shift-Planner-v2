@@ -14,11 +14,11 @@ var simpleClickData = {
 var dnevniPocitek = 11; // potreben minimalni dnevni počitek v urah
 
 // pridobimo podatke ko se stran laoži
-window.addEventListener('load', () => {
+window.onload = function () {
     if (userData) { 
         submitForm_oddelekGet();
     }
-});
+}
 
 function error_onTableShow (msg) {
     document.getElementById("loadWeekError").innerHTML = msg;
@@ -72,13 +72,13 @@ function showMainPageContent () {
     // before unload
     window.onbeforeunload = function (e) { 
         if (!dataSaved) {
-            return true
+            return "Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli."
         }
     };
 
     // prikažemo spletno stran
     document.getElementById("loadingData").style.display = "none";
-    document.getElementById("mainPageContent").style.display = "initial";
+    document.getElementById("mainPageContent").style.display = "block";
     
 }
 
@@ -88,10 +88,10 @@ function set_options_forZaposlene (zaposleni) {
     imenaZaposlenih_datalist.innerHTML = "";
 
     let zaposleniNames = Object.keys(zaposleni).sort();
-    zaposleniNames.forEach(element => {
+    zaposleniNames.forEach(function (element) {
         let singleOption = document.createElement("option");
         singleOption.setAttribute("value", element);
-        imenaZaposlenih_datalist.append(singleOption);
+        imenaZaposlenih_datalist.appendChild(singleOption);
     });
 }
 
@@ -307,6 +307,6 @@ function btn_showSimpleClick() {
 
 function btn_hideSimpleClick() {
     document.getElementById("simpleClick").style.display = "none";
-    document.getElementById("showSimpleClick").style.display = "initial";
+    document.getElementById("showSimpleClick").style.display = "block";
     document.getElementById("creationTable").style.width = "100%";
 }

@@ -4,22 +4,22 @@ var documentObjects_zaposleni = get_documentObjects_zaposleni();
 // vsa prikazana imena obstoječih zaposlenih
 var prikazanaImenaVsa = [];
 
-window.addEventListener('load', () => {
+window.onload = function () {
     if (userData) {
         get_neccesseryData();
     }
-});
+}
 
 // pridobi potrebne podatke iz databaze
-async function get_neccesseryData () {
+function get_neccesseryData () {
     
     submitForm_oddelekGet();
 
     // če so podatki pridobljeni (ready state = 4) prikaži spletno stran
-    var check_zaposleniLoaded = setInterval(() => {
+    var check_zaposleniLoaded = setInterval(function () {
         if (xhrGetZaposlene.readyState == 4) {
             documentObjects_zaposleni.loadingData.style.display = "none";
-            documentObjects_zaposleni.mainDiv.style.display = "initial";
+            documentObjects_zaposleni.mainDiv.style.display = "block";
             clearInterval(check_zaposleniLoaded);
         }
     }, 300);
@@ -74,8 +74,8 @@ function get_documentObjects_zaposleni () {
 
 // avtomatsko izpolni prikazano ime ko vnašamo Ime in priimek
 function onChange_autoFillPrikazanoIme () {
-    let ime = inp_imeZaposlenega.value;
-    let priimek = inp_priimekZaposlenega.value;
+    let ime = document.getElementById("inp_imeZaposlenega").value;
+    let priimek = document.getElementById("inp_priimekZaposlenega").value;
 
     let prikazanoIme = "";
     if (ime.length < 11) {
@@ -87,7 +87,7 @@ function onChange_autoFillPrikazanoIme () {
         prikazanoIme += " " + priimek.substring(0,1) + ".";
     }
     
-    inp_prikazanoImeZaposlenega.value = prikazanoIme;
+    document.getElementById("inp_prikazanoImeZaposlenega").value = prikazanoIme;
 }
 
 // počisti vsa main input polja 
@@ -117,7 +117,7 @@ function btn_dodajZaposlenoOsebo () {
     // interval ki počaka da so podatki o obstoječih zaposlenih pridobljeni iz databaze
     // če je check_zaposleniDataLoded = 0, potem interval ne teče - drugače interval teče in nočemo še enega
     if (checkInputData() && check_zaposleniDataLoaded == 0) {
-        check_zaposleniDataLoaded = setInterval(() => {
+        check_zaposleniDataLoaded = setInterval(function () {
             // če so podatki pridobljeni (ready state = 4) nadaljuj
             if (xhrGetZaposlene.readyState == 4) {
                 // oddalj formo, počisti vrednosti, prikaži gumb in ustavi interval
@@ -177,7 +177,7 @@ function btn_confirmEdit_zaposleni(zapId, btnElement) {
     // interval ki počaka da so podatki o obstoječih zaposlenih pridobljeni iz databaze
     // če je check_zaposleniDataLoded = 0, potem interval ne teče - drugače interval teče in nočemo še enega
     if (check_EditValues_zaposleni(zapId) && check_zaposleniDataLoaded == 0) {
-        check_zaposleniDataLoaded = setInterval(() => {
+        check_zaposleniDataLoaded = setInterval(function () {
             // če so podatki pridobljeni (ready state = 4) nadaljuj
             if (xhrGetZaposlene.readyState == 4) {
                 // zbrišemo error, oddamo formo

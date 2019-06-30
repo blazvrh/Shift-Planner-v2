@@ -38,7 +38,7 @@ function checkInputData () {
         documentObjects_zaposleni.inp_prikazanoImeZaposlenega.focus();
         return false;
     }
-    else if (prikazanaImenaVsa.includes((documentObjects_zaposleni.inp_prikazanoImeZaposlenega.value).toLowerCase())) {
+    else if (prikazanaImenaVsa.indexOf((documentObjects_zaposleni.inp_prikazanoImeZaposlenega.value).toLowerCase()) > -1) {
         onInputErrorZaposleni("To prikazano ime je že uporabljeno!\nProsim izberite drugačno ime.");
         documentObjects_zaposleni.inp_prikazanoImeZaposlenega.focus();
         return false;
@@ -98,7 +98,7 @@ function check_EditValues_zaposleni (zapId) {
         return false;
     }
     else if (edit_inputFields_zaposleni.prikazanoImeZap_edit.value.toLowerCase() != currentPrikazanoIme.toLowerCase() &&
-        prikazanaImenaVsa.includes((edit_inputFields_zaposleni.prikazanoImeZap_edit.value).toLowerCase())) {
+        prikazanaImenaVsa.indexOf((edit_inputFields_zaposleni.prikazanoImeZap_edit.value).toLowerCase()) > -1) {
         
         onError_seznamZaposlenih("To prikazano ime je že uporabljeno!\nProsim izberite drugačno ime.");
         edit_inputFields_zaposleni.prikazanoImeZap_edit.focus();
@@ -117,7 +117,7 @@ function check_EditValues_zaposleni (zapId) {
     else if (edit_inputFields_zaposleni.maxUrDanZap_edit.value == "" || maxUrDanZap < 1 || maxUrDanZap > 24 || maxUrDanZap == NaN) {
         onError_seznamZaposlenih("Prosim vnesite največje dovoljeno št. oddelanih ur na dan za zaposlenega!\n" + 
             "Vrednost števila mora biti med 1 in 24!");
-            edit_inputFields_zaposleni.inp_maxUrDan.focus();
+            edit_inputFields_zaposleni.maxUrDanZap_edit.focus();
         return false;
     }
     else if (edit_inputFields_zaposleni.maxUrTedenZap_edit.value == "" || maxUrTedenZap < 1 || maxUrTedenZap > 168 || maxUrTedenZap == NaN) {

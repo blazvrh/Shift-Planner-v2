@@ -32,12 +32,12 @@ function fill_table_withDbData(weekData) {
         let dayName = tempWeekData[i].day;
         let danVpisan = false;
         let keys = Object.keys(tempWeekData[i]);
-        keys.forEach(key => {
+        keys.forEach(function(key) {
             if (key != "day") {
                 let remainingValues = tempWeekData[i][key];
                 
                 let oddelekNameVpisan = false;
-                remainingValues.forEach(element => {
+                remainingValues.forEach(function(element) {
                     errorFound = true;
                     let oddelek = element.oddName != null ? element.oddName : "";
                     let name = element.nameVal != null ? element.nameVal : "";

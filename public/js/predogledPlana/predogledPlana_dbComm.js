@@ -7,6 +7,9 @@ function submitForm_get_trenuenPlan() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -25,6 +28,7 @@ function submitForm_get_trenuenPlan() {
         else {
             create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), serverRes.weekData.oddelkiDop, 
                 serverRes.weekData.oddelkiPop, document.getElementById("planDelaIzbranTedenDiv"));
+
         }
     }; 
 

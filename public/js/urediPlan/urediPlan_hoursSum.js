@@ -6,7 +6,7 @@ function sumAndShow_sestevekUr (weekData) {
 
     let names = Object.keys(weekData);
     // za vsako ime
-    names.forEach(name => {
+    names.forEach(function(name) {
         // za vsak dan
         for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
             let dayData = weekData[name][dayIndex];
@@ -20,16 +20,16 @@ function sumAndShow_sestevekUr (weekData) {
                 let endTime = dayData[cellIndex].endTime;
 
                 let workingTime = get_timeDifference_inMinutes_betweenTwoTimes(startTime, endTime);
-
+                
                 totalDayMinutes[dayIndex] += workingTime;
             }
         }
     });
 
     for (let dayNum = 1; dayNum < 8; dayNum++) {
-        document.getElementById("hours" + dayNum.toString()).innerHTML = Number.parseInt(totalDayMinutes[dayNum] / 60);
+        document.getElementById("hours" + dayNum.toString()).innerHTML = parseInt(totalDayMinutes[dayNum] / 60);
         totalWeekMinutes += totalDayMinutes [dayNum];
     }
     
-    document.getElementById("hoursTotal").innerHTML = Number.parseInt(totalWeekMinutes / 60);
+    document.getElementById("hoursTotal").innerHTML = parseInt(totalWeekMinutes / 60);
 }

@@ -7,6 +7,9 @@ function submitForm_oddelekGet() {
 
     xhr.onload = function(event) {
         let serverRes = event.target.response;
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
         
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
@@ -24,15 +27,17 @@ function submitForm_oddelekGet() {
             // shranimo v storage
             let dopOddleki = [];
             let popOddleki = []
-            serverRes.vsiOddelki.forEach(element => {
+            
+            for (let m = 0; m < serverRes.vsiOddelki.length; m++) {
+                const element = serverRes.vsiOddelki[m];
                 if (element.smena == "dopoldne") {
                     dopOddleki.push(element);
                 } else if (element.smena == "popoldne") {
                     popOddleki.push(element);
                 }
-            });
-            sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
-            sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
+            }
+            // sessionStorage.setItem ("oddelki_dopoldne", JSON.stringify(dopOddleki));
+            // sessionStorage.setItem ("oddelki_popoldne", JSON.stringify(popOddleki));
 
             // ustvarimo potrebne html elemente (checkboxe)
             create_checkBox_usposobljenost_zaposleni(serverRes.vsiOddelki);
@@ -54,7 +59,10 @@ function submitForm_zaposleniGet() {
 
     xhrGetZaposlene.onload=function(event){ 
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
@@ -72,12 +80,14 @@ function submitForm_zaposleniGet() {
         else {
             // pridobimo vsa prikazana imena
             prikazanaImenaVsa = [];
-            serverRes.vsiZaposleni.forEach(element => {
+            
+            for (let m = 0; m < serverRes.vsiZaposleni.length; m++) {
+                const element = serverRes.vsiZaposleni[m];
                 prikazanaImenaVsa.push((element.prikazanoImeZap).toLowerCase());
-            });
+            }
             
             // shranimo v storage
-            sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
+            // sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
 
             // ustvarimo tabelo zaposlenih
             create_table_osebe_zaposleni(serverRes.vsiZaposleni);
@@ -104,7 +114,10 @@ function submitForm_zaposleniAdd() {
 
     xhr.onload=function(event){
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
@@ -142,7 +155,10 @@ function submitForm_zaposleniRemove(zapId) {
 
     xhr.onload=function(event){
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
@@ -171,7 +187,10 @@ function submitForm_zaposleniUpdate(edit_inputFields_zaposleni) {
 
     xhr.onload=function(event){
         let serverRes = event.target.response;
-        
+        if (isIE()) {
+            serverRes = JSON.parse(serverRes);
+        }
+
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // če je error zaradi nobenega vnosa
