@@ -28,7 +28,6 @@ function submitForm_oddelekGet() {
             let maxDopIndex = 0;
             let maxPopIndex = 0;
 
-            // serverRes.vsiOddelki.forEach(element => {
             for (let k = 0; k < serverRes.vsiOddelki.length; k++) {
                 const element = serverRes.vsiOddelki[k];
                 if (element.smena == "dopoldne") {

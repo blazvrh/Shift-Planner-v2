@@ -44,6 +44,9 @@ function validate_weekData (weekData) {
         },
         sundayData: {
             required: true
+        },
+        praznikiData: {
+            
         }
     });
     

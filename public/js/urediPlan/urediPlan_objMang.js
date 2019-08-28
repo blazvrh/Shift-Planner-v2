@@ -70,4 +70,33 @@ function fill_table_withDbData(weekData) {
     } else {
         error_onTableShow("");
     }
+    dataSaved = true;
+}
+
+
+function set_praznikDneve (rawHolidayData) {
+    // če ni praznika v tem tednu potem odnehaj
+    let holidayData = { };
+    if (rawHolidayData !== "") {
+        holidayData = JSON.parse(rawHolidayData);
+    }
+    
+    if (holidayData == null) return;
+    if (Object.keys(holidayData).length < 1) return;
+
+    // pridobimo indexse dnevov ki so praznik
+    const holidayDays = holidayData.holidayDays;
+
+    // pridobimo select elemente
+    let holidaySelects = document.querySelectorAll("select[dayIndex]");
+    
+    // postavi select elemente na praznik če je to potrebno
+    for (let i = 0; i < holidaySelects.length; i++) {
+        selectElement = holidaySelects[i];
+    // holidaySelects.forEach(function(selectElement) {
+        if(holidayDays.indexOf(selectElement.getAttribute("dayIndex")) > -1) {
+            selectElement.value = "jePraznik";
+            selectElement.parentNode.style.backgroundColor = "#f8b4b4"
+        }
+    }
 }

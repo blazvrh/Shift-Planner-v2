@@ -23,10 +23,6 @@ function onBlur_name_setUsualTimesForOddelek (inp_txt, startTime, endTime) {
             inp_endTime.value = endTime;
         }
     }
-    
-    // seštejemo in prikažemo seštevek ur v tednu
-    // let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
-    // sumAndShow_sestevekUr(currWeekData);
 }
 
 // nastavi običajne čase oddelka če so te prazni, oz jih pobriše če odstranimo ime
@@ -53,9 +49,6 @@ function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
     if (inp_timeEl.value !== timeValOnFocus) {
         onDataChange();
     }
-    // seštejemo in prikažemo seštevek ur v tednu
-    // let currWeekData = get_currPlan_Worker_dayOriented(get_currPlan_data_workerOriented());
-    // sumAndShow_sestevekUr(currWeekData);
 }
 
 function onDataChange () {

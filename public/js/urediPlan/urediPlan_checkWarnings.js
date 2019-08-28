@@ -148,7 +148,6 @@ function preveri_tedenskiPocitek_SobotaPonedeljek (prevWeekData, currWeekData) {
     const prevWeekNames = Object.keys(prevWeekData);
 
     currWeekNames.forEach(function(name) {
-        // if (!(prevWeekNames.includes(name))) return;
         if (!(prevWeekNames.indexOf(name) > -1)) return;
 
         const sundayTime = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
@@ -205,7 +204,7 @@ function preveri_tedenskiPocitek_SobotaPonedeljek (prevWeekData, currWeekData) {
 //     // ustvarimo array vseh delavcev ki so delali prejšnjo nedeljo
 //     let prevSundayWorkers = [];
 //     let prevWeekNames = Object.keys(prevWeekData);
-//     prevWeekNames.forEach(name => {
+//     prevWeekNames.forEach(function (name) {
 //         for (let i = 0; i < prevWeekData[name][7].length; i++) {
 //             let cell = prevWeekData[name][7][i];
 //             if (isSpecialOddelek(cell)) {
@@ -218,9 +217,8 @@ function preveri_tedenskiPocitek_SobotaPonedeljek (prevWeekData, currWeekData) {
     
 //     // za vsako osebo v tem tednu
 //     let nameKeys = Object.keys(currWeekData);
-//     nameKeys.forEach(name => {
+//     nameKeys.forEach(function(name) {
 //         // če oseba ni delala prejšnjo nedeljo jo preskoči
-//         // if (!(prevSundayWorkers.includes(name))) return;
 //         if (!(prevSundayWorkers.indexOf(name) > -1)) return;
         
 //         let maxRestTime = 0;
@@ -305,7 +303,7 @@ function preveri_tedenskiPocitek (currWeekData, prevWeekData) {
         
         for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
             if (lastEndTimeCell === null) {
-                if (dayIndex === 7) return;
+                if (dayIndex > 1) return;
                 lastEndTimeCell = get_cell_maxEndTime_forWorker_inDay(currWeekData[name][dayIndex]);
                 lastEndTimeDayIndex = dayIndex;
                 continue;

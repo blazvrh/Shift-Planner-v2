@@ -32,3 +32,19 @@ article h4 {
     padding: 3px 0;
     margin: 0;
 }
+
+/* update notice */
+#updateNotice {
+    background-color: rgb(240, 234, 200);
+    padding-bottom: 3px;
+}
+#updateNotice h2 {
+    background-color: rgb(240, 219, 160);
+    padding: 5px 20px 2px 20px;
+    margin-bottom: 2px;
+}
+#updateDate {
+    font-size: 16px;
+    padding: 0 25px;
+    margin: 0;
+}

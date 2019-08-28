@@ -32,11 +32,9 @@ function preveri_cas_prekrivanje (weekData) {
                     // dodamo celico v array če je čas konca na prvem oddelku večji od časa pričetka na drugem oddelku
                     if (compare_times_is_time1_greaterThan_time2(cell1EndTime, cell2StartTime, cell1_inNextDay) &&
                         compare_times_is_time1_greaterThan_time2(cell2EndTime, cell1StartTime, cell2_inNextDay)) {
-                        // if (!(dayCellErrors.includes(firstCell))) {
                         if (!(dayCellErrors.indexOf(firstCell) > -1)) {
                             dayCellErrors.push(firstCell);
                         }
-                        // if (!(dayCellErrors.includes(secondCell))) {
                         if (!(dayCellErrors.indexOf(secondCell) > -1)) {
                             dayCellErrors.push(secondCell);
                         }
@@ -48,7 +46,6 @@ function preveri_cas_prekrivanje (weekData) {
             let fullTooltipPositions = [];
             dayCellErrors.forEach(function (cellData) {
                 let oddName = cellData.oddelekName + " (" + cellData.smena + ")";
-                // if (!(oddelkiSPrekrivanjemArr.includes(oddName))) {
                 if (!(oddelkiSPrekrivanjemArr.indexOf(oddName) > -1)) {
                     oddelkiSPrekrivanjemArr.push(oddName);
                 }
@@ -366,7 +363,6 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         let freeDaysNum_PrevWeek = 0;
         
         // če prejšni teden ta oseba ni delala potem ustavi zanko in vrni 6
-        // if (!(prevWeekNames.includes(name))) return 7;
         if (!(prevWeekNames.indexOf(name) > -1)) return 7;
         
         let maxEndTime_cell = null;
@@ -427,7 +423,6 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
 
     // preverimo nedeljo v prejšnjem tedu
     function get_LastSundayFreeDay (name) {
-        // if (!(prevWeekNames.includes(name))) return 0;
         if (!(prevWeekNames.indexOf(name) > -1)) return 0;
         let sundayCell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
         let saturdayCell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][6]);
@@ -457,7 +452,6 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         let freeDaysNum_currWeek = 0;
         
         let maxEndTime_cell = null;
-        // if (prevWeekNames.includes(name) && prevWeekData[name][7]) {
         if (prevWeekNames.indexOf(name) > -1 && prevWeekData[name][7]) {
             maxEndTime_cell = get_cell_maxEndTime_forWorker_inDay(prevWeekData[name][7]);
         }
@@ -543,6 +537,9 @@ function preveri_dvoTedenskiPocitek (prevWeekData, currWeekData) {
         const prevWeekFreeDays = get_steviloProstihDni_PrejsniTeden(name) + get_LastSundayFreeDay(name);
         const currWeekFreeDays = get_steviloProstihDni_trenutenTeden(name);
 
+        // če je prejšni teden bil en dan prost je ok
+        if (prevWeekFreeDays > 0) return;
+
         // če imamo 2 prosta dneva ali več je ok
         if (prevWeekFreeDays + currWeekFreeDays > 1) return;
 
@@ -624,13 +621,18 @@ function preveri_prepovedDeljenegaDela (weekData) {
         }
     });
 
+    let printedPositions = [ ];
     // shranimo error
     errorCells.forEach(function(cell) {
+        let pos = get_fullPosition(cell);
+        
+        if (printedPositions.indexOf(pos) > -1) { return; }
+        printedPositions.push(pos);
         let originalName = get_originalName(cell.currName, cell);
         let errMsg = " - Oseba <strong><em>" + originalName + "</em></strong>" +
         " ima dovoljeni dnevni čas krajši od 4 ure in <strong>ne sme delati deljeno</strong>!";
 
-        insert_errorWarrning_tooltipMessage(errMsg, get_fullPosition(cell), "errors");
+        insert_errorWarrning_tooltipMessage(errMsg, pos, "errors");
     });
 }
 

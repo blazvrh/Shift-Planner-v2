@@ -2,7 +2,6 @@
 const pool = require("./db_init").pool;
 
 
-
 // pridobi tedenski plan
 async function get_weeklyPlan(poslovalnica, weekNum, year) {
     let conn;
@@ -39,7 +38,7 @@ async function get_weeklyPlan(poslovalnica, weekNum, year) {
 }
 
 
-// pridobi tedenski plan
+// pridobi nedelje v letu
 async function get_sundaysInYear(userData) {
     let conn;
 
@@ -73,6 +72,40 @@ async function get_sundaysInYear(userData) {
 }
 
 
+// pridobi praznike v letu
+async function get_holidaysInYear(userData) {
+    let conn;
+
+    let result = { isError: false, msg: "" };
+
+    try {
+        conn = await pool.getConnection();
+
+        var db_holidayData = await conn.query("SELECT praznikiData FROM tedenskiPlan WHERE poslovalnica='" + userData.poslovalnica + 
+            "' AND year=" + userData.year);
+        
+        result.allHolidays = [];
+        for (let i = 0; i < db_holidayData.length; i++) {
+            if (db_holidayData[i].praznikiData && db_holidayData[i].praznikiData !== "") {
+                result.allHolidays.push(db_holidayData[i].praznikiData);
+            }
+        }
+    } catch (err) {
+        console.log(err.message);
+        if (err.code = "ER_NO_SUCH_TABLE") {
+            result = { isError: true, msg: "Ni najdenega vnosa!" };
+        }
+        else {
+            result = { isError: true, msg: err.message };
+        }
+        throw err;
+    } finally {
+        if (conn) conn.end();
+        return result;
+    }
+}
+
+
 // shranimo tedenski plan
 async function save_weeklyPlan (weekInfo, planData, oddelkiDop, oddelkiPop) {
     let conn;
@@ -87,9 +120,9 @@ async function save_weeklyPlan (weekInfo, planData, oddelkiDop, oddelkiPop) {
         // če vnos že obstaja
         if (dataExists) {
             let inserted = await conn.query("UPDATE tedenskiPlan SET weekData = ?, oddelkiDop = ?, oddelkiPop = ?, " +
-                "sundayData = ? WHERE poslovalnica ='" +
+                "sundayData = ?, praznikiData = ? WHERE poslovalnica ='" +
                 weekInfo.poslovalnica + "' AND weekNumer =" + weekInfo.weekNum + " AND year =" + weekInfo.year, 
-                [planData, oddelkiDop, oddelkiPop, weekInfo.sundayData]);
+                [planData, oddelkiDop, oddelkiPop, weekInfo.sundayData, weekInfo.praznikiData]);
             
             if (inserted) {
                 result = { isError: false, msg: "Success", inserted: inserted };
@@ -98,9 +131,9 @@ async function save_weeklyPlan (weekInfo, planData, oddelkiDop, oddelkiPop) {
         // če je to prvi vnos
         else {
             let inserted = await conn.query("INSERT INTO tedenskiPlan (poslovalnica, weekNumer, year, " +
-                "mondayDate, weekData, oddelkiDop, oddelkiPop, sundayData) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                "mondayDate, weekData, oddelkiDop, oddelkiPop, sundayData, praznikiData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [weekInfo.poslovalnica, weekInfo.weekNum, weekInfo.year, weekInfo.mondayDate, planData, oddelkiDop, 
-                    oddelkiPop, weekInfo.sundayData]);
+                    oddelkiPop, weekInfo.sundayData, weekInfo.praznikiData]);
             
             if (inserted) {
                 result = { isError: false, msg: "Success" };
@@ -123,5 +156,6 @@ async function save_weeklyPlan (weekInfo, planData, oddelkiDop, oddelkiPop) {
 
 
 module.exports.get_sundaysInYear = get_sundaysInYear;
+module.exports.get_holidaysInYear = get_holidaysInYear;
 module.exports.get_weeklyPlan = get_weeklyPlan;
 module.exports.save_weeklyPlan = save_weeklyPlan;

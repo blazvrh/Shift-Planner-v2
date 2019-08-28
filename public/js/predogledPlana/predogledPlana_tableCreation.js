@@ -150,7 +150,6 @@ function create_Smeno (smena, mainTable, smenaData) {
 function fillTableWithData(weekData, wholeTable) {
     const workerNames = Object.keys(weekData);
 
-    // workerNames.forEach(name => {
     for (let j = 0; j < workerNames.length; j++) {
         const name = workerNames[j];
         for (let i = 0; i < weekData[name].length; i++) {
@@ -197,7 +196,6 @@ function delete_emptyRows (table) {
 
     const rowKeys = Object.keys(rowsByOddelekId);
 
-    // rowKeys.forEach(rowKey => {
     for (let k = 0; k < rowKeys.length; k++) {
         let rowKey = rowKeys[k];
         let headerDeleted = false;

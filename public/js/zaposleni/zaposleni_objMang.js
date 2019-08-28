@@ -104,7 +104,7 @@ function create_TableBody_SeznamZaposlenih (vsiZaposleni) {
     let tBodyZap = document.createElement("tbody");
 
     for (let i = 0; i < vsiZaposleni.length; i++) {
-        tBodyZap.appendChild(create_tableRow_seznamZaposlenih(vsiZaposleni[i]))
+        tBodyZap.appendChild(create_tableRow_seznamZaposlenih(vsiZaposleni[i]));
     }
 
     return tBodyZap;

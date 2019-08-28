@@ -146,6 +146,7 @@ function submitForm_get_trenuenPlan() {
         }
         else {
             fill_table_withDbData(JSON.parse(serverRes.weekData.weekData));
+            set_praznikDneve(serverRes.weekData.praznikiData);
         }
         submitForm_get_sundaysInThisYear();
     }; 
@@ -159,7 +160,7 @@ function submitForm_get_trenuenPlan() {
     xhr.send(formData);
 }
 
-// pridobimo podatke o prejšnem tednu
+// pridobimo podatke nedeljah v letu
 function submitForm_get_sundaysInThisYear() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/urediTrenutenPlan/sundaysYear");
@@ -178,7 +179,7 @@ function submitForm_get_sundaysInThisYear() {
         else {
             create_sundayData_byWorker(serverRes.allSundays);
         }
-        submitForm_get_lastWeekPlan();
+        submitForm_get_holidaysInThisYear();
     }
 
     var formData = new FormData ();
@@ -188,6 +189,36 @@ function submitForm_get_sundaysInThisYear() {
 
     formData.append("poslovalnica", userData.poslovalnica);
     formData.append("sundayYear", sundayDate.getFullYear());
+    
+    xhr.send(formData);
+}
+
+// pridobimo podatke o praznikih v letu
+function submitForm_get_holidaysInThisYear() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/urediTrenutenPlan/holidaysYear");
+    xhr.responseType = 'json';
+
+    xhr.onload = function(event) {
+        let serverRes = event.target.response;
+        if (isIE()) { serverRes = JSON.parse(serverRes) }
+
+        // če je prišlo do napake, izpiši napako
+        if (serverRes.isError) {
+            // izpiši error
+            console.log(serverRes.msg);
+            console.log("IZPIŠI ERROR UPORABNIKU");
+        }
+        else {
+            create_holidayData_byWorker(serverRes.allHolidays);
+        }
+        submitForm_get_lastWeekPlan();
+    }
+
+    var formData = new FormData ();
+
+    formData.append("poslovalnica", userData.poslovalnica);
+    formData.append("year", currDateData.selectedMondayDate.getFullYear());
     
     xhr.send(formData);
 }
@@ -266,7 +297,7 @@ function submitForm_get_lastWeekPlan() {
 }
 
 // shrani trenutni plan
-function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData) {
+function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData, praznikiData) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/urediTrenutenPlan/save"); 
     xhr.responseType = 'json';
@@ -299,6 +330,7 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
     formData.append("mondayDate", mondayDate);
     formData.append("tableData", JSON.stringify(tableData));
     formData.append("sundayData", JSON.stringify(sundayData));
+    formData.append("praznikiData", JSON.stringify(praznikiData));
 
     xhr.send(formData);
 }

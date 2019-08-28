@@ -2,7 +2,10 @@
 // some varibles
 const inputFields_oddelki = getInputFields();
 const btn_dodajOddelek = document.getElementById("btn_dodajOddelek");
-var maxIndexes = {};
+var maxIndexes = {
+    maxIndex_dopoldne: 0,
+    maxIndex_popoldne: 0
+};
 
 window.onload = function () {
     if (userData) {
@@ -44,7 +47,6 @@ function btnDodajOddelek ()
 function onInputErrorOddelki(msg, showBtn) {
     inputFields_oddelki.oddelkiErrorMsg.innerHTML = msg;
     if (showBtn) {
-        // btn_dodajOddelek.style.display = "initial";
         btn_dodajOddelek.disabled = false;
     }
 }
@@ -81,7 +83,6 @@ function clearInputValues() {
     inputFields_oddelki.specialOddelek.value = "";
     inputFields_oddelki.oddelkiErrorMsg.value = "";
     
-    // btn_dodajOddelek.style.display = "initial";
     btn_dodajOddelek.disabled = false;
 }
 

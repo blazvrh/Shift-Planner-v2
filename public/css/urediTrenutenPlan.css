@@ -98,6 +98,13 @@ input[type="time"] {
     background-color: rgb(230, 230, 230);
 }
 
+#mainTable select option:last-child {
+    color: red;
+}
+#mainTable select option:first-child {
+    color: green;
+}
+
 input[type="text"]::-webkit-calendar-picker-indicator {
     display: none;
 }

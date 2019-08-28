@@ -1,13 +1,17 @@
 
-var data = { };
+var data = { 
+    zaposleni: {}
+};
 var allErrors = { warnings:[], errors:[] }
 var allDataCellElements;
 var buttonElements = { };
 var dataSaved = true;
+const unsavedChangesMsg = "Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli."
 
 var simpleClickData = {
     selectedName: "",
     numberOfUses: 0,
+    deleteCell: false,
     allNameElements: []
 };
 
@@ -19,7 +23,12 @@ window.onload = function () {
         submitForm_oddelekGet();
     }
 }
-
+document.onkeydown = function (evt) {
+    if (evt.key === "Escape" || evt.key === "Esc") {
+        unselectSimpleClick(true);
+    }
+    
+}
 function error_onTableShow (msg) {
     document.getElementById("loadWeekError").innerHTML = msg;
 
@@ -41,7 +50,15 @@ function showMainPageContent () {
     };
 
     // lisener za prikaži teden btn
-    buttonElements.btn_showWeek.onclick = function() { btn_createCurrTable(); }
+    buttonElements.btn_showWeek.onclick = function() {
+        if (dataSaved) {
+            unselectSimpleClick(true);
+            btn_createCurrTable(); 
+        } else if (confirm(unsavedChangesMsg)) {
+            unselectSimpleClick(true);
+            btn_createCurrTable(); 
+        }
+    }
     // lisener za spremembo tedna btn (-1)
     document.getElementById("week_reduce").onclick = function() { btn_changeWeekByOne(-1); }
     // lisener za spremembo tedna btn (+1)
@@ -72,7 +89,7 @@ function showMainPageContent () {
     // before unload
     window.onbeforeunload = function (e) { 
         if (!dataSaved) {
-            return "Ali ste prepričani, da želite zapustiti stran? Pri tem lahko izgubite neshranjene podatke, ki ste jih vnesli."
+            return unsavedChangesMsg
         }
     };
 
@@ -108,14 +125,16 @@ function btn_save_currPlan () {
 
     let sundayData = get_sundayData(tableData);
 
-    submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData);
+    let praznikiData = get_praznikiData_currentWeek(get_currPlan_Worker_dayOriented(tableData));
+
+    submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sundayData, praznikiData);
 }
 
 // počisti vse inpute v tem tednu
 function btn_clear_WeekInputs () {
     buttonElements.clearAllInputs.disabled = true;
     
-    if (!confirm("Ali ste prepričan da želite počisiti celoten tedenski plan?")) {
+    if (!confirm("Ali ste prepričani da želite počisiti celoten tedenski plan?")) {
         buttonElements.clearAllInputs.disabled = false;
         return;
     }
@@ -134,6 +153,10 @@ function btn_clear_WeekInputs () {
 
 // preveri trenuten plan ....
 function btn_check_currPlan () {
+    
+    if (Object.keys(data.zaposleni).length < 1) return;
+
+
     buttonElements.checkCurrPlan.disabled = true;
 
     allErrors = { warnings:[], errors:[] }
@@ -244,7 +267,8 @@ function clearWarnErrorIndexes () {
 function simpleClick_setValue (nameElement) {
     
     const selectedNameStr = nameElement.getAttribute("val");
-    
+    simpleClickData.deleteCell = nameElement.getAttribute("specialType") === "delete" ? true : false;
+
     if(selectedNameStr === simpleClickData.selectedName) {
         unselectSimpleClick(true);
         return;
@@ -269,7 +293,11 @@ function simpleClick_setValue (nameElement) {
 function simpleClick_input (inputElement) {
     if (simpleClickData.selectedName !== "" && simpleClickData.numberOfUses > 0) {
         inputElement.setAttribute('list','');
-        inputElement.value = simpleClickData.selectedName;
+        if (simpleClickData.deleteCell) {
+            inputElement.value = "";
+        } else {
+            inputElement.value = simpleClickData.selectedName;
+        }
         onDataChange();
 
         inputElement.onmouseup = function(e) { 
@@ -295,6 +323,8 @@ function unselectSimpleClick(clearDataBool) {
     if (clearDataBool) {
         simpleClickData.selectedName = "";
         simpleClickData.numberOfUses = 0;
+        simpleClickData.deleteCell = false;
+        document.getElementById("oneUse").checked = true;
     }
 }
 

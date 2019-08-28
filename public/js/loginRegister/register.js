@@ -10,7 +10,6 @@ function onRegisterError(msg, showBtn) {
         var registerBtn = document.getElementById("registerBtn");
         
         registerBtn.disabled = false;
-        // registerBtn.style.display = "initial";
     }
 }
 

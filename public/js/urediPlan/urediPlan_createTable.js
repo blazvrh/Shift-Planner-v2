@@ -70,13 +70,41 @@ function ustvariHeader () {
 
     tHeader.appendChild(rowHeader);
 
+    // ustvarimo vrstico s select oknom za izbiro praznika
     let praznikiRow = document.createElement("tr");
 
     for (let i = 0; i < 8; i++) {
         let cell = document.createElement("td");
+
         if (i > 0) {
-            cell.innerHTML = "Praznik?";
+            let selectElement = document.createElement("select");
+            let optionIsHoliday = document.createElement("option");
+            let optionNotHoliday = document.createElement("option");
+
+
+            // selectElement.onchange = onDataChange()
+            selectElement.onchange = function() { 
+                onDataChange();
+                if (selectElement.value === "jePraznik") {
+                    selectElement.parentNode.style.backgroundColor = "#f8b4b4"
+                } else {
+                    selectElement.parentNode.style.backgroundColor = "transparent";
+                }
+            }
+            
+            selectElement.setAttribute("dayIndex", i);
+
+            optionIsHoliday.value = "jePraznik";
+            optionIsHoliday.innerHTML = "Praznik!";
+            optionNotHoliday.value = "niPraznik";
+            optionNotHoliday.innerHTML = "Delovni dan";
+            optionNotHoliday.selected = true;
+            
+            selectElement.appendChild(optionNotHoliday);
+            selectElement.appendChild(optionIsHoliday);
+            cell.appendChild(selectElement);
         }
+
         praznikiRow.appendChild(cell);
     }
 
@@ -138,7 +166,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                             let oddIndex = this.getAttribute("oddIndex");
                             
                             onBlur_name_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
-                                smenaData[oddIndex].odhod)
+                                smenaData[oddIndex].odhod);
                         }
                     } else {
                         // max dolžina inputa za poseben oddelek
@@ -278,12 +306,29 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
 
 
 function create_simpleClickWorkers(zaposleniData) {
+    
+    if (Object.keys(data.zaposleni).length < 1) return;
+
     let conteinerDiv = document.getElementById("simpleClickNames");
     conteinerDiv.innerHTML = "";
     
     const allNames = Object.keys(zaposleniData).sort();
 
     let studentNames = [];
+
+    // ustvarimo delete vrednost
+    let delDiv = document.createElement("div");
+    delDiv.innerHTML = "Briši";
+    delDiv.setAttribute("val", "delete");
+    delDiv.setAttribute("specialType", "delete");
+    delDiv.onclick = function() { simpleClick_setValue(this) };
+    delDiv.className = "unselectedName";
+    conteinerDiv.appendChild(delDiv);
+    
+    // ustvarimo zaposlene
+    let zaposleniTitle = document.createElement("p");
+    zaposleniTitle.innerText = "Zaposleni:";
+    conteinerDiv.appendChild(zaposleniTitle);
 
     allNames.forEach(function(name) {
         const originalName = zaposleniData[name].prikazanoImeZap;
@@ -448,7 +493,7 @@ function create_table_hoursAndSundayByWorker (weekData, sundayData, zaposleniDat
                 workerSundayDataExists = true;
 
                 let monthSundays = sundayData[name].monthSundays;
-                let yearSundays = sundayData[name].monthSundays;
+                let yearSundays = sundayData[name].yearSundays;
 
                 monthSundays = workingThisSunday ? monthSundays + 1 : monthSundays;
                 yearSundays = workingThisSunday ? yearSundays + 1 : yearSundays;

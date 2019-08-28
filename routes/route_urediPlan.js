@@ -41,6 +41,14 @@ router.post('/sundaysYear', async function (req, res) {
     res.send(sundayData);
 });
 
+// pridobimo praznike v letu
+router.post('/holidaysYear', async function (req, res) { 
+    if (!req.body) return res.sendStatus(400);
+    
+    let holidayData = await db_weekData.get_holidaysInYear(req.body);
+
+    res.send(holidayData);
+});
 
 // shrani tedenski plan
 router.post('/save', async function (req, res) { 

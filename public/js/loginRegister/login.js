@@ -48,9 +48,7 @@ function onGuestLoginError(errorMsg, showBtn) {
     loginGuestErrorMsg.innerHTML = errorMsg;
 
     if (showBtn) {
-        document.getElementById("loginGuestBtn").disabled = false;
-        
-        // loginBlock.style.display = "initial";
+        document.getElementById("loginGuestBtn").disabled = false;        
     }
 }
 
