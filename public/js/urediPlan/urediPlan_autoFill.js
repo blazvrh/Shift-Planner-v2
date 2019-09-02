@@ -47,7 +47,7 @@ function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
     }
 
     if (inp_timeEl.value !== timeValOnFocus) {
-        onDataChange();
+        onDataChange(inp_timeEl.parentNode.parentNode.parentNode);
     }
 }
 

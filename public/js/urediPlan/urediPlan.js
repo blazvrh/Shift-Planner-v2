@@ -299,7 +299,7 @@ function simpleClick_input (inputElement) {
         } else {
             inputElement.value = simpleClickData.selectedName;
         }
-        onDataChange();
+        onDataChange(inputElement.parentNode.parentNode.parentNode);
 
         inputElement.onmouseup = function(e) { 
             inputElement.blur();

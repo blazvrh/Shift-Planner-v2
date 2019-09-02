@@ -4,11 +4,25 @@ var documentObjects_zaposleni = get_documentObjects_zaposleni();
 // vsa prikazana imena obstoječih zaposlenih
 var prikazanaImenaVsa = [];
 
+// za search bar
+var tableObjectsAndNames = [];
+
 window.onload = function () {
     if (userData) {
         get_neccesseryData();
     }
 }
+
+// gumb za iskane (search bar)
+document.getElementById("searchBarSearchBtn").onclick = function() { startSearch() };
+// iskanje s prtitiskom na Enter (search bar)
+document.getElementById("searchBarInput").onkeyup = function (event) {
+    if (event.keyCode === 13) {
+        startSearch();
+    }
+}
+// preklic iskanja (search bar)
+document.getElementById("searchBarCancelBtn").onclick = function() { cancel_Search() };
 
 // pridobi potrebne podatke iz databaze
 function get_neccesseryData () {

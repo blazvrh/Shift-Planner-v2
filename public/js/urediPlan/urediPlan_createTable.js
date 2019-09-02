@@ -38,7 +38,7 @@ function ustvariHeader () {
     let tHeader = document.createElement("thead");
     var rowHeader = document.createElement("tr");
 
-    var imenaDnevov = ["Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota", "Nedelja"];
+    var imenaDnevov = ["Ponedeljek", "Torek", "Sreda", "Četek", "Petek", "Sobta", "Nedelja"];
 
     for (let i = 0; i < 8; i++) {
         let subTable = document.createElement("table");
@@ -55,7 +55,7 @@ function ustvariHeader () {
             thDataDay.innerText = imenaDnevov[i-1];
             
             let thDataDate = document.createElement("th");
-            let currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "long"});
+            let currDatum = new Date(tempDate).toLocaleString('sl-SI',{day: "numeric", month: "short"});
 
             thDataDate.innerText = currDatum;
             tempDate.setDate(tempDate.getDate() + 1);

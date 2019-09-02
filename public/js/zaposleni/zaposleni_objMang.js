@@ -161,6 +161,17 @@ function create_tableRow_seznamZaposlenih (singleZaposlenData) {
     trElement.appendChild(create_removeBtn_tableZaposleni(singleZaposlenData.zapID));
 
     trElement.setAttribute("zapid", singleZaposlenData.zapID);
+
+    // dodamo v objekt za search bar
+    let nameString = singleZaposlenData.imeZap.toLowerCase() + " " + 
+        singleZaposlenData.priimekZap.toLowerCase() + " " + 
+        singleZaposlenData.prikazanoImeZap.toLowerCase();
+        
+    tableObjectsAndNames.push ({
+        element: trElement,
+        names: nameString
+    }); 
+
     return trElement;
 }
 
