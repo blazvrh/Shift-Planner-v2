@@ -155,7 +155,7 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("class", "imeZap");
                     inputElem_name.onmousedown = function() { simpleClick_input(this) };
                     
-                    inputElem_name.onchange = function() { onDataChange() };
+                    inputElem_name.onchange = function() { onDataChange(this.parentNode.parentNode.parentNode) };
                     
                     // če je normalen oddelek dodamo lisener onblur
                     if (smenaData[oddNum].specialOddelek == "") {

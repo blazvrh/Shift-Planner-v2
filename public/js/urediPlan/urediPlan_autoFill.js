@@ -51,12 +51,22 @@ function onBlur_time_setUsualTimesForOddelek (inp_timeEl, startTime, endTime) {
     }
 }
 
-function onDataChange () {
+function onDataChange (trueParrent) {
     let imageElements = document.getElementsByClassName("doneIndicator");
-
+    
     for (let i = 0; i < imageElements.length; i++) {
         img = imageElements[i];
         img.src = "images/krizec.png";
     }
     dataSaved = false;
+    
+    // izbrišemo idikator in errormsg ko se zgodi sprememba
+    if (trueParrent || trueParrent != null) {
+        // da ne prikažemo tooltipa
+        trueParrent.getElementsByClassName("tooltipText")[0].setAttribute("isEmpty", true);
+        // da skrijemo indexe
+        let indexElements = trueParrent.querySelectorAll("div[indextype]");
+        indexElements[0].className = "hide";
+        indexElements[1].className = "hide";
+    }
 }

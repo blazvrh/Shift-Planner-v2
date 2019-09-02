@@ -182,6 +182,7 @@ function btn_check_currPlan () {
 
     // warning check
     preveri_zaposlen_obstaja(currWeekData);
+    preveri_krizanjeOddelkov(currWeekData);
     preveri_zaposlen_usposobljenost(currWeekData);
     preveri_prejsnoNedeljo(data.prevWeekData, currWeekData);
     preveri_tedenskiPocitek(currWeekData, data.prevWeekData);

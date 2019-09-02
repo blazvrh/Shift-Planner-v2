@@ -363,3 +363,49 @@ function preveri_tedenskiPocitek (currWeekData, prevWeekData) {
         }
     });
 }
+
+///
+// preveri če je oseba pisana na oddelek brez časa in oddelek s časom (komentar spregledamo)
+///
+
+function preveri_krizanjeOddelkov (currWeekData) {
+    // za vsako osebo v tem tednu
+    let nameKeys = Object.keys(currWeekData);
+
+    nameKeys.forEach(function(name) {
+        for (let dayIndex = 1; dayIndex < 8; dayIndex++) {
+
+            let inWorkingCell = false;
+            let specialOddelkiCells = [];
+
+            for (let i = 0; i < currWeekData[name][dayIndex].length; i++) {
+                const cell = currWeekData[name][dayIndex][i];
+                
+                // če je to oddelek z delovnim časom; shranimo v bool da obstaja
+                if (isSpecialOddelek(cell) === false) {
+                    inWorkingCell = true;
+                }
+                // če je to oddelek brez delovnega časa ki ni komentar; shranimo celico
+                else if (get_OddelekType(cell) !== "Komentar") {
+                    specialOddelkiCells.push(cell);
+                }
+            }
+            
+            // če se nahaja v obeh tipih oddelkov izpiši opozorilo
+            if (specialOddelkiCells.length > 1 || (inWorkingCell === true && specialOddelkiCells.length > 0)) {
+                for (let j = 0; j < specialOddelkiCells.length; j++) {
+                    const speciallCell = specialOddelkiCells[j];
+                    let fullPosition = get_fullPosition(speciallCell);
+                    originalName = get_originalName(name, speciallCell);
+
+                    const warnMsg = " - Zaznano morebitno prekrivanje!<br>" +
+                        "Oseba <strong><em>" + originalName + "</em></strong> " +
+                        "se nahaja že na vsaj enem drugem oodelku.";
+                    
+                        
+                    insert_errorWarrning_tooltipMessage(warnMsg, fullPosition, "warnings");
+                }
+            }
+        }
+    });
+}
