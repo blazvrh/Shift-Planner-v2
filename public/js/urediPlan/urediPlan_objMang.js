@@ -16,6 +16,7 @@ function fill_table_withDbData(weekData) {
         try {
             cellVals = tempWeekData[day][oddId][0];
             inputElements[0].value = cellVals.nameVal;
+            inputElements[0].setAttribute("inputVal", strip_nameInputValue(cellVals.nameVal));
             if (inputElements.length > 1) {
                 if (cellVals.startTime) inputElements[1].value = cellVals.startTime;
                 if (cellVals.endTime) inputElements[2].value = cellVals.endTime;

@@ -28,6 +28,7 @@ app.use(formData.union());
 
 // routes
 app.use(require("./routes/route_loginRegister"));
+app.use(require("./routes/route_index"));
 app.use("/oddelki", require("./routes/route_oddelki"));
 app.use("/zaposleni", require("./routes/route_zaposleni"));
 app.use("/urediTrenutenPlan", require("./routes/route_urediPlan"));

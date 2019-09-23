@@ -37,8 +37,6 @@ h2 {
     padding-bottom: 25px;
 }
 
-
-
 #mainTable table {
     width: 100%
 }
@@ -407,4 +405,8 @@ button {
 
 .clearFloat {
     clear: both;
+}
+
+.markedInput {
+    background-color: rgb(255, 235, 169);
 }

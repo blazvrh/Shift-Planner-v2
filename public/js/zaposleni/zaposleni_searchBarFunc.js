@@ -41,4 +41,5 @@ function cancel_Search () {
     for (let rowIndex = 0; rowIndex < tableObjectsAndNames.length; rowIndex++) {
         tableObjectsAndNames[rowIndex].element.style.display = "";
     }
+    document.getElementById("searchBarInput").value = "";
 }

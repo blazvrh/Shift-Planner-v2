@@ -49,200 +49,260 @@
         </ul>
     </nav>
     
-    <!-- update notice -->
-    <article id="updateNotice">
-        <div>
-            <h2>Spletna stran je bila posodobljena</h2>
-            <p id="updateDate">01.09.2019</p>
-            <div id="updateText">
-                <p id="">
-                    <a href="#updateLog">Podrobne informacije o posodobitvi na voljo tu</a>.
-                </p>
-                <p>V primeru napake/nedelovanja spletne strani, to čimprej sporočite na e-mail.</p>
+
+    <div>
+        <!-- desni meni -->
+        <div id="rightMenu">
+            <hr>
+            <div class="rightMenuElement">
+                <a href="dokumentacija" class="rightMenuTitle"> 
+                    Dokumentacija <br>(navodila za uporabo)
+                </a>
+            </div>
+            
+            <hr>
+            <div class="rightMenuElement" id="updateLogs">
+                <span class="rightMenuTitle">
+                    Zgodovina posodobitev:
+                </span>
+                
+                <div>
+                    <h3>Posodobitev 23.09.2019 </h3>
+                    <ul>
+                        <li>
+                            <h4>Posodobitev naslovne strani</h4>
+                        </li>
+                        <li>
+                            <h4>Dodano označevanje polij z enakim imenom</h4>
+                            <span>
+                                S pritiskom v polje, ki ni prazno, se označijo vsa polja z enakim vnosom.
+                            </span>
+                        </li>
+                        <li>
+                            <h4>Dodane možnosti izvoza</h4>
+                            <span>
+                                Sedaj lahko v zavihku "Tiskanje" tedenski plan izvozite (shranite) 
+                                v PDF ali Excel obliki. <br>
+                                
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Posodobitev 01.09.2019 </h3>
+                    <ul>
+                        <li>
+                            <h4>Dodano preverjanje prekrivanja z oddelki brez delovnega časa</h4>
+                            <span>
+                                Spletna stran sedaj preveri za duplikate osebe tudi v celicah brez delovnega časa. <br>
+                                Zazna se npr. če je oseba vpisana v oddelek "Blagajna" in v "Bolniške". <br>
+                                Prav tako se zazna, če je oseba vpisana v dva oddelka brez delovnega časa (npr.
+                                v oddelek "Bolniška" in "Koriščenje ur").
+                            </span>
+                        </li>
+                        <li>
+                            <h4>Napake sedaj ob spremembi vnosa v celici izginejo</h4>
+                            <span>
+                                Če se spremeni ime osebe v celici, ki je prej prikazovala napako, se le ta ne prikazuje več. <br>
+                                V kolikor so napake še vedno prisotne se ponovno prikažejo s pritiskom na gumb "Preveri".
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Posodobitev 28.08.2019 </h3>
+                    <ul>
+                        <li>
+                            <h4>Spletna stran dovoljuje vnašanje praznikov</h4>
+                            <span>
+                                Podatki o delavnih praznikih se shranijo, vendar še niso prikazani.
+                            </span>
+                        </li>
+                        <li>
+                            <h4>Popravek pravila o povprečnem 14 dnevnem počitku</h4>
+                            <span>
+                                Pravilo sedaj deluje pravilno. Napaka se ne prikazuje več v primeru 1 prostega dne v prejšnjem tednu.
+                            </span>    
+                        </li>
+                        <li>
+                            <h4>Popravek pri štetju letno oddelanih nedelij</h4>
+                            <span>
+                                Sedaj je podatek o letno oddelanih nedeljah pravilno prikazan (za vnose od te posodobitve naprej).
+                            </span>
+                        </li>
+                        <li>
+                            <h4>Popravek pri vnašanju oddelkov</h4>
+                            <span>
+                                Ne prihaja več do napake, ko se vnaša prvi oddelek.
+                            </span>
+                        </li>
+                        <li>
+                            <h4>Dodan gumb "Briši" v "Simple click"</h4>
+                            <span>
+                                Poleg imen delavcev, je sedaj na razpolago tudi gumb briši, ki izbriše vnos v celici.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            
+            <div class="rightMenuElement">
+                <span class="rightMenuTitle">
+                    Predlogi, mnenja, težave, ...
+                </span>
+                <textarea name="predlogi" id="predlogi" cols="30" rows="10" maxlength="300"></textarea>
+                <button id="submitPredlog">Pošlji</button>
+                <p id="predlogiCounter">0/300</p>
+                <p id="predlogServerResponse"></p>
+            </div>
+            <div style="clear: both"></div>
+            <hr>
+            <div class="rightMenuElement">
+                <span class="rightMenuTitle">
+                    E-mail kontakt:
+                </span>
+                <br>
+                    <strong> krhodev@gmail.com</strong>
             </div>
         </div>
-    </article>
     
-    <article>
-        <h2>Predstavitev</h2>
-        <p>
-            <strong>Stran je v izdelavi</strong> in je v času izdelave prosto dostopna. 
-        </p>
-        <p>
-            V času izdelave priporočam uporabo brskalnika <strong>Chorme</strong> ali <strong>Opera</strong>.
-            <br>
-            Spletno stran podpirajo tudi drugi spletni brskalniki (Mozilla Firefox, Edge, ...), 
-            vendar se lahko zgodi, da med razvojem izgled in nekatere funkcionalnosti za te brskalnike ne bodo 
-            takšne kot bi morale biti!
-        </p>
-        <p>
-            Potrebna je zgolj brezplačna registracija! 
-            <br>
-            Po uspešni registraciji je potrebna odobritev računa iz strani administratorja 
-            (kontakt preko e-maila - <strong>krhodev@gmail.com</strong>)
-        </p>
-    </article>
+        <article>
+            <h2>Predstavitev</h2>
+            <p>
+                <strong>Stran je v izdelavi</strong> in je v času izdelave prosto dostopna. 
+            </p>
+            <p>
+                V času izdelave priporočam uporabo brskalnika <strong>Chorme</strong> ali <strong>Opera</strong>.
+                <br>
+                Spletno stran podpirajo tudi drugi spletni brskalniki (Mozilla Firefox, Edge, ...), 
+                vendar se lahko zgodi, da med razvojem izgled in nekatere funkcionalnosti za te brskalnike ne bodo 
+                takšne kot bi morale biti!
+            </p>
+            <p>
+                Potrebna je zgolj brezplačna registracija! 
+                <br>
+                Po uspešni registraciji je potrebna odobritev računa iz strani administratorja 
+                (kontakt preko e-maila - <strong>krhodev@gmail.com</strong>)
+            </p>
+            <h3>Namen spletne strani</h3>
+            <p>
+                Spletna stran omogoča preprosto ustvarjanje tedenskega plana dela za dvo-izmenski čas. 
+            </p>
+            <p>
+                Ker se podatki shranjujejo v spletno bazo podatkov, je stran dostopna iz vsakega računalnika z 
+                internetnim dostopom.
+            </p>
+            <p>
+                Za lažje in bolj zanesljivo ustvarjanje plana dela, spletna stran preverja pravila, ki so določena
+                s Slovensko zakonodajo. Poleg teh preverja tudi mnoga druga ter izpisuje statistiko.
+            </p>
+            <p>
+                Predogled in tiskanje shranjenih tedenskih planov je hitro, ter preprosto.
+            </p>
+        </article>
 
-    <article>
-        <h2>Zakaj uporabljati to spletno stran?</h2>
-        <p>
-            Spletna stran omogoča preprosto ustvarjanje tedenskega plana dela za dvo-izmenski čas. 
-        </p>
-        <p>
-            Ker se podatki shranjujejo v spletno bazo podatkov, je stran dostopna iz vsakega računalnika z 
-            internetnim dostopom.
-        </p>
-        <p>
-            Za lažje in bolj zanesljivo ustvarjanje plana dela, spletna stran preverja pravila, ki so določena
-            s Slovensko zakonodajo. Poleg teh preverja tudi mnoga druga ter izpisuje statistiko.
-        </p>
-        <p>
-            Predogled in tiskanje shranjenih tedenskih planov je hitro, ter preprosto.
-        </p>
-    </article>
+        <article>
+            <h2>Kje se podatki hranijo?</h2>
+            <p>
+                Podatki se shranjujejo v spletni bazi podatkov 
+                <a href="https://remotemysql.com/">https://remotemysql.com</a>.
+            </p>
+            <p>
+                Dostop in vpogled do podatkov imajo samo razvijalci spletne strani.
+                Vseeno bodite previdni z rabo občutljivih osebnih podatkov!
+            </p>
+        </article>
+        
+        <article>
+            <h2>Katera pravila se preverjajo?</h2>
+            <p>
+                <h3>Spletna stran preverja naslednja pravila:</h3>
+                <ul>
+                    <li>
+                        <h4>Obvezen dnevni počitek:</h4>
+                        Med pričetkom dela in koncem dela v prejšnem dnevu je potreben 11 urni počitek.
+                    </li>
+                    <li>
+                        <h4>Tedenski počitek: </h4>
+                        V delovnem tednu je potreben prost dan. Poleg tedenskega je potreben tudi dnevni počitek, 
+                        kar pomeni 24 ur + 11 ur = 35 ur počitka.
+                    </li>
+                    <li>
+                        <h4>Obvezen povprečni tedenski počitek: </h4>
+                        V kolikor osebi v prejšnjem tednu ni bilo mogoče zagotoviti tedenskega počitka, 
+                        potrebuje 2 prosta dni v tekočem tedu. Ta počitek je obvezen!
+                    </li>
+                    <li>
+                        <h4>Prepoved deljenega dela:</h4>
+                        Osebe z dovoljenim delovnim časom 4 ure na dan ali manj na delo ne smejo biti 
+                        razporejene z delejnim delovnim časom.
+                        Za deljen delovni čas velja delo, ki je prekinjeno za 1 uro ali več.
+                    </li>
+                    <li>
+                        <h4>Maksimalni dnevni in tedenski delovni čas:</h4>
+                        Preverjanje dovoljenega dnevnega in tedenskega delovnega časa za vsako osebo. 
+                        Maksimalni dovoljen dnevni in tedenski čas za vsako osebo določite sami, ko vnašate 
+                        osebo v seznam zaposlenih.
+                    </li>
+                    <li>
+                        <h4>Usposobljenost za oddelek:</h4>
+                        Preverjanje ali je oseba usposobljena za določen oddelek. 
+                        Usposobljenost za osebo lahko kadarkoli spremenite v zavihku "Urejanje zaposlenih".
+                    </li>
+                    <li>
+                        <h4>Prekrivanje delovnega časa:</h4>
+                        Program opozori, če zazna, da je oseba ob določeni uri v istem dnevu vnešena na večih mestih
+                        <em>(npr. Kovač Miha ob 07:00-<u>14:00</u> in ob <u>12:00</u>-18:00 v ponedeljku)</em>. 
+                    </li>
+                    <li>
+                        <h4>Dovoljene nedelje na leto:</h4>
+                        Preverjanje ali je oseba opravila več nedelij v letu, kot dovoljeno.
+                    </li>
+                    <li>
+                        <h4>Dovoljenene nedelje na mesec:</h4>
+                        Oseba lahko v mesecu dela maksimalno 2 nedelji.
+                    </li>
+                </ul>
+            </p>
+            <!-- <p>
+                <h3>Pravila, ki še niso implementirana:</h3>
+                <ul>
+                    <li>
+                        <h4>Dovoljeni prazniki na leto:</h4>
+                        Preverjanje ali je oseba opravila več praznikov v letu, kot dovoljeno.
+                    </li>
+                    <li>
+                        <h4>Posebna pravila za dijake pod 18. letom starosti:</h4>
+                        Dijaki, ki še niso dopolnili 18. let imajo nekoliko drugačne pogoje dela.
+                    </li>
+                </ul>
+            </p> -->
+        </article>
 
-    <article>
-        <h2>Feedback</h2>
-        <p>
-            Mnenja in predloge za izboljšavo lahko sporočite na e-mail: <strong>krhodev@gmail.com</strong>.
-        </p>
-    </article>
+        <article>
+            <h2>Feedback</h2>
+            <p>
+                Mnenja in predloge za izboljšavo lahko sporočite na preko e-maila.
+            </p>
+        </article>
 
-    <article>
-        <h2>Katera pravila se preverjajo?</h2>
-        <p>
-            <h3>Spletna stran preverja naslednja pravila:</h3>
-            <ul>
-                <li>
-                    <h4>Obvezen dnevni počitek:</h4>
-                    Med pričetkom dela in koncem dela v prejšnem dnevu je potreben 11 urni počitek.
-                </li>
-                <li>
-                    <h4>Tedenski počitek: </h4>
-                    V delovnem tednu je potreben prost dan. Poleg tedenskega je potreben tudi dnevni počitek, 
-                    kar pomeni 24 ur + 11 ur = 35 ur počitka.
-                </li>
-                <li>
-                    <h4>Obvezen povprečni tedenski počitek: </h4>
-                    V kolikor osebi v prejšnjem tednu ni bilo mogoče zagotoviti tedenskega počitka, 
-                    potrebuje 2 prosta dni v tekočem tedu. Ta počitek je obvezen!
-                </li>
-                <li>
-                    <h4>Prepoved deljenega dela:</h4>
-                    Osebe z dovoljenim delovnim časom 4 ure na dan ali manj na delo ne smejo biti 
-                    razporejene z delejnim delovnim časom.
-                    Za deljen delovni čas velja delo, ki je prekinjeno za 1 uro ali več.
-                </li>
-                <li>
-                    <h4>Maksimalni dnevni in tedenski delovni čas:</h4>
-                    Preverjanje dovoljenega dnevnega in tedenskega delovnega časa za vsako osebo. 
-                    Maksimalni dovoljen dnevni in tedenski čas za vsako osebo določite sami, ko vnašate 
-                    osebo v seznam zaposlenih.
-                </li>
-                <li>
-                    <h4>Usposobljenost za oddelek:</h4>
-                    Preverjanje ali je oseba usposobljena za določen oddelek. 
-                    Usposobljenost za osebo lahko kadarkoli spremenite v zavihku "Urejanje zaposlenih".
-                </li>
-                <li>
-                    <h4>Prekrivanje delovnega časa:</h4>
-                    Program opozori, če zazna, da je oseba ob določeni uri v istem dnevu vnešena na večih mestih
-                    <em>(npr. Kovač Miha ob 07:00-<u>14:00</u> in ob <u>12:00</u>-18:00 v ponedeljku)</em>. 
-                </li>
-                <li>
-                    <h4>Dovoljene nedelje na leto:</h4>
-                    Preverjanje ali je oseba opravila več nedelij v letu, kot dovoljeno.
-                </li>
-                <li>
-                    <h4>Dovoljenene nedelje na mesec:</h4>
-                    Oseba lahko v mesecu dela maksimalno 2 nedelji.
-                </li>
-            </ul>
-        </p>
-        <p>
-            <h3>Pravila, ki še niso implementirana:</h3>
-            <ul>
-                <li>
-                    <h4>Dovoljeni prazniki na leto:</h4>
-                    Preverjanje ali je oseba opravila več praznikov v letu, kot dovoljeno.
-                </li>
-                <li>
-                    <h4>Posebna pravila za dijake pod 18. letom starosti:</h4>
-                    Dijaki, ki še niso dopolnili 18. let imajo nekoliko drugačne pogoje dela.
-                </li>
-            </ul>
-        </p>
-    </article>
-
-    <article>
-        <h2>Ali je res potrebno vpisati vse oddelke in zaposlene?</h2>
-        <p>
-            Oddelke je potrebno vpisati, saj drugače program ne more pravilno delovati.
-        </p>
-        <p>
-            Zaposlenih ni potrebno vpisati, vendar je to priporočljivo. 
-            Za zaposlene, ki niso vpisani v seznam, program ne more pregledati vseh pravil.
-        </p>
-    </article>
-    
-    <article>
-        <h2>Kje se podatki hranijo?</h2>
-        <p>
-            Podatki se shranjujejo v spletni bazi podatkov 
-            <a href="https://remotemysql.com/">https://remotemysql.com</a>.
-        </p>
-        <p>
-            Dostop in vpogled do podatkov imajo samo razvijalci spletne strani.
-            Vseeno bodite previdni z rabo občutljivih osebnih podatkov!
-        </p>
-    </article>
-
-    <!-- updates -->
-    <article id="updateLog">
-        <h2>Podrobne informacije o posodobitvah spletne strani</h2>
-
-
-        <h3>Posodobitev 01.09.2019:</h3>
-        <ul>
-            <li>
-                <h4>Dodano preverjanje prekrivanja z oddelki brez delovnega časa</h4>
-                    Spletna stran sedaj preveri za duplikate osebe tudi v celicah brez delovnega časa. <br>
-                    Zazna se npr. če je oseba vpisana v oddelek "Blagajna" in v "Bolniške". <br>
-                    Prav tako se zazna, če je oseba vpisana v dva oddelka brez delovnega časa (npr.
-                    v oddelek "Bolniška" in "Koriščenje ur").
-            </li>
-            <li>
-                <h4>Napake sedaj ob spremembi vnosa v celici izginejo</h4>
-                    Če se spremeni ime osebe v celici, ki je prej prikazovala napako, se le ta ne prikazuje več. <br>
-                    V kolikor so napake še vedno prisotne se ponovno prikažejo s pritiskom na gumb "Preveri".
-            </li>
-        </ul>
-
-        <h3>Posodobitev 28.08.2019:</h3>
-        <ul>
-            <li>
-                <h4>Spletna stran dovoljuje vnašanje praznikov</h4>
-                    Podatki o delavnih praznikih se shranijo, vendar še niso prikazani.
-            </li>
-            <li>
-                <h4>Popravek pravila o povprečnem 14 dnevnem počitku</h4>
-                Pravilo sedaj deluje pravilno. Napaka se ne prikazuje več v primeru 1 prostega dne v prejšnjem tednu.
-            </li>
-            <li>
-                <h4>Popravek pri štetju letno oddelanih nedelij</h4>
-                Sedaj je podatek o letno oddelanih nedeljah pravilno prikazan (za vnose od te posodobitve naprej).
-            </li>
-            <li>
-                <h4>Popravek pri vnašanju oddelkov</h4>
-                Ne prihaja več do napake, ko se vnaša prvi oddelek.
-            </li>
-            <li>
-                <h4>Dodan gumb "Briši" v "Simple click"</h4>
-                Poleg imen delavcev, je sedaj na razpolago tudi gumb briši, ki izbriše vnos v celici.
-            </li>
-        </ul>
-    </article>
-    
+        <!-- <article>
+            <h2>Ali je res potrebno vpisati vse oddelke in zaposlene?</h2>
+            <p>
+                Oddelke je potrebno vpisati, saj drugače program ne more pravilno delovati.
+            </p>
+            <p>
+                Zaposlenih ni potrebno vpisati, vendar je to priporočljivo. 
+                Za zaposlene, ki niso vpisani v seznam, program ne more pregledati vseh pravil.
+            </p>
+        </article> -->
+        
+        
+        
+    </div>
+        
     
     <div class="fillEmptyPage"></div>
     <!-- footer -->
@@ -252,6 +312,8 @@
         
         <!-- js files -->
         <script src="js/loginRegister/login.js" type="text/javascript"></script>
+        <script src="js/ie.functions.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
     </footer>
 </body>
     </html>

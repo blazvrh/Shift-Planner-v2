@@ -292,17 +292,29 @@ function simpleClick_setValue (nameElement) {
 }
 
 function simpleClick_input (inputElement) {
+    let nameEntered = false;
+    let nameVal = "";   // internet explorer heca, tako da sm upeljal dodatno spremenljivko - ne vem why
     if (simpleClickData.selectedName !== "" && simpleClickData.numberOfUses > 0) {
         inputElement.setAttribute('list','');
         if (simpleClickData.deleteCell) {
             inputElement.value = "";
         } else {
-            inputElement.value = simpleClickData.selectedName;
+            nameVal = simpleClickData.selectedName;
+            inputElement.value = nameVal;
+            nameEntered = true;
         }
         onDataChange(inputElement.parentNode.parentNode.parentNode);
-
+        
         inputElement.onmouseup = function(e) { 
             inputElement.blur();
+            // dodamo tukaj da ni flasha
+            console.log(nameEntered);
+            
+            if(nameEntered === true) {
+                console.log(nameEntered);
+                inputElement.setAttribute("inputVal", nameVal);
+            }
+            console.log(inputElement);
             this.onmouseup = function(e) { };
         };
     }

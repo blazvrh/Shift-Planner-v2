@@ -1,4 +1,6 @@
 
+var allInputsWithName = [];
+
 // ustvari novo tableo s podanim datumom
 function btn_createCurrTable () {
     buttonElements.btn_showWeek.disabled = true;
@@ -155,8 +157,27 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     inputElem_name.setAttribute ("class", "imeZap");
                     inputElem_name.onmousedown = function() { simpleClick_input(this) };
                     
-                    inputElem_name.onchange = function() { onDataChange(this.parentNode.parentNode.parentNode) };
+                    inputElem_name.onchange = function() { 
+                        onDataChange(this.parentNode.parentNode.parentNode);
+                        // shranimo v attribute katera oseba se nahaja v celici
+                        this.setAttribute("inputVal", strip_nameInputValue(this.value));
+                    };
                     
+                    // ko izberemo input z imenom se obarvajo vsi inputi z istim imenom
+                    inputElem_name.onfocus = function() {
+                        const enteredName = this.getAttribute("inputVal");
+                        
+                        for (let inpNameIndex = 0; inpNameIndex < allInputsWithName.length; inpNameIndex++) {
+                            if (enteredName !== "" && enteredName != null && 
+                                allInputsWithName[inpNameIndex].getAttribute("inputVal") === enteredName) {
+                                    allInputsWithName[inpNameIndex].classList.add("markedInput");
+                            }
+                            else {
+                                allInputsWithName[inpNameIndex].classList.remove("markedInput");
+                            }
+                        }
+                    }
+
                     // če je normalen oddelek dodamo lisener onblur
                     if (smenaData[oddNum].specialOddelek == "") {
                         // max dolžina inputa za ime
@@ -167,6 +188,11 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                             
                             onBlur_name_setUsualTimesForOddelek(this, smenaData[oddIndex].prihod, 
                                 smenaData[oddIndex].odhod);
+
+                            // pobrišemo class za označene input elemente
+                            for (let inpNameIndex = 0; inpNameIndex < allInputsWithName.length; inpNameIndex++) {
+                                allInputsWithName[inpNameIndex].classList.remove("markedInput");
+                            }
                         }
                     } else {
                         // max dolžina inputa za poseben oddelek
@@ -203,7 +229,6 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                     
                     let rowError = document.createElement("tr");
                     let rowData = document.createElement("tr");
-
 
                     tdNameInp.appendChild(errorIndexContenier);
                     tdNameInp.appendChild(inputElem_name);
@@ -266,6 +291,10 @@ function pripniSmenoZaGalvnoTabelo (smena, mainTable) {
                         inputElem_name.setAttribute ("class", inputElem_name.getAttribute ("class") + 
                             " specialOddelek " + specType);
                     }
+
+                    // dodamo vse elemente z input name v array da ni potrebno vsakič posebaj iskati vseh
+                    // uporabljeno za onfocus in onblur (obarvanje vseh istih imen)
+                    allInputsWithName.push(inputElem_name);
                     
                     // tooltip ...
                     cell.classList.add("tooltip");

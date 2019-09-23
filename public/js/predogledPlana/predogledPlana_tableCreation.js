@@ -27,9 +27,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
         return;
     }
 
-    
-    
-    
+
     let tableElement = document.createElement("table");
     tableElement.setAttribute("id", "mainTable_selectedWeek");
     tableElement.setAttribute("class", "mainTable_selectedWeek");
@@ -56,8 +54,104 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
         planDelaIzbranTedenDiv.appendChild(printBtn);
     }
     
+    // dodamo export funkcionalnosti
+    let exportDiv = document.createElement("div");
+    exportDiv.setAttribute("id", "exportFunction");
+    planDelaIzbranTedenDiv.appendChild(exportDiv);
+    addExportBtns(workingWeekNumber, workingMondayDate.getFullYear());
+
     window.location.href ="#planDelaIzbranTedenDiv";
 }
+
+// dodamo export funkcionalnosti
+function addExportBtns(weekNum, year)
+{
+    const currDate = new Date().toLocaleString('sl-SI',{day: "numeric", month: "long", year: "numeric"});
+    var newTable = document.getElementById("mainTable_selectedWeek");
+    var originalTableHtml = newTable.innerHTML;
+    
+    // spremenimo v tableo z enim telesom
+    const tHeader = newTable.querySelector("thead");
+    const tBodyies = newTable.querySelectorAll("tbody");
+    let newTbody = "";
+    for (let i = 0; i < tBodyies.length; i++) {
+        newTbody += tBodyies[i].innerHTML;
+    }
+    
+    newTable.innerHTML = "<thead>" + tHeader.innerHTML + "</thead><tbody>" + newTbody + "</tbody>";
+    
+    // dodamo oklepaje za boljši izgled pri exportu
+    var timeCells = newTable.querySelectorAll("span.timeValue");
+
+    for (let i = 0; i < timeCells.length; i++) {
+        timeCells[i].innerHTML = " (" + timeCells[i].innerHTML + ")";
+    }
+    newTable.querySelector("th").innerHTML = "";
+
+    // ustvarimo export 
+    var table = $('#mainTable_selectedWeek').DataTable( {
+        searching: false,
+        ordering:  false,
+        info: false,
+        paging: false,
+        buttons: {
+            buttons: [
+                { 
+                    extend: 'pdf',
+                    text: 'Shrani kot PDF', 
+                    filename: userData.poslovalnica + " - " + year + " teden " + weekNum,
+                    title: "Plan dela " + userData.poslovalnica + " - " + year + " teden " + weekNum,
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+                    messageBottom: "\n" + currDate + " - https://plan-dela.herokuapp.com",
+                    customize: function(doc) {
+                        doc.defaultStyle.fontSize = 9;
+                        doc.styles.tableHeader.fontSize = 9;
+                        var docTable = doc.content[1].table.body;
+                        
+                        let rowStyle = "tableBodyOdd";
+                        for (var i = 0; i <= docTable.length-1; i++) {
+                            if (docTable[i][0].text !== "") {
+                                rowStyle = rowStyle === "tableBodyOdd" ? "tableBodyEven" : "tableBodyOdd";
+                            }
+                            for (let j = 0; j < docTable[i].length; j++) {
+                                if (i === 0) {
+                                    docTable[i][j].fillColor = "#B6B6B6";
+                                    docTable[i][j].color = "black";
+                                    continue;
+                                }
+                                docTable[i][j].style = rowStyle;
+                            }
+                        }
+                    }
+                },
+                { 
+                    extend: 'excel', 
+                    text: 'Shrani kot Excel',
+                    filename: userData.poslovalnica + " - " + year + " teden " + weekNum,
+                    title: "Plan dela " + userData.poslovalnica + " - " + year + " teden " + weekNum,
+                    messageBottom: "\n" + currDate + " - https://plan-dela.herokuapp.com",
+                    customize: function ( xlsx ) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        var col = $('col', sheet);
+                        col.each(function () {
+                            $(this).attr('width', 30);
+                        });
+                    }
+                    
+                }
+            ]
+        }
+    } );
+    table.buttons().container().appendTo( '#exportFunction' );
+
+    $("#exportFunction").append("<p>Za izvoz/shranjevanje uporabljena knjižnica DataTables - <a href='https://datatables.net/'>https://datatables.net/</a>.</p>")
+    
+    // pobrišemo oklepaje
+    newTable.innerHTML = originalTableHtml;
+}
+
+
 
 // Ustvari header tabele za predogled izbranega tedna
 function ustvariHeader (mondayDate, weekNumber) {
