@@ -58,7 +58,10 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     let exportDiv = document.createElement("div");
     exportDiv.setAttribute("id", "exportFunction");
     planDelaIzbranTedenDiv.appendChild(exportDiv);
-    addExportBtns(workingWeekNumber, workingMondayDate.getFullYear());
+    // potrebno specificirati, ker se ista funkcija uporablja tudi za predogledGosti
+    if (window.location.pathname === "/predogledPlana" || window.location.pathname === "/predogledPlana.html") {
+        addExportBtns(workingWeekNumber, workingMondayDate.getFullYear());
+    }
 
     window.location.href ="#planDelaIzbranTedenDiv";
 }
