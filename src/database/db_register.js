@@ -66,4 +66,3 @@ async function insert_newUser (userData) {
 
 module.exports.checkForDuplicate = checkForDuplicate;
 module.exports.insert_newUser = insert_newUser;
-

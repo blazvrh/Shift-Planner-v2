@@ -68,7 +68,8 @@ function get_weekNumber_fromDate (date) {
     // nastavimo na nedeljo tega tedna; uro damo na 1
     let sundayDate = new Date(date);
     sundayDate.setDate(sundayDate.getDate() + 6 - get_dayOfWeek_fromDate(sundayDate));
-    sundayDate.setHours(1);
+    // nastavimo čas na 1:00:00 in 0 milisekund
+    sundayDate.setHours(1, 0, 0, 0);
     
     // pridobimo leto te nedelje
     let year = sundayDate.getFullYear();
@@ -76,11 +77,15 @@ function get_weekNumber_fromDate (date) {
     // pridobimo datum prve nedelje v letu
     let firstSundayDate = new Date(year, 0, 4);
     firstSundayDate.setDate(firstSundayDate.getDate() + 6 - get_dayOfWeek_fromDate(firstSundayDate));
-    firstSundayDate.setHours(1);
+    // nastavimo čas na 1:00:00 in 0 milisekund
+    firstSundayDate.setHours(1, 0, 0, 0);
 
     // pogledmo koliko dni je med prvo nedljo in nedeljo trenutnega tedna
     let daysDifference = Math.ceil((sundayDate - firstSundayDate) / (1000 * 60 * 60 * 24));
 
+    console.log(sundayDate);
+    console.log(firstSundayDate);
+    
     // if stavek ker nočem deliti 0 / 7
     let weekNumber;
     if (daysDifference == 0) {
@@ -88,6 +93,9 @@ function get_weekNumber_fromDate (date) {
     } else {
         weekNumber = (daysDifference / 7) + 1;
     }
+    // potrebno zaokrožit, če pride do kakšne napake
+    weekNumber = Math.round(weekNumber);
+
     return weekNumber;
 }
 
