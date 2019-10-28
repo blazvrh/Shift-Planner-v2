@@ -8,7 +8,7 @@ let app = express();
 // določi pot za public mapo z html, css itd...
 app.use(express.static(path.join(__dirname, 'public'), {
     extensions: ['html']
-  }));
+}));
 
 // potrebno za parsanje POST requestov
 const os = require("os");
@@ -42,6 +42,21 @@ app.get ("/", () => {
 
 // odpre server na portu 3000 oz local machine portu
 let port = process.env.PORT || 3000;
+
+app.enable('trust proxy');
+app.use (function (req, res, next) {
+    console.log("dass");
+    
+    if (req.secure) {
+            // request was via https, so do no special handling
+            next();
+    } else {
+            // request was via http, so redirect to https
+            res.redirect('https://' + req.headers.host + req.url);
+    }
+});
+
+
 app.listen(port, () => {
     console.log("lisening on port: " + port); 
 });
