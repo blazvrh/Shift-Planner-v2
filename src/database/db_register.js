@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const pool = require("./db_init").pool;
 
 
@@ -67,20 +67,3 @@ async function insert_newUser (userData) {
 module.exports.checkForDuplicate = checkForDuplicate;
 module.exports.insert_newUser = insert_newUser;
 
-console.log("pass1");
-console.log(bcrypt.hashSync("pass1", 10));
-
-console.log("pass2");
-console.log(bcrypt.hashSync("pass2", 10));
-
-console.log("111111");
-console.log(bcrypt.hashSync("111111", 10));
-
-console.log("222222");
-console.log(bcrypt.hashSync("222222", 10));
-
-console.log("limona.30");
-console.log(bcrypt.hashSync("pass2", 10));
-
-console.log("111111");
-console.log(bcrypt.hashSync("111111", 10));
