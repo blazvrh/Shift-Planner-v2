@@ -1,6 +1,6 @@
 {
   "name": "mercator_plan",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Plan dela",
   "main": "server.js",
   "scripts": {
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/simonoblak/mercator_plan#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
     "express-form-data": "^2.0.8",
     "mariadb": "^2.0.3",

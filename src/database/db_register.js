@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const pool = require("./db_init").pool;
 
 
@@ -37,13 +36,9 @@ async function insert_newUser (userData) {
     try {
         conn = await pool.getConnection();
 
-        // zaheširamo passworde
-        const passwordUserHashed = bcrypt.hashSync(userData.password, 10);
-        const passwordPreviewHashed = bcrypt.hashSync(userData.previewPassword, 10);
-
         let inserted = await conn.query("INSERT INTO users (username, password, poslovalnica, previewPassword, " +
             "email, verified) VALUES (?, ?, ?, ?, ?, ?)", 
-            [userData.username, passwordUserHashed, userData.poslovalnica, passwordPreviewHashed,
+            [userData.username, userData.password, userData.poslovalnica, userData.previewPassword,
                 userData.email, 0]);
         
         if (inserted) {
@@ -66,4 +61,3 @@ async function insert_newUser (userData) {
 
 module.exports.checkForDuplicate = checkForDuplicate;
 module.exports.insert_newUser = insert_newUser;
-
