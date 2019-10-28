@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const pool = require("./db_init").pool;
 
 
@@ -16,7 +17,7 @@ async function checkForLoginInfo(inputUserData) {
             loginErrors = { isError: true, msg: "Ta uporabnik ne obstaja!"};
         }
         // če je ujemanje gesla in uporabniškega imena
-        else if (db_uData[0].password === inputUserData.password) {
+        else if (bcrypt.compareSync(inputUserData.password, db_uData[0].password)) {
             // je verificiran
             if (db_uData[0].verified > 0) {
                 loginErrors = { 
@@ -60,7 +61,7 @@ async function checkForLoginInfo_guest(inputUserData) {
             loginErrors = { isError: true, msg: "Ta poslovalnica ne obstaja!"};
         }
         // če je ujemanje gesla in uporabniškega imena
-        else if (db_uData[0].previewPassword === inputUserData.passwordGuest) {
+        else if (bcrypt.compareSync(inputUserData.passwordGuest, db_uData[0].previewPassword)) {
             loginErrors = { 
                 isError: false,
                 msg: "Success",

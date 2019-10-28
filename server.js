@@ -8,7 +8,7 @@ let app = express();
 // določi pot za public mapo z html, css itd...
 app.use(express.static(path.join(__dirname, 'public'), {
     extensions: ['html']
-  }));
+}));
 
 // potrebno za parsanje POST requestov
 const os = require("os");
