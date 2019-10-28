@@ -1,6 +1,9 @@
 {
   "name": "mercator_plan",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "engines": {
+    "node": "10.15.3",
+  },
   "description": "Plan dela",
   "main": "server.js",
   "scripts": {
