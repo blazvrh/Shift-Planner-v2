@@ -74,7 +74,7 @@ router.post('/login', async function (req, res) {
     // če je prazno sporočilo in isError == false je šlo nekaj narobe
     if (dataMatch.isError === false && dataMatch.msg.length < 1) {
         dataMatch.isError = true;
-        dataMatch.msg = "Nepričakovvana napaka!";
+        dataMatch.msg = "Nepričakovana napaka!";
     }
         
     res.send(dataMatch);
@@ -104,6 +104,12 @@ router.post('/login/guest', async function (req, res) {
 
     // // pogelj če uporabnik v bazi in je vpisano pravilno geslo
     const dataMatch = await db_login.checkForLoginInfo_guest(loginInfo);
+
+    // če je prazno sporočilo in isError == false je šlo nekaj narobe
+    if (dataMatch.isError === false && dataMatch.msg.length < 1) {
+        dataMatch.isError = true;
+        dataMatch.msg = "Nepričakovana napaka!";
+    }
     
     res.send(dataMatch);
 });
