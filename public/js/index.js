@@ -75,3 +75,10 @@ function submitPredlog () {
     
     xhr.send(formData);
 }
+
+
+
+const closeHeaderNotificationBtn = document.querySelector(".js-close-header-notification");
+closeHeaderNotificationBtn.onclick = function() {
+    document.querySelector(".js-header-notification").style.display = "none"
+}

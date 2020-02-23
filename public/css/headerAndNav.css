@@ -13,6 +13,25 @@ header {
     padding-bottom: 1px;
     padding-left: 20px;
 }
+
+.header-notification {
+    background-color: rgb(240, 240, 140);
+    margin: 10px 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.header-notification p {
+    margin: 0;
+    padding: 0;
+}
+.header-notification .message {
+    display: inline-block;
+    width: 95%;
+}
+.header-notification span.close {
+    float: right;
+    cursor: pointer;
+}
 /* Body */
 body {
     min-height: 98vh;
