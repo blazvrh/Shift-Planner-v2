@@ -5,6 +5,7 @@ const router = express.Router();
 
 // database
 const db_index = require("../src/database/db_index");
+const db_backup = require("../src/database/db_backup");
 // validations
 const validatie_predlog = require("../src/validation/validate_index");
 
@@ -37,6 +38,14 @@ router.post('/predlogi', async function (req, res) {
     // return completion
     res.send(insertError);
 });
+
+
+router.get('/backup', async function (req, res) {
+
+    const backupMsg = await db_backup.backupAllData()
+
+    res.send({"Backup query": backupMsg})
+})
 
 
 module.exports = router;
