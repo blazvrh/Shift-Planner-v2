@@ -33,11 +33,28 @@ function submitForm_get_weekData(mondayDate, year, weekIdentifier) {
             }
         }
         else {
-            create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), serverRes.weekData.oddelkiDop, 
-                serverRes.weekData.oddelkiPop, divElement, {
+            let dopData;
+            let popData;
+            try {
+                dopData = JSON.parse(serverRes.weekData.oddelkiDop);
+                popData =  JSON.parse(serverRes.weekData.oddelkiPop);
+            } catch (error) {
+                dopData = serverRes.weekData.oddelkiDop;
+                dopData =  serverRes.weekData.oddelkiPop;
+            }
+
+
+
+            create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), dopData, 
+                popData, divElement, {
                     mondayDate: mondayDate,
                     weekNum: weekNum
-                });
+            });
+            // create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), serverRes.weekData.oddelkiDop, 
+            //     serverRes.weekData.oddelkiPop, divElement, {
+            //         mondayDate: mondayDate,
+            //         weekNum: weekNum
+            //     });
 
         }
         

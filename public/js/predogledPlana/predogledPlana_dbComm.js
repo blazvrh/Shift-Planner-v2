@@ -15,6 +15,7 @@ function submitForm_get_trenuenPlan() {
         if (serverRes.isError) {
            // če je error zaradi nobenega vnosa
            if (serverRes.weekData == null) {
+               
                // ni podatka za ta teden; pošljemo prazen objekt
                create_table_selectedWeek({}, {}, {}, document.getElementById("planDelaIzbranTedenDiv"));
             }
@@ -26,9 +27,21 @@ function submitForm_get_trenuenPlan() {
             return;
         }
         else {
-            create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), serverRes.weekData.oddelkiDop, 
-                serverRes.weekData.oddelkiPop, document.getElementById("planDelaIzbranTedenDiv"));
+            let dopData;
+            let popData;
+            try {
+                dopData = JSON.parse(serverRes.weekData.oddelkiDop);
+                popData =  JSON.parse(serverRes.weekData.oddelkiPop);
+            } catch (error) {
+                dopData = serverRes.weekData.oddelkiDop;
+                dopData =  serverRes.weekData.oddelkiPop;
+            }
 
+            // create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), serverRes.weekData.oddelkiDop, 
+            //     serverRes.weekData.oddelkiPop, document.getElementById("planDelaIzbranTedenDiv"));
+            create_table_selectedWeek(JSON.parse(serverRes.weekData.weekData), dopData, 
+                popData, document.getElementById("planDelaIzbranTedenDiv"));
+                
         }
     }; 
 

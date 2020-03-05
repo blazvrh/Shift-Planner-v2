@@ -5,7 +5,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     let workingMondayDate;
     let poslovalnica = "";
     let noEntryText = "";
-    
+
     if (typeof(additionalDataObject) === "undefined") {
         workingWeekNumber = currDateData.selectedWeekNumber;
         workingMondayDate = currDateData.selectedMondayDate;
