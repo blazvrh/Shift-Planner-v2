@@ -41,7 +41,7 @@ const poolBackup = mariadb.createPool({
     port: "3306",     
     user:'lJJHApZs4s', 
     password: 'IO6Y2JTKLN',
-    connectionLimit: 3,
+    connectionLimit: 1,
     database: "lJJHApZs4s"
 });
 
@@ -51,7 +51,7 @@ const pool = mariadb.createPool({
     port: "3306",     
     user:'b8c470cfefe909', 
     password: '23a0cb2b',
-    connectionLimit: 1,
+    connectionLimit: 5,
     database: "heroku_92a83711811d21f"
 });
     
