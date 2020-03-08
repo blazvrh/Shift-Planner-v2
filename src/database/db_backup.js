@@ -7,7 +7,7 @@ async function backupAllData() {
     // get number of days from last backup
     const dayDiff = await getDaysFromLastBackup();
     if (dayDiff === null) {
-        return {status: "Failed to get the date"}
+        return { status: "Failed to get the date" }
     }
     // no backup if there was already one less than 3 days ago
     if (dayDiff < 7) {
@@ -26,7 +26,7 @@ async function createBackup() {
     try {
         baseConn = await pool.getConnection();
         backupConn = await poolBackup.getConnection();
-        
+
         // USERS!
         let queryBase;
         let queryBackup;
@@ -88,7 +88,7 @@ async function createBackup() {
             //  if there is no entry with this id, add it to be inserted as a new item
             if (typeof (backupMaped[key]) === "undefined") {
                 insertQueryString += '(' + baseMaped[key].oddID + ', ' + baseMaped[key].positionForUser + ', "' + baseMaped[key].poslovalnica + '", "' +
-                    baseMaped[key].imeOddelka + '", "' + baseMaped[key].smena + '", ' + baseMaped[key].stVrsticOddelka + ', "' + baseMaped[key].prihod + 
+                    baseMaped[key].imeOddelka + '", "' + baseMaped[key].smena + '", ' + baseMaped[key].stVrsticOddelka + ', "' + baseMaped[key].prihod +
                     '", "' + baseMaped[key].odhod + '", "' + baseMaped[key].specialOddelek + '"), '
             } else {
                 // On mismatch also add id to insert query
@@ -96,7 +96,7 @@ async function createBackup() {
                 for (let i = 0; i < elementKeys.length; i++) {
                     if (elementKeys[i] !== "oddID" && baseMaped[key][elementKeys[i]] !== backupMaped[key][elementKeys[i]]) {
                         insertQueryString += '(' + baseMaped[key].oddID + ', ' + baseMaped[key].positionForUser + ', "' + baseMaped[key].poslovalnica + '", "' +
-                            baseMaped[key].imeOddelka + '", "' + baseMaped[key].smena + '", ' + baseMaped[key].stVrsticOddelka + ', "' + baseMaped[key].prihod + 
+                            baseMaped[key].imeOddelka + '", "' + baseMaped[key].smena + '", ' + baseMaped[key].stVrsticOddelka + ', "' + baseMaped[key].prihod +
                             '", "' + baseMaped[key].odhod + '", "' + baseMaped[key].specialOddelek + '"), '
                         break;
                     }
@@ -111,50 +111,50 @@ async function createBackup() {
                 " poslovalnica=VALUES(poslovalnica), imeOddelka=VALUES(imeOddelka), smena=VALUES(smena), stVrsticOddelka=VALUES(stVrsticOddelka), prihod=VALUES(prihod), odhod=VALUES(odhod), specialOddelek=VALUES(specialOddelek)");
         }
 
-        // ZAPOSLENI!
-        insertQueryString = "";
-        queryBase = await baseConn.query("SELECT * FROM `zaposleni`");
-        queryBackup = await backupConn.query("SELECT * FROM `zaposleni`");
+        // // ZAPOSLENI!
+        // insertQueryString = "";
+        // queryBase = await baseConn.query("SELECT * FROM `zaposleni`");
+        // queryBackup = await backupConn.query("SELECT * FROM `zaposleni`");
 
-        backupMaped = {};
-        baseMaped = {};
-        queryBackup.forEach(element => {
-            backupMaped[element.zapID.toString()] = element
-        });
-        queryBase.forEach(element => {
-            baseMaped[element.zapID.toString()] = element
-        });
+        // backupMaped = {};
+        // baseMaped = {};
+        // queryBackup.forEach(element => {
+        //     backupMaped[element.zapID.toString()] = element
+        // });
+        // queryBase.forEach(element => {
+        //     baseMaped[element.zapID.toString()] = element
+        // });
 
-        baseKeys = Object.keys(baseMaped);
-        baseKeys.forEach(key => {
-            //  if there is no entry with this id, add it to be inserted as a new item
-            if (typeof (backupMaped[key]) === "undefined") {
-                insertQueryString += '(' + baseMaped[key].zapID + ', "' + baseMaped[key].poslovalnica + '", "' + baseMaped[key].prikazanoImeZap + '", "' +
-                    baseMaped[key].imeZap + '", "' + baseMaped[key].priimekZap + '", ' + baseMaped[key].maxUrDanZap + ', ' + baseMaped[key].maxUrTedenZap + ', ' +
-                    baseMaped[key].maxNedelijZap + ', ' + baseMaped[key].maxPraznikovZap + ', ' + baseMaped[key].student + ', ' + baseMaped[key].studentMlajsi + 
-                    ', \'' + JSON.stringify(baseMaped[key].usposobljenostZap) + '\'), '
-            } else {
-                // On mismatch also add id to insert query
-                const elementKeys = Object.keys(baseMaped[key])
-                for (let i = 0; i < elementKeys.length; i++) {
-                    if (elementKeys[i] !== "oddID" && baseMaped[key][elementKeys[i]] !== backupMaped[key][elementKeys[i]]) {
-                        insertQueryString += '(' + baseMaped[key].zapID + ', "' + baseMaped[key].poslovalnica + '", "' + baseMaped[key].prikazanoImeZap + '", "' +
-                            baseMaped[key].imeZap + '", "' + baseMaped[key].priimekZap + '", ' + baseMaped[key].maxUrDanZap + ', ' + baseMaped[key].maxUrTedenZap + ', ' +
-                            baseMaped[key].maxNedelijZap + ', ' + baseMaped[key].maxPraznikovZap + ', ' + baseMaped[key].student + ', ' + baseMaped[key].studentMlajsi + 
-                            ', \'' + JSON.stringify(baseMaped[key].usposobljenostZap) + '\'), '
-                        break;
-                    }
-                }
-            }
-        });
+        // baseKeys = Object.keys(baseMaped);
+        // baseKeys.forEach(key => {
+        //     //  if there is no entry with this id, add it to be inserted as a new item
+        //     if (typeof (backupMaped[key]) === "undefined") {
+        //         insertQueryString += '(' + baseMaped[key].zapID + ', "' + baseMaped[key].poslovalnica + '", "' + baseMaped[key].prikazanoImeZap + '", "' +
+        //             baseMaped[key].imeZap + '", "' + baseMaped[key].priimekZap + '", ' + baseMaped[key].maxUrDanZap + ', ' + baseMaped[key].maxUrTedenZap + ', ' +
+        //             baseMaped[key].maxNedelijZap + ', ' + baseMaped[key].maxPraznikovZap + ', ' + baseMaped[key].student + ', ' + baseMaped[key].studentMlajsi + 
+        //             ', \'' + JSON.stringify(baseMaped[key].usposobljenostZap) + '\'), '
+        //     } else {
+        //         // On mismatch also add id to insert query
+        //         const elementKeys = Object.keys(baseMaped[key])
+        //         for (let i = 0; i < elementKeys.length; i++) {
+        //             if (elementKeys[i] !== "oddID" && baseMaped[key][elementKeys[i]] !== backupMaped[key][elementKeys[i]]) {
+        //                 insertQueryString += '(' + baseMaped[key].zapID + ', "' + baseMaped[key].poslovalnica + '", "' + baseMaped[key].prikazanoImeZap + '", "' +
+        //                     baseMaped[key].imeZap + '", "' + baseMaped[key].priimekZap + '", ' + baseMaped[key].maxUrDanZap + ', ' + baseMaped[key].maxUrTedenZap + ', ' +
+        //                     baseMaped[key].maxNedelijZap + ', ' + baseMaped[key].maxPraznikovZap + ', ' + baseMaped[key].student + ', ' + baseMaped[key].studentMlajsi + 
+        //                     ', \'' + JSON.stringify(baseMaped[key].usposobljenostZap) + '\'), '
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // });
 
-        if (insertQueryString.length > 0) {
-            insertQueryString = insertQueryString.substring(0, insertQueryString.length - 2)
-            insertQuery = await backupConn.query("INSERT INTO `zaposleni` (zapID, poslovalnica, prikazanoImeZap, imeZap, " +
-                "priimekZap, maxUrDanZap, maxUrTedenZap, maxNedelijZap, maxPraznikovZap, student, studentMlajsi, usposobljenostZap) VALUES " + insertQueryString + " ON DUPLICATE KEY UPDATE zapID=VALUES(zapID), poslovalnica=VALUES(poslovalnica)," +
-                " prikazanoImeZap=VALUES(prikazanoImeZap), imeZap=VALUES(imeZap), priimekZap=VALUES(priimekZap), maxUrDanZap=VALUES(maxUrDanZap), maxUrTedenZap=VALUES(maxUrTedenZap), maxNedelijZap=VALUES(maxNedelijZap)," +
-                " maxPraznikovZap=VALUES(maxPraznikovZap),  student=VALUES(student),  studentMlajsi=VALUES(studentMlajsi), usposobljenostZap=VALUES(usposobljenostZap)");
-        }
+        // if (insertQueryString.length > 0) {
+        //     insertQueryString = insertQueryString.substring(0, insertQueryString.length - 2)
+        //     insertQuery = await backupConn.query("INSERT INTO `zaposleni` (zapID, poslovalnica, prikazanoImeZap, imeZap, " +
+        //         "priimekZap, maxUrDanZap, maxUrTedenZap, maxNedelijZap, maxPraznikovZap, student, studentMlajsi, usposobljenostZap) VALUES " + insertQueryString + " ON DUPLICATE KEY UPDATE zapID=VALUES(zapID), poslovalnica=VALUES(poslovalnica)," +
+        //         " prikazanoImeZap=VALUES(prikazanoImeZap), imeZap=VALUES(imeZap), priimekZap=VALUES(priimekZap), maxUrDanZap=VALUES(maxUrDanZap), maxUrTedenZap=VALUES(maxUrTedenZap), maxNedelijZap=VALUES(maxNedelijZap)," +
+        //         " maxPraznikovZap=VALUES(maxPraznikovZap),  student=VALUES(student),  studentMlajsi=VALUES(studentMlajsi), usposobljenostZap=VALUES(usposobljenostZap)");
+        // }
 
         // TEDENSKI PLAN!
         insertQueryString = "";
@@ -173,11 +173,11 @@ async function createBackup() {
         baseKeys = Object.keys(baseMaped);
         baseKeys.forEach(key => {
             //  if there is no entry with this id, add it to be inserted as a new item
-            if (typeof (backupMaped[key]) === "undefined") {
+            if (typeof (backupMaped[key]) === "undefined" && baseMaped[key].year === 2020) {
                 insertQueryString += '(' + baseMaped[key].weekID + ', "' + baseMaped[key].poslovalnica + '", ' + baseMaped[key].weekNumer + ', ' +
                     baseMaped[key].year + ', "' + baseMaped[key].mondayDate + '", \'' + baseMaped[key].weekData + '\', \'' + baseMaped[key].sundayData + '\', "' +
                     baseMaped[key].praznikiData + '", \'' + JSON.stringify(baseMaped[key].oddelkiDop) + '\', \'' + JSON.stringify(baseMaped[key].oddelkiPop) + '\'), '
-            } else {
+            } else if (baseMaped[key].year === 2020) {
                 // On mismatch also add id to insert query
                 const elementKeys = Object.keys(baseMaped[key])
                 for (let i = 0; i < elementKeys.length; i++) {
@@ -200,7 +200,7 @@ async function createBackup() {
         }
 
 
-        insertQuery = await backupConn.query("INSERT INTO `backupDates` (BackupDate) VALUES ('" + (new Date()).toISOString() + "')");
+        // insertQuery = await backupConn.query("INSERT INTO `backupDates` (BackupDate) VALUES ('" + (new Date()).toISOString() + "')");
 
 
         result = { isError: false, msg: "Backup successful." };

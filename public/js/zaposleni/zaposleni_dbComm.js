@@ -81,17 +81,30 @@ function submitForm_zaposleniGet() {
             // pridobimo vsa prikazana imena
             prikazanaImenaVsa = [];
             
+            let vsiZap = serverRes.vsiZaposleni
+
             for (let m = 0; m < serverRes.vsiZaposleni.length; m++) {
                 const element = serverRes.vsiZaposleni[m];
                 prikazanaImenaVsa.push((element.prikazanoImeZap).toLowerCase());
+                
+                let usp = vsiZap[m].usposobljenostZap;
+                // remove " on the start and end if there is one
+                if (usp[0] === "\"") {
+                    usp = usp.substr(1);
+                }
+                if (usp[usp.length - 1] === "\"") {
+                    usp = usp.substring(0, usp.length - 1);
+                }
+                vsiZap[m].usposobljenostZap = JSON.parse(usp);
             }
             
+
             // shranimo v storage
             // sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
 
             // ustvarimo tabelo zaposlenih
-            create_table_osebe_zaposleni(serverRes.vsiZaposleni);
-            create_table_zaposleniPoOddelkih(serverRes.vsiZaposleni);
+            create_table_osebe_zaposleni(vsiZap);
+            create_table_zaposleniPoOddelkih(vsiZap);
         }
         
         clearInputValuesZaposleni();

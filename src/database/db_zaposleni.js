@@ -8,13 +8,14 @@ async function insert_newZaposleni (zaposleniData, usposobljenost) {
     try {
         conn = await pool.getConnection();
 
+
         let inserted = await conn.query("INSERT INTO zaposleni (poslovalnica, prikazanoImeZap, imeZap, priimekZap, " +
             "maxUrDanZap, maxUrTedenZap, maxNedelijZap, maxPraznikovZap, student, studentMlajsi, usposobljenostZap) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
             [zaposleniData.poslovalnica, zaposleniData.prikazanoImeZap, zaposleniData.imeZap, zaposleniData.priimekZap,
                 zaposleniData.maxUrDanZap, zaposleniData.maxUrTedenZap, zaposleniData.maxNedelijZap, 
                 zaposleniData.maxPraznikovZap, zaposleniData.student, zaposleniData.studentMlajsi, 
-                usposobljenost]);
+                "\"" + JSON.stringify(usposobljenost) + "\""]);
         
         if (inserted) {
             result = {isError: false, msg: "Success", zaposleniData: {
@@ -107,13 +108,15 @@ async function update_zaposleni (zaposleniData, usposobljenost) {
     try {
         conn = await pool.getConnection();
         
+
+
         let updated = await conn.query("UPDATE zaposleni SET poslovalnica = ?, prikazanoImeZap = ?, imeZap = ?, " +
             "priimekZap = ?, maxUrDanZap = ?, maxUrTedenZap = ?, maxNedelijZap = ?, maxPraznikovZap = ? " +
             ", student = ?, studentMlajsi = ?, usposobljenostZap = ? WHERE zapID = ?", 
             [zaposleniData.poslovalnica, zaposleniData.prikazanoImeZap, zaposleniData.imeZap,
                 zaposleniData.priimekZap, zaposleniData.maxUrDanZap, zaposleniData.maxUrTedenZap, 
                 zaposleniData.maxNedelijZap, zaposleniData.maxPraznikovZap, zaposleniData.student, 
-                zaposleniData.studentMlajsi, usposobljenost, zaposleniData.zapID]);
+                zaposleniData.studentMlajsi, "\"" + JSON.stringify(usposobljenost) + "\"", zaposleniData.zapID]);
         
         if (updated) {
             result = {isError: false, msg: "Success", zaposleniData: {

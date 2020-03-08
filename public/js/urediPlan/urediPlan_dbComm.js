@@ -82,23 +82,39 @@ function submitForm_zaposleniGet() {
             }
         }
         else {
+            
+            let vsiZap = serverRes.vsiZaposleni
+
+            for (let m = 0; m < serverRes.vsiZaposleni.length; m++) {                
+                let usp = vsiZap[m].usposobljenostZap;
+                // remove " on the start and end if there is one
+                if (usp[0] === "\"") {
+                    usp = usp.substr(1);
+                }
+                if (usp[usp.length - 1] === "\"") {
+                    usp = usp.substring(0, usp.length - 1);
+                }
+                vsiZap[m].usposobljenostZap = JSON.parse(usp);
+            }
+            
+
             // pridobimo vsa prikazana imena
             let prikazanaImenaLowerCase = {};
             let prikazanaImena = {};
             // let prikazanaImena = [];
-            serverRes.vsiZaposleni.forEach(function(element) {
+            vsiZap.forEach(function(element) {
                 // prikazanaImena.push((element.prikazanoImeZap).toLowerCase());
                 prikazanaImena[(element.prikazanoImeZap)] = element.zapID;
                 prikazanaImenaLowerCase[(element.prikazanoImeZap).toLowerCase()] = element.zapID;
             });
             
             // shranimo v storage
-            sessionStorage.setItem ("zaposleni", JSON.stringify(serverRes.vsiZaposleni));
+            sessionStorage.setItem ("zaposleni", JSON.stringify(vsiZap));
             
             // tako da je key ime zaposlenega
             let newZaposleniObj = {};
-            for (let i = 0; i < serverRes.vsiZaposleni.length; i++) {
-                let zaposlen = serverRes.vsiZaposleni[i];
+            for (let i = 0; i < vsiZap.length; i++) {
+                let zaposlen = vsiZap[i];
                 newZaposleniObj[(zaposlen.prikazanoImeZap).toLowerCase()] = zaposlen;
             }
             
