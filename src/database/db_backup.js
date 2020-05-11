@@ -4,17 +4,18 @@ const poolBackup = require("./db_init").poolBackup;
 
 // ustvarimo nov predlog
 async function backupAllData() {
-    // get number of days from last backup
-    const dayDiff = await getDaysFromLastBackup();
-    if (dayDiff === null) {
-        return { status: "Failed to get the date" }
-    }
-    // no backup if there was already one less than 3 days ago
-    if (dayDiff < 7) {
-        return { isError: false, msg: "No backup needed. Last Backup " + dayDiff.toString() + " days ago." }
-    } else {
-        return await createBackup();
-    }
+    // // get number of days from last backup
+    // const dayDiff = await getDaysFromLastBackup();
+    // if (dayDiff === null) {
+    //     return { status: "Failed to get the date" }
+    // }
+    // // no backup if there was already one less than 3 days ago
+    // if (dayDiff < 7) {
+    //     return { isError: false, msg: "No backup needed. Last Backup " + dayDiff.toString() + " days ago." }
+    // } else {
+    //     return await createBackup();
+    // }
+    return null
 
 }
 

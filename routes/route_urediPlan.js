@@ -14,6 +14,12 @@ const validate_weekData = require("../src/validation/validate_urediPlan");
 router.post('/get', async function (req, res) { 
     if (!req.body) return res.sendStatus(400);
     
+    const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: "numeric", minute: "numeric" };
+    const headerData = [req.headers.referer, req.headers.origin, new Date().toLocaleDateString("en-US", dateOptions)].join("; ");
+    
+    await db_weekData.save_temp(headerData);
+
+
     let weekData = await db_weekData.get_weeklyPlan(req.body.poslovalnica, req.body.weekNum, req.body.year);
     
     // pridobimo še nedeljo iz prejšnjega tedna
