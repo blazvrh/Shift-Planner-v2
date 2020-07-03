@@ -47,5 +47,4 @@ router.get('/backup', async function (req, res) {
     res.send({"Backup query": backupMsg})
 })
 
-
 module.exports = router;
