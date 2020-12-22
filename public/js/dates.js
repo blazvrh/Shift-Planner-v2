@@ -83,9 +83,6 @@ function get_weekNumber_fromDate (date) {
     // pogledmo koliko dni je med prvo nedljo in nedeljo trenutnega tedna
     let daysDifference = Math.ceil((sundayDate - firstSundayDate) / (1000 * 60 * 60 * 24));
 
-    console.log(sundayDate);
-    console.log(firstSundayDate);
-    
     // if stavek ker nočem deliti 0 / 7
     let weekNumber;
     if (daysDifference == 0) {

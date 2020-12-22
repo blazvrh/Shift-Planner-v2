@@ -325,7 +325,8 @@ function submitForm_save_trenuenPlan(weekNum, year, mondayDate, tableData, sunda
         // če je prišlo do napake, izpiši napako
         if (serverRes.isError) {
             // onInputErrorOddelki(serverRes.msg);
-            console.log(serverRes.msg);
+            alert(serverRes.msg);
+            buttonElements.saveCurrPlan.disabled = false;
             
             return;
         }

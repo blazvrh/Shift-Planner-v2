@@ -15,7 +15,7 @@ function validate_weekData (weekData) {
         weekNum: {
             type: Number,
             required: true,
-            size: { min: 1, max: 56 },
+            size: { min: -5, max: 60 },
             message: {
                 type: "Številka tedna mora biti \"Number\".",
                 required: "Številka tedna ne sme biti prazna.",
