@@ -117,6 +117,9 @@ function get_dayOfWeek_fromDate (date) {
 
 // primerja 2 časa; če je čas 1 večji od časa 2 vrne true
 function compare_times_is_time1_greaterThan_time2 (time1, time2, time1InNextDay) {
+    if (!time1 || !time2) {
+        return false
+    }
     if (time1InNextDay == null) time1InNextDay = false;
 
     let time1_splited = time1.split(":");
@@ -138,7 +141,9 @@ function compare_times_is_time1_greaterThan_time2 (time1, time2, time1InNextDay)
 
 // primerja če je to že naslednji dan
 function check_is_time2inNextDay (time1, time2) {
-
+    if (!time1 || !time2) {
+        return false
+    }
     let time1_splited = time1.split(":");
     let time2_splited = time2.split(":");
 
@@ -156,6 +161,9 @@ function check_is_time2inNextDay (time1, time2) {
 
 // izračunamo razliko dveh časov v minutah
 function get_timeDifference_inMinutes_betweenTwoTimes (timeStart, timeEnd) {
+    if (!timeEnd || !timeStart) {
+        return NaN
+    }
     let time1_splited = timeStart.split(":");
     let time2_splited = timeEnd.split(":");
 
