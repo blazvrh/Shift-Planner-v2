@@ -39,6 +39,8 @@ async function checkForLoginInfo(inputUserData) {
         }
 
     } catch (err) {
+        console.log(err);
+        loginErrors = { isError: true, msg: "Nepričakovana napaka!" };
         throw err;
     } finally {
         if (conn) conn.end();

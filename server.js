@@ -31,29 +31,14 @@ app.use(formData.union());
 // check domain
 // app.use("")
 
-// routes
-app.use("/api/test/working", (req, res, next) => {
-    res.status(200).json({
-        status: 200,
-        message: "Its working."
-    })
-})
 app.use("/api/stay-awake", (req, res, next) => {
     // Prevent render.com application to go to sleep while on the page
     res.status(200).json({
         status: 200,
         message: "Pinged."
     })
-})
-app.use("/api/test/timeout", (req, res, next) => {
+});
 
-})
-app.use("/api/test/error", (req, res, next) => {
-    res.status(404).json({
-        status: 404,
-        message: "Not found"
-    })
-})
 app.use(authMiddleware.authMiddleware, require("./routes/route_loginRegister"));
 app.use(authMiddleware.authMiddleware, require("./routes/route_index"));
 app.use("/oddelki", authMiddleware.authMiddleware, require("./routes/route_oddelki"));
