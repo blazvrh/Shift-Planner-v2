@@ -11,7 +11,7 @@ async function checkForLoginInfo(inputUserData) {
     try {
         conn = await pool.getConnection();
         var db_uData = await conn.query("SELECT username, password, verified, poslovalnica FROM users WHERE BINARY username='" + inputUserData.username + "'");
-        console.log(db_uData);
+
         // če uporabnik ne obstaja
         if (db_uData.length < 1) {
             loginErrors = { isError: true, msg: "Ta uporabnik ne obstaja!"};

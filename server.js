@@ -38,6 +38,13 @@ app.use("/api/test/working", (req, res, next) => {
         message: "Its working."
     })
 })
+app.use("/api/stay-awake", (req, res, next) => {
+    // Prevent render.com application to go to sleep while on the page
+    res.status(200).json({
+        status: 200,
+        message: "Pinged."
+    })
+})
 app.use("/api/test/timeout", (req, res, next) => {
 
 })
