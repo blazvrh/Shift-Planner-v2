@@ -8,6 +8,7 @@ var prikazanaImenaVsa = [];
 var tableObjectsAndNames = [];
 
 window.onload = function () {
+    startStayAwake();
     if (userData) {
         get_neccesseryData();
     }

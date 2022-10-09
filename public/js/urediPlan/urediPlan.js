@@ -19,6 +19,7 @@ var dnevniPocitek = 11; // potreben minimalni dnevni počitek v urah
 
 // pridobimo podatke ko se stran laoži
 window.onload = function () {
+    startStayAwake();
     if (userData) { 
         submitForm_oddelekGet();
     }

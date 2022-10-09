@@ -8,6 +8,7 @@ var maxIndexes = {
 };
 
 window.onload = function () {
+    startStayAwake();
     if (userData) {
         submitForm_oddelekGet();
 
