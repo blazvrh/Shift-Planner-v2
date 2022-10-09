@@ -44,7 +44,7 @@ async function insert_newUser (userData) {
         let inserted = await conn.query("INSERT INTO users (username, password, poslovalnica, previewPassword, " +
             "email, verified) VALUES (?, ?, ?, ?, ?, ?)", 
             [userData.username, passwordUserHashed, userData.poslovalnica, passwordPreviewHashed,
-                userData.email, 0]);
+                userData.email, 1]);
         
         if (inserted) {
             result = {isError: false, msg: "Success", userData: {

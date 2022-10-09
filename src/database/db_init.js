@@ -1,5 +1,7 @@
 const mariadb = require("mariadb");
-require('dotenv').config();
+if (!process.env.PRODUCTION) {
+    require('dotenv').config();
+}
 
 // const remoteMySqlDB = mariadb.createPool({
 //     host: 'remotemysql.com',
