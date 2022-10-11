@@ -13,7 +13,6 @@ require("dotenv").config();
 // });
 
 function getConnection() {
-  console.log(process.env.DATABASE_URL);
   const connection = mysql.createConnection(process.env.DATABASE_URL);
   return connection;
 }
