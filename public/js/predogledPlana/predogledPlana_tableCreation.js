@@ -57,6 +57,7 @@ function create_table_selectedWeek(weekData, oddDop, oddPop, divElement, additio
     // dodamo export funkcionalnosti
     let exportDiv = document.createElement("div");
     exportDiv.setAttribute("id", "exportFunction");
+    exportDiv.setAttribute("class", "hideOnPrint")
     planDelaIzbranTedenDiv.appendChild(exportDiv);
     // potrebno specificirati, ker se ista funkcija uporablja tudi za predogledGosti
     if (window.location.pathname === "/predogledPlana" || window.location.pathname === "/predogledPlana.html") {
