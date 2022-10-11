@@ -1,50 +1,37 @@
-
-// potrebne knjižnice
 const express = require("express");
+
+const db_index = require("../src/database/db_index");
+const validator = require("../src/validation/validate_index");
+
 const router = express.Router();
 
-// database
-const db_index = require("../src/database/db_index");
-const db_backup = require("../src/database/db_backup");
-// validations
-const validatie_predlog = require("../src/validation/validate_index");
+router.post("/predlogi", async function (req, res) {
+  if (!req.body) return res.sendStatus(400);
 
+  const bodyData = req.body;
+  const validationErrors = validator.validate_predlogAdd(bodyData);
 
-// predlogi
-router.post('/predlogi', async function (req, res) {
-    if (!req.body) return res.sendStatus(400);
+  if (validationErrors.length > 0) {
+    const errorResponse = getErrorResponse(validationErrors);
+    res.send(errorResponse);
+    return;
+  }
 
-    const predlogData = req.body;
+  let insertError = await db_index.insert_newPredlog(bodyData);
 
-
-    // validate data
-    const validateErrors = validatie_predlog.validate_predlogAdd(predlogData);
-    if (validateErrors.length > 0) {
-        let errorMsg = "";
-        validateErrors.forEach(element => {
-            errorMsg += element.message + "\n";
-        });
-        let errRes = {
-            isError: true,
-            msg: errorMsg
-        }
-        res.send(errRes);
-        return;
-    }
-    
-    // save to database 
-    let insertError = await db_index.insert_newPredlog(predlogData);
-
-    // return completion
-    res.send(insertError);
+  res.send(insertError);
 });
 
+function getErrorResponse(validationErrors) {
+  let errorMsg = "";
+  validationErrors.forEach((element) => {
+    errorMsg += element.message + "\n";
+  });
 
-router.get('/backup', async function (req, res) {
-
-    const backupMsg = await db_backup.backupAllData()
-
-    res.send({"Backup query": backupMsg})
-})
+  return {
+    isError: true,
+    msg: errorMsg,
+  };
+}
 
 module.exports = router;

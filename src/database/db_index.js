@@ -1,32 +1,26 @@
-const pool = require("./db_init").pool;
+const executeQuery = require("./db_init").executeQuery;
+const formatQuery = require("./db_init").formatQuery;
 
+async function insert_newPredlog(predlogData) {
+  const query = formatQuery("INSERT INTO `predlogi` (predlogText) VALUES (?)", [
+    predlogData.predlogTxt,
+  ]);
 
-// ustvarimo nov predlog
-async function insert_newPredlog (predlogData) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka"};
-    try {
-        conn = await pool.getConnection();
+  const result = executeQuery(query)
+    .then((res) => {
+      if (res.affectedRows == 0) {
+        console.log(res);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
 
-        let inserted = await conn.query("INSERT INTO predlogi (predlogText) VALUES (?)", 
-            [predlogData.predlogTxt]);
-        
-        if (inserted) {
-            result = {isError: false, msg: "Success", oddelekData: {
-                
-            }};
-        }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        
-        return result;
-    };
+      return { isError: false, msg: "Success" };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
+
+  return result;
 }
-
-
 
 module.exports.insert_newPredlog = insert_newPredlog;

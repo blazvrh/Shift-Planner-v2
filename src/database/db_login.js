@@ -1,87 +1,93 @@
-const bcrypt = require('bcryptjs');
-const pool = require("./db_init").pool;
+const bcrypt = require("bcryptjs");
+const executeQuery = require("./db_init").executeQuery;
 
-
-// preveri login
 async function checkForLoginInfo(inputUserData) {
-    let conn;
+  const query =
+    "SELECT username, password, verified, poslovalnica FROM users WHERE BINARY username='" +
+    inputUserData.username +
+    "'";
 
-    let loginErrors = { isError: false, msg: "" };
+  return executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: true, msg: "Ta uporabnik ne obstaja!" };
+      }
 
-    try {
-        conn = await pool.getConnection();
-        var db_uData = await conn.query("SELECT username, password, verified, poslovalnica FROM users WHERE BINARY username='" + inputUserData.username + "'");
+      const passwordMatch = bcrypt.compareSync(
+        inputUserData.password,
+        res[0].password
+      );
+      if (!passwordMatch) {
+        return {
+          isError: true,
+          msg: "Nepravilno uporabniško ime ali geslo!",
+        };
+      }
 
-        // če uporabnik ne obstaja
-        if (db_uData.length < 1) {
-            loginErrors = { isError: true, msg: "Ta uporabnik ne obstaja!"};
-        }
-        // če je ujemanje gesla in uporabniškega imena
-        else if (bcrypt.compareSync(inputUserData.password, db_uData[0].password)) {
-            // je verificiran
-            if (db_uData[0].verified > 0) {
-                loginErrors = { 
-                    isError: false,
-                    msg: "Success",
-                    userData: {
-                        username: db_uData[0].username,
-                        poslovalnica: db_uData[0].poslovalnica
-                    }
-                };
-            }
-            // ni verificiran
-            else {
-                loginErrors = { isError: true, msg: "Uporabniški račun ni potrjen. Obrnite se na administratorja!" };
-            }
-        // geslo in uporabniško ime se ne ujemata
-        } else {
-            loginErrors = { isError: true, msg: "Nepravilno uporabniško ime ali geslo!" };
-        }
+      if (res[0].verified == 0) {
+        return {
+          isError: true,
+          msg: "Uporabniški račun ni potrjen. Obrnite se na administratorja!",
+        };
+      }
 
-    } catch (err) {
-        console.log(err);
-        loginErrors = { isError: true, msg: "Nepričakovana napaka!" };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return loginErrors;
-    }
+      return {
+        isError: false,
+        msg: "Success",
+        userData: {
+          username: res[0].username,
+          poslovalnica: res[0].poslovalnica,
+        },
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
 
-// preveri login za gosta
 async function checkForLoginInfo_guest(inputUserData) {
-    let conn;
+  const query =
+    "SELECT poslovalnica, previewPassword FROM users WHERE BINARY poslovalnica='" +
+    inputUserData.poslovalnica +
+    "'";
 
-    let loginErrors = { isError: false, msg: "" };
+  return executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: true, msg: "Ta poslovalnica ne obstaja!" };
+      }
 
-    try {
-        conn = await pool.getConnection();
-        var db_uData = await conn.query("SELECT poslovalnica, previewPassword FROM users WHERE BINARY poslovalnica='" + inputUserData.poslovalnica + "'");
-        
-        // če uporabnik ne obstaja
-        if (db_uData.length < 1) {
-            loginErrors = { isError: true, msg: "Ta poslovalnica ne obstaja!"};
-        }
-        // če je ujemanje gesla in uporabniškega imena
-        else if (bcrypt.compareSync(inputUserData.passwordGuest, db_uData[0].previewPassword)) {
-            loginErrors = { 
-                isError: false,
-                msg: "Success",
-                poslovalnica: {
-                    poslovalnica: db_uData[0].poslovalnica
-                }
-            };
-        // geslo in uporabniško ime se ne ujemata
-        } else {
-            loginErrors = { isError: true, msg: "Nepravilna poslovalnica ali geslo!" };
-        }
+      const passwordMatch = bcrypt.compareSync(
+        inputUserData.passwordGuest,
+        res[0].previewPassword
+      );
+      if (!passwordMatch) {
+        return {
+          isError: true,
+          msg: "Nepravilna poslovalnica ali geslo!",
+        };
+      }
 
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return loginErrors;
-    }
+      if (res[0].verified == 0) {
+        return {
+          isError: true,
+          msg: "Uporabniški račun ni potrjen. Obrnite se na administratorja!",
+        };
+      }
+
+      return {
+        isError: false,
+        msg: "Success",
+        poslovalnica: {
+          poslovalnica: res[0].poslovalnica,
+        },
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
 
 module.exports.checkForLoginInfo = checkForLoginInfo;

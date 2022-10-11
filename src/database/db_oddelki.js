@@ -1,165 +1,230 @@
-const pool = require("./db_init").pool;
+const executeQuery = require("./db_init").executeQuery;
+const formatQuery = require("./db_init").formatQuery;
 
+async function insert_newOddelek(oddelekData) {
+  const query = formatQuery(
+    "INSERT INTO oddelki (positionForUser, poslovalnica, imeOddelka, smena, stVrsticOddelka, " +
+      "prihod, odhod, specialOddelek) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      oddelekData.positionForUser,
+      oddelekData.poslovalnica,
+      oddelekData.imeOddelka,
+      oddelekData.smena,
+      oddelekData.stVrsticOddelka,
+      oddelekData.prihod,
+      oddelekData.odhod,
+      oddelekData.specialOddelek,
+    ]
+  );
 
-// ustvarimo nov oddelek
-async function insert_newOddelek (oddelekData) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka"};
-    try {
-        conn = await pool.getConnection();
+  return executeQuery(query)
+    .then((res) => {
+      if (res.affectedRows == 0) {
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
 
-        let inserted = await conn.query("INSERT INTO oddelki (positionForUser, poslovalnica, imeOddelka, smena, stVrsticOddelka, " +
-            "prihod, odhod, specialOddelek) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-            [oddelekData.positionForUser, oddelekData.poslovalnica, oddelekData.imeOddelka, oddelekData.smena, oddelekData.stVrsticOddelka,
-                oddelekData.prihod, oddelekData.odhod, oddelekData.specialOddelek]);
-        
-        if (inserted) {
-            result = {isError: false, msg: "Success", oddelekData: {
-                
-            }};
-        }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        
-        return result;
-    };
+      return { isError: false, msg: "Success", oddelekData: {} };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
 
-
-// get oddelke
 async function getOddelek(poslovalnica) {
-    let conn;
+  const query =
+    "SELECT * FROM oddelki WHERE poslovalnica='" + poslovalnica + "'";
 
-    let result = { isError: false, msg: "" };
+  return executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: true, msg: "Ni vnosa za oddelek!" };
+      }
 
-    try {
-        conn = await pool.getConnection();
-        var db_oData = await conn.query("SELECT * FROM oddelki WHERE poslovalnica='" + poslovalnica + "'");
-        
-        // če je vnešena vsaj ena poslovalica
-        if (db_oData.length > 0) {
-            vsiOddelki = [];
-            for (let i = 0; i < db_oData.length; i++) {
-                
-                vsiOddelki.push(db_oData[i]);
-            }
-            result.isError = false;
-            result.msg = "Success";
-            result.vsiOddelki = vsiOddelki;
-        }
-        // če je ujemanje gesla in uporabniškega imena
-        else {
-            result = { isError: true, msg: "Ni vnosa za oddelek!"};
-        }
-    } catch (err) {
-        console.log(err.message);
-        if (err.code === "ER_NO_SUCH_TABLE") {
-            result = { isError: true, msg: "Ni najdenega vnosa!" };
-        }
-        else {
-            result = { isError: true, msg: err.message };
-        }
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return result;
+      const vsiOddelki = [];
+      for (let i = 0; i < res.length; i++) {
+        vsiOddelki.push(res[i]);
+      }
+      return {
+        isError: false,
+        msg: "Success",
+        vsiOddelki: vsiOddelki,
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.code === "ER_NO_SUCH_TABLE") {
+        return { isError: true, msg: "Ni najdenega vnosa!" };
+      } else {
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
+    });
+}
+
+async function remove_Oddelek(oddelekData) {
+  const shift = await getDepartmentShift(oddelekData.oddelekId);
+  const position = await getDepartmentPostion(oddelekData.oddelekId);
+
+  if (!position || !shift) {
+    return { isError: true, msg: "Neznana napaka" };
+  }
+
+  const queryUpdateIndexes =
+    "UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE smena = '" +
+    shift +
+    "' AND positionForUser > " +
+    position +
+    " AND poslovalnica = '" +
+    oddelekData.poslovalnica +
+    "'";
+
+  const updateIndexesSuccess = await executeQuery(queryUpdateIndexes)
+    .then((res) => {
+      return true;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+
+  if (!updateIndexesSuccess) {
+    return { isError: true, msg: "Neznana napaka" };
+  }
+
+  const queryDelete =
+    "DELETE FROM oddelki WHERE poslovalnica = '" +
+    oddelekData.poslovalnica +
+    "' AND oddID = " +
+    oddelekData.oddelekId;
+
+  return executeQuery(queryDelete)
+    .then((res) => {
+      if (res.affectedRows == 0) {
+        console.log(res);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
+      return { isError: false, msg: "Success", oddelekData: res };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
+}
+
+async function update_newOddelek(oddelekData, maxIndexes) {
+  const shift = await getDepartmentShift(oddelekData.oddID);
+  const position = await getDepartmentPostion(oddelekData.oddID);
+
+  if (!position || !shift) {
+    return { isError: true, msg: "Neznana napaka" };
+  }
+
+  if (oddelekData.positionForUser > maxIndexes["maxIndex_" + shift]) {
+    oddelekData.positionForUser = maxIndexes["maxIndex_" + shift];
+  }
+
+  let queryUpdateIndexes = null;
+  if (position > oddelekData.positionForUser) {
+    queryUpdateIndexes =
+      "UPDATE oddelki SET positionForUser = positionForUser + 1 WHERE poslovalnica = '" +
+      oddelekData.poslovalnica +
+      "' AND smena = '" +
+      shift +
+      "' AND positionForUser < " +
+      position +
+      " AND positionForUser >= " +
+      oddelekData.positionForUser;
+  } else if (position < oddelekData.positionForUser) {
+    queryUpdateIndexes =
+      "UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE poslovalnica = '" +
+      oddelekData.poslovalnica +
+      "' AND smena = '" +
+      shift +
+      "' AND positionForUser > " +
+      position +
+      " AND positionForUser <= " +
+      oddelekData.positionForUser;
+  }
+
+  if (queryUpdateIndexes) {
+    const queryUpdateIndexesSuccess = await executeQuery(queryUpdateIndexes)
+      .then((res) => {
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+
+    if (!queryUpdateIndexesSuccess) {
+      return { isError: true, msg: "Neznana napaka" };
     }
+  }
+
+  const queryUpdateRow = formatQuery(
+    "UPDATE oddelki SET positionForUser = ?, poslovalnica = ?, imeOddelka = ?, stVrsticOddelka = ?, " +
+      "prihod = ?, odhod = ?, specialOddelek = ? WHERE oddID = ? AND poslovalnica = ?",
+    [
+      oddelekData.positionForUser,
+      oddelekData.poslovalnica,
+      oddelekData.imeOddelka,
+      oddelekData.stVrsticOddelka,
+      oddelekData.prihod,
+      oddelekData.odhod,
+      oddelekData.specialOddelek,
+      oddelekData.oddID,
+      oddelekData.poslovalnica,
+    ]
+  );
+
+  return executeQuery(queryUpdateRow)
+    .then((res) => {
+      if (res.affectedRows == 0) {
+        console.log(res);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
+
+      return { isError: false, msg: "Success", oddelekData: {} };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
 
+async function getDepartmentShift(departmentId) {
+  const queryShift =
+    "SELECT smena FROM oddelki WHERE oddID='" + departmentId + "'";
 
-// izbrišemo oddelek
-async function remove_Oddelek (oddelekData) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka"};
-
-    try {
-        conn = await pool.getConnection();
-
-        // porpavimo idexe da ni luknje
-        const smenaQuery = await conn.query("SELECT smena FROM oddelki WHERE oddID='" + oddelekData.oddelekId + "'");
-        const prevPositionQurey = await conn.query("SELECT positionForUser FROM oddelki WHERE oddID='" + oddelekData.oddelekId + "'");
-
-        const smena = smenaQuery[0].smena;
-        const prevPosition = prevPositionQurey[0].positionForUser;
-        
-        let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE smena = '" + 
-            smena + "' AND positionForUser > " + prevPosition + " AND poslovalnica = '" + oddelekData.poslovalnica + "'");
-   
-
-        let deleted = await conn.query("DELETE FROM oddelki WHERE poslovalnica = '" + oddelekData.poslovalnica + 
-            "' AND oddID = " + oddelekData.oddelekId);
-        
-        if (deleted) {
-            result = { isError: false, msg: "Success", oddelekData: deleted };
-        }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        
-        return result;
-    };
+  return await executeQuery(queryShift)
+    .then((res) => {
+      if (res.length == 0) {
+        return null;
+      }
+      return res[0].smena;
+    })
+    .catch((err) => {
+      console.log(err);
+      return null;
+    });
 }
 
+async function getDepartmentPostion(departmentId) {
+  const queryPosition =
+    "SELECT positionForUser FROM oddelki WHERE oddID='" + departmentId + "'";
 
-// ustvarimo posodobimo oddelek
-async function update_newOddelek (oddelekData, maxIndexes) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka"};
-    
-    try {
-        conn = await pool.getConnection();
-        
-        const smenaQuery = await conn.query("SELECT smena FROM oddelki WHERE oddID='" + oddelekData.oddID + "'");
-        const prevPositionQurey = await conn.query("SELECT positionForUser FROM oddelki WHERE oddID='" + oddelekData.oddID + "'");
-
-        const smena = smenaQuery[0].smena;
-        const prevPosition = prevPositionQurey[0].positionForUser;
-        
-        // da ne bo luknje
-        if (oddelekData.positionForUser > maxIndexes["maxIndex_" + smena]) {
-            oddelekData.positionForUser = maxIndexes["maxIndex_" + smena];
-        }
-
-        // porpavimo idex za vse vmesne
-        if (prevPosition > oddelekData.positionForUser) {
-            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser + 1 WHERE poslovalnica = '" +
-                oddelekData.poslovalnica + "' AND smena = '" + 
-                smena + "' AND positionForUser < " + prevPosition + " AND positionForUser >= " + oddelekData.positionForUser);
-        } else if (prevPosition < oddelekData.positionForUser) {
-            let correctedIndexes = await conn.query("UPDATE oddelki SET positionForUser = positionForUser - 1 WHERE poslovalnica = '" +
-                oddelekData.poslovalnica + "' AND smena = '" + 
-                smena + "' AND positionForUser > " + prevPosition + " AND positionForUser <= " + oddelekData.positionForUser);
-        }
-
-        let inserted = await conn.query("UPDATE oddelki SET positionForUser = ?, poslovalnica = ?, imeOddelka = ?, stVrsticOddelka = ?, " +
-            "prihod = ?, odhod = ?, specialOddelek = ? WHERE oddID = ? AND poslovalnica = ?", 
-            [oddelekData.positionForUser, oddelekData.poslovalnica, oddelekData.imeOddelka, oddelekData.stVrsticOddelka,
-            oddelekData.prihod, oddelekData.odhod, oddelekData.specialOddelek, oddelekData.oddID, oddelekData.poslovalnica]);
-    
-        if (inserted) {
-            result = {isError: false, msg: "Success", oddelekData: {
-                
-            }};
-        }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        
-        return result;
-    };
+  return await executeQuery(queryPosition)
+    .then((res) => {
+      if (res.length == 0) {
+        return null;
+      }
+      return res[0].positionForUser;
+    })
+    .catch((err) => {
+      console.log(err);
+      return null;
+    });
 }
-
-
 
 module.exports.insert_newOddelek = insert_newOddelek;
 module.exports.getOddelek = getOddelek;

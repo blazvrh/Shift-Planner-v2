@@ -1,184 +1,188 @@
-
-const pool = require("./db_init").pool;
-
+const executeQuery = require("./db_init").executeQuery;
+const formatQuery = require("./db_init").formatQuery;
 
 // pridobi tedenski plan
 async function get_weeklyPlan(poslovalnica, weekNum, year) {
-    let conn;
+  const query =
+    "SELECT * FROM tedenskiplan WHERE poslovalnica='" +
+    poslovalnica +
+    "' AND weekNumer=" +
+    weekNum +
+    " AND year=" +
+    year;
 
-    let result = { isError: false, msg: "" };
+  return executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: true, msg: "Ni vnosa za ta teden!" };
+      }
 
-    try {
-        conn = await pool.getConnection();
-        var db_wData = await conn.query("SELECT * FROM tedenskiplan WHERE poslovalnica='" + poslovalnica +
-            "' AND weekNumer=" + weekNum + " AND year=" + year);
+      return {
+        isError: false,
+        msg: "Success",
+        weekData: res[0],
+      };
+    })
+    .catch((err) => {
+      console.log(err);
 
-        // če je vnešena vsaj ena poslovalica
-        if (db_wData.length > 0) {
-            result.isError = false;
-            result.msg = "Success";
-            result.weekData = db_wData[0];
-        }
-        else {
-            result = { isError: true, msg: "Ni vnosa za ta teden!" };
-        }
-    } catch (err) {
-        console.log(err.message);
-        if (err.code = "ER_NO_SUCH_TABLE") {
-            result = { isError: true, msg: "Ni najdenega vnosa!" };
-        }
-        else {
-            result = { isError: true, msg: err.message };
-        }
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return result;
-    }
+      if (err.code == "ER_NO_SUCH_TABLE") {
+        result = { isError: true, msg: "Ni najdenega vnosa!" };
+      }
+
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
-
 
 // pridobi nedelje v letu
 async function get_sundaysInYear(userData) {
-    let conn;
+  const query =
+    "SELECT sundayData FROM tedenskiplan WHERE poslovalnica='" +
+    userData.poslovalnica +
+    "' AND year=" +
+    userData.sundayYear;
 
-    let result = { isError: false, msg: "" };
-
-    try {
-        conn = await pool.getConnection();
-
-        var db_sundayData = await conn.query("SELECT sundayData FROM tedenskiplan WHERE poslovalnica='" + userData.poslovalnica +
-            "' AND year=" + userData.sundayYear);
-
-        result.allSundays = [];
-        for (let i = 0; i < db_sundayData.length; i++) {
-            if (db_sundayData[i].sundayData && db_sundayData[i].sundayData !== "") {
-                result.allSundays.push(db_sundayData[i].sundayData);
-            }
+  return executeQuery(query)
+    .then((res) => {
+      const sundays = [];
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].sundayData && res[i].sundayData !== "") {
+          sundays.push(res[i].sundayData);
         }
-    } catch (err) {
-        console.log(err.message);
-        if (err.code = "ER_NO_SUCH_TABLE") {
-            result = { isError: true, msg: "Ni najdenega vnosa!" };
-        }
-        else {
-            result = { isError: true, msg: err.message };
-        }
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return result;
-    }
+      }
+
+      return { isError: false, msg: "", allSundays: sundays };
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.code == "ER_NO_SUCH_TABLE") {
+        result = { isError: true, msg: "Ni najdenega vnosa!" };
+      }
+
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
-
 
 // pridobi praznike v letu
 async function get_holidaysInYear(userData) {
-    let conn;
+  const query =
+    "SELECT praznikiData FROM tedenskiplan WHERE poslovalnica='" +
+    userData.poslovalnica +
+    "' AND year=" +
+    userData.year;
 
-    let result = { isError: false, msg: "" };
-
-    try {
-        conn = await pool.getConnection();
-
-        var db_holidayData = await conn.query("SELECT praznikiData FROM tedenskiplan WHERE poslovalnica='" + userData.poslovalnica +
-            "' AND year=" + userData.year);
-
-        result.allHolidays = [];
-        for (let i = 0; i < db_holidayData.length; i++) {
-            if (db_holidayData[i].praznikiData && db_holidayData[i].praznikiData !== "") {
-                result.allHolidays.push(db_holidayData[i].praznikiData);
-            }
+  return executeQuery(query)
+    .then((res) => {
+      holidays = [];
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].praznikiData && res[i].praznikiData !== "") {
+          holidays.push(res[i].praznikiData);
         }
-    } catch (err) {
-        console.log(err.message);
-        if (err.code = "ER_NO_SUCH_TABLE") {
-            result = { isError: true, msg: "Ni najdenega vnosa!" };
-        }
-        else {
-            result = { isError: true, msg: err.message };
-        }
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return result;
-    }
+      }
+
+      return { isError: false, msg: "", allHolidays: holidays };
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.code == "ER_NO_SUCH_TABLE") {
+        result = { isError: true, msg: "Ni najdenega vnosa!" };
+      }
+
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
-
 
 // shranimo tedenski plan
 async function save_weeklyPlan(weekInfo, planData, oddelkiDop, oddelkiPop) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka" };
+  let existingData = await get_weeklyPlan(
+    weekInfo.poslovalnica,
+    weekInfo.weekNum,
+    weekInfo.year
+  );
+  let dataExists = existingData.weekData != null;
 
-    let existingData = await get_weeklyPlan(weekInfo.poslovalnica, weekInfo.weekNum, weekInfo.year);
-    let dataExists = existingData.weekData != null; // če je to prvi vnos za teden + leto + poslovalnica
+  if (dataExists) {
+    const query = formatQuery(
+      "UPDATE tedenskiplan SET weekData = ?, oddelkiDop = ?, oddelkiPop = ?, " +
+        "sundayData = ?, praznikiData = ? WHERE poslovalnica ='" +
+        weekInfo.poslovalnica +
+        "' AND weekNumer =" +
+        weekInfo.weekNum +
+        " AND year =" +
+        weekInfo.year,
+      [
+        planData,
+        oddelkiDop,
+        oddelkiPop,
+        weekInfo.sundayData,
+        weekInfo.praznikiData,
+      ]
+    );
 
-    try {
-        conn = await pool.getConnection();
-
-        // če vnos že obstaja
-        if (dataExists) {
-            let inserted = await conn.query("UPDATE tedenskiplan SET weekData = ?, oddelkiDop = ?, oddelkiPop = ?, " +
-                "sundayData = ?, praznikiData = ? WHERE poslovalnica ='" +
-                weekInfo.poslovalnica + "' AND weekNumer =" + weekInfo.weekNum + " AND year =" + weekInfo.year,
-                [planData, oddelkiDop, oddelkiPop, weekInfo.sundayData, weekInfo.praznikiData]);
-
-            if (inserted) {
-                result = { isError: false, msg: "Success", inserted: inserted };
-            }
+    return executeQuery(query)
+      .then((res) => {
+        if (res.affectedRows == 0) {
+          console.log(res);
+          return { isError: true, msg: "Nepričakovana napaka" };
         }
-        // če je to prvi vnos
-        else {
-            let inserted = await conn.query("INSERT INTO tedenskiplan (poslovalnica, weekNumer, year, " +
-                "mondayDate, weekData, oddelkiDop, oddelkiPop, sundayData, praznikiData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                [weekInfo.poslovalnica, weekInfo.weekNum, weekInfo.year, weekInfo.mondayDate, planData, oddelkiDop,
-                    oddelkiPop, weekInfo.sundayData, weekInfo.praznikiData]);
 
-            if (inserted) {
-                result = { isError: false, msg: "Success" };
-            }
+        return { isError: false, msg: "Success", inserted: res };
+      })
+      .catch((err) => {
+        console.log(err);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      });
+  } else {
+    const query = formatQuery(
+      "INSERT INTO tedenskiplan (poslovalnica, weekNumer, year, " +
+        "mondayDate, weekData, oddelkiDop, oddelkiPop, sundayData, praznikiData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        weekInfo.poslovalnica,
+        weekInfo.weekNum,
+        weekInfo.year,
+        weekInfo.mondayDate,
+        planData,
+        oddelkiDop,
+        oddelkiPop,
+        weekInfo.sundayData,
+        weekInfo.praznikiData,
+      ]
+    );
+
+    return executeQuery(query)
+      .then((res) => {
+        if (res.affectedRows == 0) {
+          console.log(res);
+          return { isError: true, msg: "Nepričakovana napaka" };
         }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
 
-        return result;
-    };
+        return { isError: false, msg: "Success", inserted: res };
+      })
+      .catch((err) => {
+        console.log(err);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      });
+  }
 }
-
 
 // shranimo tedenski plan
 async function save_temp(data) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka" };
+  const query = formatQuery("INSERT INTO temp (data) VALUES (?)", [data]);
 
-    try {
-        conn = await pool.getConnection();
+  return executeQuery(query)
+    .then((res) => {
+      if (res.affectedRows == 0) {
+        console.log(res);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
 
-        let inserted = await conn.query("INSERT INTO temp (data) VALUES (?)", [data])
-
-        if (inserted) {
-            result = { isError: false, msg: "Success", inserted: inserted };
-        }
-
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-
-        return result;
-    };
+      return { isError: false, msg: "Success", inserted: res };
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 }
-
-
-
-
 
 module.exports.get_sundaysInYear = get_sundaysInYear;
 module.exports.get_holidaysInYear = get_holidaysInYear;

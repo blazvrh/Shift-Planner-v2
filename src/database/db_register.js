@@ -1,68 +1,107 @@
-const bcrypt = require('bcryptjs');
-const pool = require("./db_init").pool;
+const bcrypt = require("bcryptjs");
+const executeQuery = require("./db_init").executeQuery;
+const formatQuery = require("./db_init").formatQuery;
 
-
-// preveri za duplikat
 async function checkForDuplicate(userData) {
-    let conn;
+  const usernameCheck = await checkForUsernameDuplicate(userData.username);
 
-    let duplicateErrors = { isError: false, msg: "" };
+  if (usernameCheck.isError) {
+    return usernameCheck;
+  }
 
-    try {
-        conn = await pool.getConnection();
-        const db_username = await conn.query("SELECT username FROM users WHERE username='" + userData.username + "'");
-        const db_poslovalnica = await conn.query("SELECT username FROM users WHERE poslovalnica='" + userData.poslovalnica + "'");
-        
-        // preverimo če smo našli match iz ustvarimo error če smo
-        if (db_username.length > 0) {
-            duplicateErrors.isError = true;
-            duplicateErrors.msg += "Uporabniško ime že obstaja. Prosim izberite drugo uporabniško ime!\n";
-        }
-        if (db_poslovalnica.length > 0) {
-            duplicateErrors.isError = true;
-            duplicateErrors.msg += "Poslovalnica že obstaja. Prosim izberite drugo ime poslovalnice!\n";
-        }
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        return duplicateErrors;
-    }
+  const businessUnitCheck = await checkForBusinessUnitDuplicate(
+    userData.poslovalnica
+  );
+
+  if (businessUnitCheck.isError) {
+    return businessUnitCheck;
+  }
+
+  return { isError: false, msg: "" };
 }
 
-// ustvarimo novega uprorabnika
-async function insert_newUser (userData) {
-    let conn;
-    let result = { isError: true, msg: "Neznana napaka"};
-    try {
-        conn = await pool.getConnection();
+async function checkForUsernameDuplicate(username) {
+  const query = "SELECT username FROM users WHERE username='" + username + "'";
 
-        // zaheširamo passworde
-        const passwordUserHashed = bcrypt.hashSync(userData.password, 10);
-        const passwordPreviewHashed = bcrypt.hashSync(userData.previewPassword, 10);
+  const usernameCheck = executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: false, msg: "" };
+      } else {
+        return {
+          isError: true,
+          msg: "Uporabniško ime že obstaja. Prosim izberite drugo uporabniško ime!",
+        };
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
 
-        let inserted = await conn.query("INSERT INTO users (username, password, poslovalnica, previewPassword, " +
-            "email, verified) VALUES (?, ?, ?, ?, ?, ?)", 
-            [userData.username, passwordUserHashed, userData.poslovalnica, passwordPreviewHashed,
-                userData.email, 1]);
-        
-        if (inserted) {
-            result = {isError: false, msg: "Success", userData: {
-                username: userData.username,
-                poslovalnica: userData.poslovalnica
-            }};
-        }
-    } catch (err) {
-        console.log(err.message);
-        result = { isError: true, msg: err.message };
-        throw err;
-    } finally {
-        if (conn) conn.end();
-        
-        return result;
-    };
+  return usernameCheck;
 }
 
+async function checkForBusinessUnitDuplicate(businessUnit) {
+  const query =
+    "SELECT username FROM users WHERE poslovalnica='" + businessUnit + "'";
+
+  const businessUnitCheck = executeQuery(query)
+    .then((res) => {
+      if (res.length == 0) {
+        return { isError: false, msg: "" };
+      } else {
+        return {
+          isError: true,
+          msg: "Poslovalnica že obstaja. Prosim izberite drugo ime poslovalnice!",
+        };
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
+
+  return businessUnitCheck;
+}
+
+async function insertNewUser(userData) {
+  const passwordUserHashed = bcrypt.hashSync(userData.password, 10);
+  const passwordPreviewHashed = bcrypt.hashSync(userData.previewPassword, 10);
+
+  const query = formatQuery(
+    "INSERT INTO users (username, password, poslovalnica, previewPassword, " +
+      "email, verified) VALUES (?, ?, ?, ?, ?, ?)",
+    [
+      userData.username,
+      passwordUserHashed,
+      userData.poslovalnica,
+      passwordPreviewHashed,
+      userData.email,
+      1, // Auto verified
+    ]
+  );
+  return executeQuery(query)
+    .then((res) => {
+      if (res.affectedRows != 0) {
+        return {
+          isError: false,
+          msg: "Success",
+          userData: {
+            username: userData.username,
+            poslovalnica: userData.poslovalnica,
+          },
+        };
+      } else {
+        console.log(res);
+        return { isError: true, msg: "Nepričakovana napaka" };
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return { isError: true, msg: "Nepričakovana napaka" };
+    });
+}
 
 module.exports.checkForDuplicate = checkForDuplicate;
-module.exports.insert_newUser = insert_newUser;
+module.exports.insertNewUser = insertNewUser;
