@@ -5,9 +5,7 @@ function ping() {
   const url = "https://plan-dela.onrender.com/api/stay-awake";
 
   const pingInterval = setInterval(() => {
-    request(url, function (error, response, body) {
-      console.log(body);
-    });
+    request(url, function (error, response, body) {});
   }, intervalTime);
 }
 
