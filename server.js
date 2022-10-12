@@ -4,6 +4,7 @@ const path = require("path");
 const formData = require("express-form-data");
 
 const authMiddleware = require("./src/auth-middleware");
+const ping = require("./src/ping").ping;
 
 // vspostavi server
 let app = express();
@@ -60,6 +61,8 @@ app.use(
 app.get("/", () => {
   res.render("index");
 });
+
+ping();
 
 // odpre server na portu 3000 oz local machine portu
 let port = process.env.PORT || 3000;
