@@ -1,6 +1,6 @@
 // const mariadb = require("mariadb");
 const mysql = require("mysql2");
-if (process.env.IS_CYCLIC == "true") {
+if (process.env.IS_CYCLIC != "true") {
   require("dotenv").config();
 }
 
