@@ -1,6 +1,8 @@
 // const mariadb = require("mariadb");
 const mysql = require("mysql2");
-require("dotenv").config();
+if (process.env.IS_CYCLIC == null) {
+  require("dotenv").config();
+}
 
 // const pool = mariadb.createPool({
 //   host: process.env.DB_HOST,
