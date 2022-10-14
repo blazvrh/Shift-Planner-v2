@@ -1,7 +1,7 @@
 {
-  "name": "mercator_plan",
-  "version": "1.0.1",
-  "description": "Plan dela",
+  "name": "ShiftPlanner",
+  "version": "2.0.0",
+  "description": "Shift planner",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simonoblak/mercator_plan.git"
+    "url": "git+https://github.com/blazvrh/Plan-dela-cyclic.git"
   },
   "keywords": [
     "plan",
@@ -19,9 +19,9 @@
   "author": "KrHo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/simonoblak/mercator_plan/issues"
+    "url": "https://github.com/blazvrh/Plan-dela-cyclic/issues"
   },
-  "homepage": "https://github.com/simonoblak/mercator_plan#readme",
+  "homepage": "https://github.com/blazvrh/Plan-dela-cyclic#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.18.1",
