@@ -56,6 +56,8 @@ router.post("/login", async function (req, res) {
 
   const dataMatch = await db_login.checkForLoginInfo(loginInfo);
 
+  res.cookie("user", loginInfo.username)  // For saving to temp table
+
   res.send(dataMatch);
 });
 

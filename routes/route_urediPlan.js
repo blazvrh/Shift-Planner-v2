@@ -8,20 +8,7 @@ const router = express.Router();
 router.post("/get", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  const dateOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const headerData = [
-    req.headers.referer,
-    req.headers.origin,
-    new Date().toLocaleDateString("en-US", dateOptions),
-  ].join("; ");
-
-  await db_weekData.save_temp(headerData);
+  await db_weekData.save_temp(req);
 
   let weekData = await db_weekData.get_weeklyPlan(
     req.body.poslovalnica,
@@ -52,21 +39,6 @@ router.post("/get", async function (req, res) {
 router.post("/sundaysYear", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  const dateOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const headerData = [
-    req.headers.referer,
-    req.headers.origin,
-    new Date().toLocaleDateString("en-US", dateOptions),
-  ].join("; ");
-
-  await db_weekData.save_temp(headerData);
-
   let sundayData = await db_weekData.get_sundaysInYear(req.body);
 
   res.send(sundayData);
@@ -76,20 +48,6 @@ router.post("/sundaysYear", async function (req, res) {
 router.post("/holidaysYear", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  const dateOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const headerData = [
-    req.headers.referer,
-    req.headers.origin,
-    new Date().toLocaleDateString("en-US", dateOptions),
-  ].join("; ");
-
-  await db_weekData.save_temp(headerData);
 
   let holidayData = await db_weekData.get_holidaysInYear(req.body);
 
@@ -100,20 +58,7 @@ router.post("/holidaysYear", async function (req, res) {
 router.post("/save", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  const dateOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const headerData = [
-    req.headers.referer,
-    req.headers.origin,
-    new Date().toLocaleDateString("en-US", dateOptions),
-  ].join("; ");
-
-  await db_weekData.save_temp(headerData);
+  await db_weekData.save_temp(req);
 
   var weekInfo = req.body;
   weekInfo.weekNum = Number.parseInt(weekInfo.weekNum);

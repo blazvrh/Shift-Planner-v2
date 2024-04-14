@@ -165,23 +165,72 @@ async function save_weeklyPlan(weekInfo, planData, oddelkiDop, oddelkiPop) {
   }
 }
 
+// // shranimo tedenski plan
+// async function save_temp(data, username) {
+//   const query = formatQuery("INSERT INTO temp (data) VALUES (?)", [data, username]);
+
+//   return executeQuery(query)
+//     .then((res) => {
+//       if (res.affectedRows == 0) {
+//         console.log(res);
+//         return { isError: true, msg: "Nepričakovana napaka" };
+//       }
+
+//       return { isError: false, msg: "Success", inserted: res };
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       return { isError: true, msg: "Nepričakovana napaka" };
+//     });
+// }
+
 // shranimo tedenski plan
-async function save_temp(data) {
-  const query = formatQuery("INSERT INTO temp (data) VALUES (?)", [data]);
+async function save_temp(req) {
+  const dateOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  const data = [
+    req.headers.referer,
+    req.headers.origin,
+    new Date().toLocaleDateString("en-US", dateOptions),
+  ].join("; ");
+
+  username = getcookie(req)["user"];
+  current_date = new Date()
+
+  const query = formatQuery("INSERT INTO temp (data, UserName, Date) VALUES (?, ?, ?)", [data, username, current_date]);
 
   return executeQuery(query)
     .then((res) => {
       if (res.affectedRows == 0) {
         console.log(res);
-        return { isError: true, msg: "Nepričakovana napaka" };
+        // return { isError: true, msg: "Nepričakovana napaka" };
       }
 
       return { isError: false, msg: "Success", inserted: res };
     })
     .catch((err) => {
       console.log(err);
-      return { isError: true, msg: "Nepričakovana napaka" };
+      // return { isError: true, msg: "Nepričakovana napaka" };
+      return { isError: false, msg: "Success", inserted: res };
     });
+}
+
+function getcookie(req) {
+  var cookie = req.headers.cookie;
+  // user=someone; session=mySessionID
+  const cookies_list = cookie.split('; ');
+  const cookie_dict = {}
+  for (let i = 0; i < cookies_list.length; i++) {
+    key = cookies_list[i].split("=")[0]
+    val = cookies_list[i].substring(key.length + 1)
+    cookie_dict[key] = val
+  }
+  return cookie_dict
 }
 
 module.exports.get_sundaysInYear = get_sundaysInYear;
