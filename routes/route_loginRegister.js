@@ -1,5 +1,6 @@
 const express = require("express");
 
+const db_weekData = require("../src/database/db_urediPlan");
 const db_register = require("../src/database/db_register");
 const db_login = require("../src/database/db_login");
 const validatie_user = require("../src/validation/validatie_user");
@@ -57,6 +58,7 @@ router.post("/login", async function (req, res) {
   const dataMatch = await db_login.checkForLoginInfo(loginInfo);
 
   res.cookie("user", loginInfo.username)  // For saving to temp table
+  await db_weekData.save_temp(req);
 
   res.send(dataMatch);
 });

@@ -186,23 +186,12 @@ async function save_weeklyPlan(weekInfo, planData, oddelkiDop, oddelkiPop) {
 
 // shranimo tedenski plan
 async function save_temp(req) {
-  const dateOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  const data = [
-    req.headers.referer,
-    req.headers.origin,
-    new Date().toLocaleDateString("en-US", dateOptions),
-  ].join("; ");
+  const data = req.headers.referer;
+  const origin = req.headers.origin;
+  const username = getcookie(req)["user"];
+  const current_date = new Date();
 
-  username = getcookie(req)["user"];
-  current_date = new Date()
-
-  const query = formatQuery("INSERT INTO temp (data, UserName, Date) VALUES (?, ?, ?)", [data, username, current_date]);
+  const query = formatQuery("INSERT INTO temp (data, UserName, Date, Origin) VALUES (?, ?, ?, ?)", [data, username, current_date, origin]);
 
   return executeQuery(query)
     .then((res) => {
