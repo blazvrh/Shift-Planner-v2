@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/get", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  await db_weekData.save_temp(req);
+  await db_weekData.save_temp(req, "Get plan");
 
   let weekData = await db_weekData.get_weeklyPlan(
     req.body.poslovalnica,
@@ -58,7 +58,7 @@ router.post("/holidaysYear", async function (req, res) {
 router.post("/save", async function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
-  await db_weekData.save_temp(req);
+  await db_weekData.save_temp(req, "Save plan");
 
   var weekInfo = req.body;
   weekInfo.weekNum = Number.parseInt(weekInfo.weekNum);

@@ -185,13 +185,13 @@ async function save_weeklyPlan(weekInfo, planData, oddelkiDop, oddelkiPop) {
 // }
 
 // shranimo tedenski plan
-async function save_temp(req) {
-  const data = req.headers.referer;
+async function save_temp(req, data) {
+  const referer = req.headers.referer;
   const origin = req.headers.origin;
   const username = getcookie(req)["user"];
   const current_date = new Date();
 
-  const query = formatQuery("INSERT INTO temp (data, UserName, Date, Origin) VALUES (?, ?, ?, ?)", [data, username, current_date, origin]);
+  const query = formatQuery("INSERT INTO temp (data, UserName, Date, Origin, Page) VALUES (?, ?, ?, ?, ?)", [data, username, current_date, origin, referer]);
 
   return executeQuery(query)
     .then((res) => {
